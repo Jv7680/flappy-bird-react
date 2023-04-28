@@ -3,13 +3,25 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { clearState, gameOver } from '../utilActions';
 import { RootState, AppThunk } from '../store';
 
-export interface PipeState {
+export interface PipesElement {
     x: number;
-    pipes: number[];
+    topPipeHeight: number;
 }
 
+export interface PipeState {
+    generateFirstPipeAtX: number;
+    gap: number;
+    width: number;
+    pipes: PipesElement[];
+}
+
+const distanceXBetweenTwoPipes: number = 300;
+
+const innerWidth: number = window.innerWidth;
 const initState: PipeState = {
-    x: 300,
+    generateFirstPipeAtX: Math.ceil(innerWidth / 10) * 10 + 100,
+    gap: 120,
+    width: 50,
     pipes: [],
 }
 
@@ -23,26 +35,30 @@ const pipeSlice = createSlice({
     // thông qua createAction("increment"), sau đó được lưu và userSlice.actions
     reducers: {
         running: (state) => {
-            if (!state.pipes.length) {
-                return state;
-            }
-            else {
-                state.x -= 10;
-                return state;
-            }
+            // if (!state.pipes.length) {
+            //     return state;
+            // }
+            // else {
+            //     state.x -= 10;
+            //     return state;
+            // }
         },
         generate: (state) => {
-            const topHeight = Math.round(Math.random() * 200) + 40
-            state.pipes.push(topHeight);
+            const newPipe: PipesElement = {
+                x: initState.generateFirstPipeAtX + state.pipes.length * distanceXBetweenTwoPipes,
+                // topPipeHeight: Math.round(Math.random() * 200) + 40,
+                topPipeHeight: Math.random() * Math.ceil(window.innerHeight * 0.8 / 2) + 40,
+            }
+            state.pipes.push(newPipe);
             return state;
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(gameOver, (state) => {
-                state = initState;
-                return state;
-            })
+            // .addCase(gameOver, (state) => {
+            //     state = initState;
+            //     return state;
+            // })
             .addCase(clearState, (state) => {
                 state = initState;
                 return state;

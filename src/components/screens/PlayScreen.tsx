@@ -1,229 +1,172 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { fly, fall, BirdState, selectBird } from "../../redux/slices/birdSlice";
-import { running, generate, PipeState, selectPipe } from "../../redux/slices/pipeSlice";
+import { fly, fall, setBirdY, BirdState, selectBird } from "../../redux/slices/birdSlice";
+import { running, generate, PipeState, PipesElement, selectPipe } from "../../redux/slices/pipeSlice";
+import { plusScore, setScore, selectScore } from "../../redux/slices/scoreSlice";
+import { setGameStatus, selectGameStatus } from "../../redux/slices/gameStatusSlice";
 import { gameOver } from "../../redux/utilActions";
 import Bird from "../Bird";
 import Background from "../Background";
 import Foregound from "../Foreground";
 import Pipe from "../Pipe";
+import GameOverModal from "../GameOverModal";
+import Score from "../Score";
 import { store } from "../../redux/store";
 
-// import birdImg from "../../assets/images/bird.png";
-// import bgImg from "../../assets/images/bg.png";
-// import fgImg from "../../assets/images/fg.png";
-// import pipeNorthImg from "../../assets/images/pipeNorth.png";
-// import pipeSouthImg from "../../assets/images/pipeSouth.png";
-
-// import flySound from "../../assets/sounds/fly.mp3";
-// import scoreSound from "../../assets/sounds/score.mp3";
-
-// function run() {
-//     const cvs = document.getElementById("canvas") as HTMLCanvasElement;
-//     const ctx = cvs.getContext("2d");
-
-//     // load images
-
-//     let bird = new Image();
-//     let bg = new Image();
-//     let fg = new Image();
-//     let pipeNorth = new Image();
-//     let pipeSouth = new Image();
-
-//     // becareful, wrong source will get into "broken state" error
-//     bird.src = birdImg;
-//     bg.src = bgImg;
-//     fg.src = fgImg;
-//     pipeNorth.src = pipeNorthImg;
-//     pipeSouth.src = pipeSouthImg;
-
-
-//     // some let iables
-
-//     // khoảng cách giữa hai cột trụ để chim lọt qua
-//     let gap = 85;
-//     let constant;
-
-//     // tạo độ chim theo trục x và y, gốc tọa độ (0, 0) là vị trí trên cùng bên trái của canvas
-//     let bX = 10;
-//     let bY = 150;
-
-//     // tốc độ rơi của chim
-//     let gravity = 1.5;
-
-//     let score = 0;
-
-//     // audio files
-//     let fly = new Audio();
-//     let scor = new Audio();
-
-//     fly.src = flySound;
-//     scor.src = scoreSound;
-
-//     // on key down
-//     document.addEventListener("keydown", moveUp);
-
-//     function moveUp() {
-//         bY -= 25;
-//         fly.play();
-//     }
-
-//     // pipe coordinates(tọa độ đường ống), mảng này dùng để xác định tọa độ ống nước trên và dưới
-//     let pipe: any[] = [];
-
-//     pipe[0] = {
-//         x: cvs.width - 150,
-//         y: 0
-//     };
-
-//     // window.onload = function () {
-//     //     ctx!.drawImage(bg, 0, 0)
-//     //     constant = pipeNorth.height + gap;
-
-//     //     ctx!.drawImage(pipeNorth, pipe[0].x, pipe[0].y);
-//     //     ctx!.drawImage(pipeSouth, pipe[0].x, pipe[0].y + constant);
-
-//     //     ctx!.drawImage(bg, 0, 0)
-
-//     //     ctx!.drawImage(pipeNorth, pipe[0].x - 100, pipe[0].y);
-//     //     ctx!.drawImage(pipeSouth, pipe[0].x - 100, pipe[0].y + constant);
-
-//     //     ctx!.drawImage(fg, 0, cvs.height - fg.height);
-//     // };
-
-//     // draw images
-//     function draw() {
-//         ctx!.drawImage(bg, 0, 0);
-
-//         // vẽ đường ống
-//         for (let i = 0; i < pipe.length; i++) {
-
-//             constant = pipeNorth.height + gap;
-//             ctx!.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
-//             ctx!.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
-
-//             // canvas width là 288
-//             pipe[i].x--;
-
-//             if (pipe[i].x == 125) {
-//                 pipe.push({
-//                     x: cvs.width,
-//                     y: Math.floor(Math.random() * pipeNorth.height) - pipeNorth.height
-//                 });
-//             }
-
-//             // detect collision
-//             if (bX + bird.width >= pipe[i].x && bX <= pipe[i].x + pipeNorth.width && (bY <= pipe[i].y + pipeNorth.height || bY + bird.height >= pipe[i].y + constant) || bY + bird.height >= cvs.height - fg.height) {
-//                 window.location.reload(); // reload the page
-//             }
-
-//             // cộng điểm
-//             if (pipe[i].x === 5) {
-//                 score++;
-//                 scor.play();
-//             }
-
-
-//         }
-
-//         ctx!.drawImage(fg, 0, cvs.height - fg.height);
-//         ctx!.drawImage(bird, bX, bY);
-
-
-//         bY += gravity;
-
-//         ctx!.fillStyle = "#000";
-//         ctx!.font = "20px Verdana";
-//         ctx!.fillText("Score : " + score, 10, cvs.height - 20);
-
-//         requestAnimationFrame(draw);
-//     }
-
-//     draw()
-// }
-
 let intervalGeneratePipes: any;
+let intervalFall: any;
 let intervalLoop: any;
 
 export default function PlayScreen() {
+    const gameStatusState = useAppSelector(selectGameStatus);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         startGame(dispatch);
+        document.addEventListener('keypress', handleKeyPress);
 
-        document.addEventListener('keypress', (event) => {
-            // console.log("xxxx", event)
-            if (event.code === "Space") {
-                dispatch(fly());
-            }
-        })
+        return () => {
+            document.removeEventListener('keypress', handleKeyPress);
+        };
     }, []);
+
+    const handleKeyPress = (event: KeyboardEvent) => {
+        if (event.code === "Space") {
+            dispatch(fly());
+        }
+    };
 
     return (
         <div className="playScreen" style={playScreenStyles}>
-            <Background></Background>
+            <div className="playScreen__translate" style={playScreenTranslateStyles}>
+                <Background></Background>
+                <Pipe></Pipe>
+                <Foregound></Foregound>
+            </div>
             <Bird></Bird>
-            <Pipe></Pipe>
-            <Foregound></Foregound>
+            <Score></Score>
+            {gameStatusState === 2 && <GameOverModal isOpen={true} restart={startGame}></GameOverModal>}
         </div>
     )
 }
 
 const playScreenStyles: any = {
     position: 'relative',
-    width: 306,
-    height: 512,
+    width: "200vw",
+    height: "100vh",
+};
+
+const playScreenTranslateStyles: any = {
+    position: 'relative',
+    width: "100%",
+    height: "100%",
+    left: 0,
+    // transition: 'left 50ms linear',
 };
 
 // start the game
 const startGame = (dispatch: any) => {
+    let xT = 0;
+    let xP = 0;
+    let different = 10;
+    let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
+    let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
+    let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
+
+    translate.style.transition = 'left 50ms linear';
+    bird.style.transition = 'transform 20ms ease-in, top 100ms linear';
+
     intervalGeneratePipes = setInterval(() => {
         dispatch(generate());
-    }, 3000);
-    intervalLoop = setInterval(() => {
-        dispatch(running());
+    }, 500);
+
+    intervalFall = setInterval(() => {
         dispatch(fall());
-        checkGameOver(dispatch);
-    }, 300);
+    }, 100);
+
+    intervalLoop = setInterval(() => {
+        xT -= different;
+        xP += different;
+        translate.style.left = `${xT}px`;
+        playScreen.style.width = `calc(200vw + ${xP}px)`;
+        checkGameOver(dispatch, xT);
+    }, 50);
 };
 
-// check collide
-const checkGameOver = (dispatch: any) => {
-    let { bird: birdState, pipe: pipeState } = store.getState();
-    const birdY = birdState.y;
+// check game over
+const checkGameOver = (dispatch: any, left: number) => {
+    let { bird: birdState, pipe: pipeState, score: scoreState } = store.getState();
+    let checkPlusScore: boolean = true;
 
-    const pipesCanSee = pipeState.pipes.map((topHeight, index) => {
-        return {
-            x1: pipeState.x + index * 200,
-            y1: topHeight,
-            x2: pipeState.x + index * 200,
-            y2: topHeight + 100,
+
+    const pipeNearBird = pipeState.pipes.find((item) => {
+        if (item.x + left >= birdState.x - pipeState.width - birdState.width) {
+            return true;
         }
-    })
-        .filter((item) => {
-            if (item.x1 > 0 && item.x1 < 288) {
-                return true
-            }
-        });
+    });
 
-    // check collide with foreground
-    if (birdState.y > 512 - 108) {
-        clearInterval(intervalGeneratePipes);
-        clearInterval(intervalLoop);
-        dispatch(gameOver());
-    }
+    // console.log("pipeNearBird", pipeNearBird);
 
     // check collide with pipe
-    if (pipesCanSee.length) {
-        const { x1, y1, x2, y2 } = pipesCanSee[0];
-
+    if (pipeNearBird) {
+        // check collide with pipe by X
         if (
-            (x1 < 120 && 120 < x1 + 52 && birdY < y1) ||
-            (x2 < 120 && 120 < x2 + 52 && birdY > y2)
+            (pipeNearBird.x + left === birdState.x)
+            &&
+            (birdState.y <= pipeNearBird.topPipeHeight || birdState.y + birdState.height >= pipeNearBird.topPipeHeight + pipeState.gap)
         ) {
-            clearInterval(intervalGeneratePipes);
-            clearInterval(intervalLoop);
-            dispatch(gameOver());
+            console.log("check X");
+            checkPlusScore = whenGameOver(dispatch);
+        }
+        // check collide with pipe by Y
+        else if (
+            (pipeNearBird.x + left < birdState.x && pipeNearBird.x + left >= birdState.x - pipeState.width - birdState.width / 2)
+        ) {
+            if (birdState.y <= pipeNearBird.topPipeHeight) {
+                console.log("check Ytop");
+                dispatch(setBirdY(pipeNearBird.topPipeHeight));
+
+                checkPlusScore = whenGameOver(dispatch);
+            }
+            else if (birdState.y + birdState.height >= pipeNearBird.topPipeHeight + pipeState.gap) {
+                console.log("check Ybottom");
+                dispatch(setBirdY(pipeNearBird.topPipeHeight + pipeState.gap - birdState.height));
+
+                checkPlusScore = whenGameOver(dispatch);
+            }
         }
     }
+
+    // check collide with foreground
+    if (birdState.y + birdState.height >= Math.ceil(window.innerHeight * 0.8)) {
+        dispatch(setBirdY(Math.ceil(window.innerHeight * 0.8) - birdState.height));
+
+        checkPlusScore = whenGameOver(dispatch);
+        console.log("foreground");
+    }
+
+    // get index of pipeNearBird
+    const indexPassed = pipeState.pipes.findIndex((item) => {
+        if (item.x === pipeNearBird?.x) {
+            return true;
+        }
+    });
+
+    if (checkPlusScore && indexPassed != -1) {
+        dispatch(setScore(indexPassed));
+    }
 };
+
+const whenGameOver = (dispatch: any): boolean => {
+    // document.onkeydown = function (e) {
+    //     return false;
+    // }
+    clearInterval(intervalGeneratePipes);
+    clearInterval(intervalFall);
+    clearInterval(intervalLoop);
+
+    dispatch(gameOver());
+    dispatch(setGameStatus(2));
+
+    return false;
+}

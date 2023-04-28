@@ -11,8 +11,10 @@ export default function Background() {
 
 const bgStyles: any = {
     position: 'relative',
-    width: "100%",
-    height: 512,
+    // width: "100%",
+    height: "100%",
     background: `url(${bgImg})`,
+    backgroundRepeat: "repeat-x",
+    backgroundSize: "contain",
     overflow: 'hidden',
 };

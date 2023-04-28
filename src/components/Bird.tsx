@@ -24,29 +24,29 @@ export default function Bird() {
             <div
                 className="bird"
                 style={{
-
+                    width: birdState.width,
+                    height: birdState.height,
+                    left: birdState.x - birdState.width,
                     top: birdState.y,
-                    transform: `rotate(${birdState.r}deg)`, ...birdStyles,
+                    transform: `rotate(${birdState.r}deg)`,
+                    ...birdStyles,
                 }}
             >
             </div>
 
-            <button onClick={() => dispatch(fly())}>fly</button>
+            {/* <button onClick={() => dispatch(fly())}>fly</button>
 
             <button onClick={() => dispatch(fall())}>fall</button>
 
             <button onClick={() => dispatch(running())}>running</button>
 
-            <button onClick={() => dispatch(generate())}>generate</button>
+            <button onClick={() => dispatch(generate())}>generate</button> */}
         </>
     )
 }
 
 const birdStyles: any = {
     position: 'absolute',
-    left: 120,
-    width: 38,
-    height: 26,
     background: `url(${birdImg})`,
-    transition: 'transform 100ms linear, top 300ms linear',
+    transition: 'transform 20ms ease-in, top 100ms linear',
 };
