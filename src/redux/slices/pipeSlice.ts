@@ -15,7 +15,7 @@ export interface PipeState {
     pipes: PipesElement[];
 }
 
-const distanceXBetweenTwoPipes: number = 300;
+const distanceXBetweenTwoPipes: number = 400;
 
 const innerWidth: number = window.innerWidth;
 const initState: PipeState = {
