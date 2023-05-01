@@ -4,3 +4,10 @@
   src: local("flappy-bird-font"),
     url("./assets/fonts/flappy-bird-font.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "FlappyBirdPixel";
+  /*Can be any text*/
+  src: local("flappy-bird-font"),
+    url("./assets/fonts/VT323-Regular.ttf") format("truetype");
+}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fly, fall, setBirdY, BirdState, selectBird } from "../../redux/slices/birdSlice";
-import { running, generate, PipeState, PipesElement, selectPipe } from "../../redux/slices/pipeSlice";
+import { generate, PipeState, PipesElement, selectPipe } from "../../redux/slices/pipeSlice";
 import { plusScore, setScore, selectScore } from "../../redux/slices/scoreSlice";
 import { setGameStatus, selectGameStatus } from "../../redux/slices/gameStatusSlice";
 import { gameOver } from "../../redux/utilActions";
@@ -25,15 +25,25 @@ export default function PlayScreen() {
         startGame(dispatch);
         document.addEventListener('keypress', handleKeyPress);
 
+        let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
+        playScreen.addEventListener('click', handleClick);
+
         return () => {
             document.removeEventListener('keypress', handleKeyPress);
+            playScreen.removeEventListener('click', handleClick);
         };
     }, []);
 
     const handleKeyPress = (event: KeyboardEvent) => {
-        if (event.code === "Space") {
+        if (event.code === "Space" || event.code === "Enter") {
             dispatch(fly());
         }
+    };
+
+    const handleClick = (event: MouseEvent) => {
+        // if (event.code === "Space" || event.code === "Enter") {
+        dispatch(fly());
+        // }
     };
 
     return (
@@ -73,7 +83,7 @@ const startGame = (dispatch: any) => {
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
     let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
 
-    translate.style.transition = 'left 50ms linear';
+    translate.style.transition = 'left 100ms linear';
     bird.style.transition = 'transform 20ms ease-in, top 100ms linear';
 
     intervalGeneratePipes = setInterval(() => {

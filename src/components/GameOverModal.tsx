@@ -10,6 +10,7 @@ import { setGameStatus } from "../redux/slices/gameStatusSlice";
 import { selectScore } from "../redux/slices/scoreSlice";
 import { clearState } from "../redux/utilActions";
 import { Modal, Box } from "@mui/material";
+import gameOverImg from "../assets/images/gameOver.png";
 
 interface GameOverModalProps {
     isOpen: boolean;
@@ -52,6 +53,7 @@ export default function GameOverModal(props: GameOverModalProps) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    <div className={classes.gameOver}></div>
                     <div className={classes.root}>
                         <div className="score">
                             <span>SCORE <br /> {scoreState}</span>
@@ -70,7 +72,7 @@ export default function GameOverModal(props: GameOverModalProps) {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '20%',
+    top: '26%',
     left: '50%',
     transform: 'translate(-50%)',
     minWidth: 200,
@@ -123,5 +125,19 @@ const useStyles = makeStyles({
             padding: 4,
             lineHeight: 0,
         },
+        "& .btn button:active": {
+            borderStyle: "inset",
+        },
+    },
+    gameOver: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        background: `url(${gameOverImg})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        top: 0,
+        left: 0,
+        transform: "translateY(-56%)",
     },
 });

@@ -4,6 +4,7 @@ import PlayScreen from './components/screens/PlayScreen';
 
 import "./App.css";
 import "./assets/fonts/flappy-bird-font.ttf";
+import "./assets/fonts/VT323-Regular.ttf";
 
 function App() {
   return (

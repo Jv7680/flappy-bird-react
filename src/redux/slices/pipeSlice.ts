@@ -34,15 +34,6 @@ const pipeSlice = createSlice({
     // Các function này sẽ tự động tạo ra action có type tương ứng với key, ví dụ key increment sẽ được làm thành action
     // thông qua createAction("increment"), sau đó được lưu và userSlice.actions
     reducers: {
-        running: (state) => {
-            // if (!state.pipes.length) {
-            //     return state;
-            // }
-            // else {
-            //     state.x -= 10;
-            //     return state;
-            // }
-        },
         generate: (state) => {
             const newPipe: PipesElement = {
                 x: initState.generateFirstPipeAtX + state.pipes.length * distanceXBetweenTwoPipes,
@@ -69,5 +60,5 @@ const pipeSlice = createSlice({
 // pass this fn to useAppSelector to get the bird redux state
 export const selectPipe = (state: RootState) => state.pipe;
 
-export const { running, generate } = pipeSlice.actions;
+export const { generate } = pipeSlice.actions;
 export default pipeSlice.reducer;

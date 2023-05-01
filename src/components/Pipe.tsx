@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import pipeNorthImg from "../assets/images/pipeNorth.png";
 import pipeSouthImg from "../assets/images/pipeSouth.png";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { running, generate, selectPipe } from "../redux/slices/pipeSlice";
+import { generate, selectPipe } from "../redux/slices/pipeSlice";
 
 export default function Pipe() {
     const pipeState = useAppSelector(selectPipe);
