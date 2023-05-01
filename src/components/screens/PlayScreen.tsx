@@ -100,7 +100,7 @@ const startGame = (dispatch: any) => {
         translate.style.left = `${xT}px`;
         playScreen.style.width = `calc(200vw + ${xP}px)`;
         checkGameOver(dispatch, xT);
-    }, 50);
+    }, 100);
 };
 
 // check game over
