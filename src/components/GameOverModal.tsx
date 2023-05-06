@@ -30,8 +30,8 @@ export default function GameOverModal(props: GameOverModalProps) {
         translate.style.transition = 'left 0ms linear';
         // translate.style.left = "0px";
         translate.style.left = "translateX(0px)";
-        // bird.style.transition = 'transform 20ms ease-in, top 0ms linear';
-        bird.style.transition = 'transform 0ms ease-in';
+        bird.style.transition = 'transform 20ms ease-in, top 0ms linear';
+        // bird.style.transition = 'transform 0ms ease-in';
 
         dispatch(setGameStatus(1));
         dispatch(clearState());

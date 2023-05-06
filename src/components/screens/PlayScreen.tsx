@@ -16,6 +16,10 @@ import { store } from "../../redux/store";
 let intervalGeneratePipes: any;
 let intervalFall: any;
 let intervalLoop: any;
+let xT = 0;
+let xP = 0;
+let different = 2;
+let gameStatus: number = 0;
 
 export default function PlayScreen() {
     const gameStatusState = useAppSelector(selectGameStatus);
@@ -75,35 +79,83 @@ const playScreenTranslateStyles: any = {
 };
 
 // start the game
-const startGame = (dispatch: any) => {
-    let xT = 0;
-    let xP = 0;
-    let different = 10;
+// const startGame = (dispatch: any) => {
+//     let xT = 0;
+//     let xP = 0;
+//     let different = 10;
+//     let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
+//     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
+//     let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
+
+//     // translate.style.transition = 'left 100ms linear';
+//     translate.style.transition = 'transform 100ms linear';
+//     bird.style.transition = 'transform 20ms ease-in, top 100ms linear';
+//     // bird.style.transition = 'transform 100ms linear';
+
+//     intervalGeneratePipes = setInterval(() => {
+//         dispatch(generate());
+//     }, 500);
+
+//     intervalFall = setInterval(() => {
+//         dispatch(fall());
+//     }, 50);
+
+//     // intervalLoop = setInterval(() => {
+//     //     xT -= different;
+//     //     xP += different;
+//     //     // translate.style.left = `${xT}px`;
+//     //     translate.style.transform = `translateX(${xT}px)`;
+//     //     playScreen.style.width = `calc(200vw + ${xP}px)`;
+//     //     // checkGameOver(dispatch, xT);
+//     // }, 100);
+//     translateLoop();
+// };
+
+const startGame = (dispatch: Function) => {
+    xT = 0;
+    xP = 0;
+    gameStatus = 0;
     let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
     let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
 
-    // translate.style.transition = 'left 100ms linear';
     translate.style.transition = 'transform 100ms linear';
-    // bird.style.transition = 'transform 20ms ease-in, top 100ms linear';
-    bird.style.transition = 'transform 100ms linear';
+    bird.style.transition = 'transform 10ms ease-in, top 20ms linear';
 
     intervalGeneratePipes = setInterval(() => {
         dispatch(generate());
     }, 500);
 
-    intervalFall = setInterval(() => {
-        dispatch(fall());
-    }, 50);
+    birdFallLoop();
 
-    intervalLoop = setInterval(() => {
-        xT -= different;
-        xP += different;
-        // translate.style.left = `${xT}px`;
-        translate.style.transform = `translateX(${xT}px)`;
-        playScreen.style.width = `calc(200vw + ${xP}px)`;
-        checkGameOver(dispatch, xT);
-    }, 100);
+    translateLoop();
+};
+
+const translateLoop = () => {
+    xT -= different;
+    xP += different;
+    let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
+    let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
+    translate.style.transform = `translateX(${xT}px)`;
+    playScreen.style.width = `calc(200vw + ${xP}px)`;
+
+    checkGameOver(store.dispatch, xT);
+
+    if (gameStatus === 2) {
+        return;
+    }
+
+    requestAnimationFrame(translateLoop);
+};
+
+const birdFallLoop = () => {
+    store.dispatch(fall());
+
+    if (gameStatus === 2) {
+        return;
+    }
+
+    requestAnimationFrame(birdFallLoop);
 };
 
 // check game over
@@ -180,6 +232,7 @@ const whenGameOver = (dispatch: any): boolean => {
 
     dispatch(gameOver());
     dispatch(setGameStatus(2));
+    gameStatus = 2;
 
     return false;
 }

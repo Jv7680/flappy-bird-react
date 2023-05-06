@@ -15,10 +15,10 @@ export default function Bird() {
                     width: birdState.width,
                     height: birdState.height,
                     left: birdState.x - birdState.width,
-                    // top: birdState.y,
-                    top: 100,
-                    // transform: `rotate(${birdState.r}deg)`,
-                    transform: `translateY(${birdState.y}px)`,
+                    top: birdState.y,
+                    // top: 100,
+                    transform: `rotate(${birdState.r}deg)`,
+                    // transform: `translateY(${birdState.y}px)`,
                     ...birdStyles,
                 }}
             >
