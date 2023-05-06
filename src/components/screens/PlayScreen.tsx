@@ -41,6 +41,9 @@ export default function PlayScreen() {
     const handleKeyPress = (event: KeyboardEvent) => {
         if (event.code === "Space" || event.code === "Enter") {
             dispatch(fly());
+            // for (let i = 0; i < 50; i++) {
+            //     dispatch(fly());
+            // }
         }
     };
 
@@ -119,14 +122,17 @@ const startGame = (dispatch: Function) => {
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
     let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
 
-    translate.style.transition = 'transform 100ms linear';
-    bird.style.transition = 'transform 10ms ease-in, top 20ms linear';
+    translate.style.transition = 'transform 20ms linear';
+    bird.style.transition = 'transform 30ms ease-in, top 40ms linear';
 
     intervalGeneratePipes = setInterval(() => {
         dispatch(generate());
     }, 500);
 
     birdFallLoop();
+    // intervalFall = setInterval(() => {
+    //     dispatch(fall());
+    // }, 100);
 
     translateLoop();
 };
