@@ -83,8 +83,10 @@ const startGame = (dispatch: any) => {
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
     let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
 
-    translate.style.transition = 'left 100ms linear';
-    bird.style.transition = 'transform 20ms ease-in, top 100ms linear';
+    // translate.style.transition = 'left 100ms linear';
+    translate.style.transition = 'transform 100ms linear';
+    // bird.style.transition = 'transform 20ms ease-in, top 100ms linear';
+    bird.style.transition = 'transform 100ms linear';
 
     intervalGeneratePipes = setInterval(() => {
         dispatch(generate());
@@ -92,12 +94,13 @@ const startGame = (dispatch: any) => {
 
     intervalFall = setInterval(() => {
         dispatch(fall());
-    }, 100);
+    }, 50);
 
     intervalLoop = setInterval(() => {
         xT -= different;
         xP += different;
-        translate.style.left = `${xT}px`;
+        // translate.style.left = `${xT}px`;
+        translate.style.transform = `translateX(${xT}px)`;
         playScreen.style.width = `calc(200vw + ${xP}px)`;
         checkGameOver(dispatch, xT);
     }, 100);

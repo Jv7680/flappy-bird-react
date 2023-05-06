@@ -34,7 +34,7 @@ const birdSlice = createSlice({
             return state;
         },
         fall: (state) => {
-            state.y += 10;//20
+            state.y += 5;//20
             state.r = 0;
             return state;
         },
