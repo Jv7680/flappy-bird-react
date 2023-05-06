@@ -115,7 +115,7 @@ const useStyles = makeStyles({
 
             },
             "& .btn button": {
-                fontFamily: "FlappyBirdPixel",
+                fontFamily: "VT323",
                 fontSize: 22,
                 border: "3px solid #FFFFFF",
                 borderRadius: 6,

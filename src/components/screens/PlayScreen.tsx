@@ -122,12 +122,13 @@ const startGame = (dispatch: Function) => {
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
     let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
 
-    translate.style.transition = 'transform 20ms linear';
+    // translate.style.transition = 'transform 0ms linear';
     bird.style.transition = 'transform 30ms ease-in, top 40ms linear';
+    // bird.style.transition = 'transform 30ms ease-in';
 
     intervalGeneratePipes = setInterval(() => {
         dispatch(generate());
-    }, 500);
+    }, 600);
 
     birdFallLoop();
     // intervalFall = setInterval(() => {
@@ -152,6 +153,16 @@ const translateLoop = () => {
     }
 
     requestAnimationFrame(translateLoop);
+};
+
+const generatePipesLoop = () => {
+    store.dispatch(generate());
+
+    if (gameStatus === 2) {
+        return;
+    }
+
+    requestAnimationFrame(generatePipesLoop);
 };
 
 const birdFallLoop = () => {

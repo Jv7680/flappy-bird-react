@@ -111,7 +111,7 @@ const useStyles = makeStyles({
             display: "block",
             margin: "0 16px 4px",
             textAlign: "center",
-            fontFamily: "FlappyBird",
+            fontFamily: "VT323",
             fontSize: 30,
             color: "#CBAD56",
         },

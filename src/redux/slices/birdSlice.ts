@@ -29,14 +29,14 @@ const birdSlice = createSlice({
     // thông qua createAction("increment"), sau đó được lưu và userSlice.actions
     reducers: {
         fly: (state) => {
-            state.y -= 60;//50
+            state.y -= 50;//50
             state.r = -30;
 
             return state;
         },
         fall: (state) => {
             state.y += 2;//20
-            let newRotate = state.r + 2;
+            let newRotate = state.r + 1;
             if (newRotate < 0) {
                 state.r = newRotate;
             }

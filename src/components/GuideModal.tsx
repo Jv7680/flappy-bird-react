@@ -87,7 +87,7 @@ const useStyles = makeStyles({
         alignItems: "center",
         justifyContent: "center",
         color: "#523747",
-        fontFamily: 'FlappyBirdPixel',
+        fontFamily: 'VT323',
         fontSize: 20,
 
         "& .title": {

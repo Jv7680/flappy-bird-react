@@ -18,7 +18,7 @@ const scoreStyles: any = {
     left: "calc(100vw / 2)",
     top: 50,
     transform: "translateX(-50%)",
-    fontFamily: "FlappyBird",
+    fontFamily: "VT323",
     fontSize: 40,
     color: "#FFFFFF",
 };
