@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { clearState, gameOver } from '../utilActions';
+import { clearState, resetState } from '../utilActions';
 import { RootState, AppThunk } from '../store';
 
 export interface PipesElement {
@@ -50,7 +50,7 @@ const pipeSlice = createSlice({
             //     state = initState;
             //     return state;
             // })
-            .addCase(clearState, (state) => {
+            .addCase(resetState, (state) => {
                 state = initState;
                 return state;
             })

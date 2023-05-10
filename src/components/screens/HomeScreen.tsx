@@ -9,12 +9,22 @@ import GuideModal from "../GuideModal";
 import bgImg from "../../assets/images/bg.png";
 import birdImg from "../../assets/images/bird.png";
 import logoImg from "../../assets/images/logo.png";
+import { useAppDispatch } from "../../redux/hooks";
+import { clearState } from "../../redux/utilActions";
+import { setGameStatus } from "../../redux/slices/gameStatusSlice";
 
 export default function HomeScreen() {
     const [openRanking, setOpenRanking] = useState<boolean>(false);
     const [openGuide, setOpenGuide] = useState<boolean>(false);
     const navigateTo = useNavigate();
+    const dispatch = useAppDispatch();
+
     const classes = useStyles();
+
+    // useEffect(() => {
+    //     dispatch(clearState());
+    //     dispatch(setGameStatus(2));
+    // }, []);
 
     const handleCloseRankingModal = () => {
         setOpenRanking(false);

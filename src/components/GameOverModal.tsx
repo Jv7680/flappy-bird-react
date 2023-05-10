@@ -8,7 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setGameStatus } from "../redux/slices/gameStatusSlice";
 import { selectScore } from "../redux/slices/scoreSlice";
-import { clearState } from "../redux/utilActions";
+import { clearState, resetState } from "../redux/utilActions";
 import { Modal, Box } from "@mui/material";
 import gameOverImg from "../assets/images/gameOver.png";
 
@@ -34,7 +34,7 @@ export default function GameOverModal(props: GameOverModalProps) {
         // bird.style.transition = 'transform 0ms ease-in';
 
         dispatch(setGameStatus(1));
-        dispatch(clearState());
+        dispatch(resetState());
 
         setTimeout(() => {
             props.restart(dispatch);
@@ -43,7 +43,7 @@ export default function GameOverModal(props: GameOverModalProps) {
 
     const handleGoHome = () => {
         navigateTo("/");
-        dispatch(clearState());
+        dispatch(resetState());
     };
 
     return (

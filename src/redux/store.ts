@@ -3,6 +3,7 @@ import birdReducer from './slices/birdSlice';
 import pipeReducer from './slices/pipeSlice';
 import scoreReducer from './slices/scoreSlice';
 import gameStatusReducer from './slices/gameStatusSlice';
+import fpsReducer from './slices/fpsSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         pipe: pipeReducer,
         score: scoreReducer,
         gameStatus: gameStatusReducer,
+        fps: fpsReducer,
     },
 });
 

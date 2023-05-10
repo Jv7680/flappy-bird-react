@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { clearState, gameOver } from '../utilActions';
+import { resetState, clearState } from '../utilActions';
 import { RootState, AppThunk } from '../store';
 import { store } from '../store';
 
@@ -58,7 +58,7 @@ const birdSlice = createSlice({
             //     // return { ...state, y: window.innerHeight, r: 90 };
             //     return state;
             // })
-            .addCase(clearState, (state) => {
+            .addCase(resetState, (state) => {
                 state = initState;
                 return state;
             })

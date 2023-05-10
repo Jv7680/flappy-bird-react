@@ -4,7 +4,7 @@ import { fly, fall, setBirdY, BirdState, selectBird } from "../../redux/slices/b
 import { generate, PipeState, PipesElement, selectPipe } from "../../redux/slices/pipeSlice";
 import { plusScore, setScore, selectScore } from "../../redux/slices/scoreSlice";
 import { setGameStatus, selectGameStatus } from "../../redux/slices/gameStatusSlice";
-import { gameOver } from "../../redux/utilActions";
+import { clearState, gameOver, resetState } from "../../redux/utilActions";
 import Bird from "../Bird";
 import Background from "../Background";
 import Foregound from "../Foreground";
@@ -16,9 +16,13 @@ import { store } from "../../redux/store";
 let intervalGeneratePipes: any;
 let intervalFall: any;
 let intervalLoop: any;
-let xT = 0;
-let xP = 0;
+let xT: number = 0;
+let xP: number = 0;
+
+// 2: Easy, 5: Hard
 let different = 2;
+
+// 2: Game over
 let gameStatus: number = 0;
 
 export default function PlayScreen() {
@@ -26,6 +30,9 @@ export default function PlayScreen() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        xT = 0;
+        xP = 0;
+        console.log(xT, xP);
         startGame(dispatch);
         document.addEventListener('keypress', handleKeyPress);
 
@@ -35,23 +42,9 @@ export default function PlayScreen() {
         return () => {
             document.removeEventListener('keypress', handleKeyPress);
             playScreen.removeEventListener('click', handleClick);
+            whenGameOver(dispatch);
         };
     }, []);
-
-    const handleKeyPress = (event: KeyboardEvent) => {
-        if (event.code === "Space" || event.code === "Enter") {
-            dispatch(fly());
-            // for (let i = 0; i < 50; i++) {
-            //     dispatch(fly());
-            // }
-        }
-    };
-
-    const handleClick = (event: MouseEvent) => {
-        // if (event.code === "Space" || event.code === "Enter") {
-        dispatch(fly());
-        // }
-    };
 
     return (
         <div className="playScreen" style={playScreenStyles}>
@@ -78,7 +71,6 @@ const playScreenTranslateStyles: any = {
     width: "100%",
     height: "100%",
     left: 0,
-    // transition: 'left 50ms linear',
 };
 
 // start the game
@@ -117,23 +109,19 @@ const playScreenTranslateStyles: any = {
 const startGame = (dispatch: Function) => {
     xT = 0;
     xP = 0;
-    gameStatus = 0;
-    let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
-    let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
-    let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
+    store.dispatch(setGameStatus(0));
+    // gameStatus = 0;
 
-    // translate.style.transition = 'transform 0ms linear';
+    lockKeyboard(false);
+
+    let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
     bird.style.transition = 'transform 30ms ease-in, top 40ms linear';
-    // bird.style.transition = 'transform 30ms ease-in';
 
     intervalGeneratePipes = setInterval(() => {
         dispatch(generate());
     }, 600);
 
     birdFallLoop();
-    // intervalFall = setInterval(() => {
-    //     dispatch(fall());
-    // }, 100);
 
     translateLoop();
 };
@@ -143,12 +131,15 @@ const translateLoop = () => {
     xP += different;
     let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
-    translate.style.transform = `translateX(${xT}px)`;
-    playScreen.style.width = `calc(200vw + ${xP}px)`;
+
+    if (playScreen && translate) {
+        translate.style.transform = `translateX(${xT}px)`;
+        playScreen.style.width = `calc(200vw + ${xP}px)`;
+    }
 
     checkGameOver(store.dispatch, xT);
 
-    if (gameStatus === 2) {
+    if (store.getState().gameStatus === 2) {
         return;
     }
 
@@ -158,7 +149,7 @@ const translateLoop = () => {
 const generatePipesLoop = () => {
     store.dispatch(generate());
 
-    if (gameStatus === 2) {
+    if (store.getState().gameStatus === 2) {
         return;
     }
 
@@ -168,7 +159,7 @@ const generatePipesLoop = () => {
 const birdFallLoop = () => {
     store.dispatch(fall());
 
-    if (gameStatus === 2) {
+    if (store.getState().gameStatus === 2) {
         return;
     }
 
@@ -240,16 +231,49 @@ const checkGameOver = (dispatch: any, left: number) => {
 };
 
 const whenGameOver = (dispatch: any): boolean => {
-    // document.onkeydown = function (e) {
-    //     return false;
-    // }
-    clearInterval(intervalGeneratePipes);
-    clearInterval(intervalFall);
-    clearInterval(intervalLoop);
+    lockKeyboard(true);
 
-    dispatch(gameOver());
+    clearInterval(intervalGeneratePipes);
+
+    // tạm cmt
+    // dispatch(resetState());
+
     dispatch(setGameStatus(2));
-    gameStatus = 2;
+    // gameStatus = 2;
 
     return false;
 }
+
+const lockKeyboard = (isLocked: boolean): void => {
+    if (isLocked) {
+        document.removeEventListener('keypress', handleKeyPress);
+    }
+    else {
+        document.addEventListener('keypress', handleKeyPress);
+    }
+}
+
+const handleKeyPress = (event: KeyboardEvent) => {
+    if (event.code === "Space" || event.code === "Enter") {
+        store.dispatch(fly());
+    }
+};
+
+const handleClick = (event: MouseEvent) => {
+    store.dispatch(fly());
+};
+
+// const whenGameOver = (dispatch: any): boolean => {
+//     // document.onkeydown = function (e) {
+//     //     return false;
+//     // }
+//     clearInterval(intervalGeneratePipes);
+//     clearInterval(intervalFall);
+//     clearInterval(intervalLoop);
+
+//     dispatch(gameOver());
+//     dispatch(setGameStatus(2));
+//     gameStatus = 2;
+
+//     return false;
+// }
