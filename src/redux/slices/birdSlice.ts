@@ -36,7 +36,7 @@ const birdSlice = createSlice({
         },
         fall: (state, action: PayloadAction<number>) => {
             state.y += action.payload;//20
-            let newRotate = state.r + 1;
+            let newRotate = state.r + 0.5;
             if (newRotate < 0) {
                 state.r = newRotate;
             }
