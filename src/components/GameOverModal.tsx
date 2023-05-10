@@ -25,20 +25,14 @@ export default function GameOverModal(props: GameOverModalProps) {
 
     const handleRestart = () => {
         let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
-        let bird = document.getElementsByClassName("bird")[0] as HTMLDivElement;
-
-        translate.style.transition = 'left 0ms linear';
-        // translate.style.left = "0px";
-        translate.style.left = "translateX(0px)";
-        bird.style.transition = 'transform 20ms ease-in, top 0ms linear';
-        // bird.style.transition = 'transform 0ms ease-in';
+        translate.style.transform = `translateX(0px)`;
 
         dispatch(setGameStatus(1));
         dispatch(resetState());
 
         setTimeout(() => {
             props.restart(dispatch);
-        }, 200);
+        }, 400);
     };
 
     const handleGoHome = () => {
@@ -53,6 +47,7 @@ export default function GameOverModal(props: GameOverModalProps) {
                 disableAutoFocus
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                className={classes.modal}
             >
                 <Box sx={style}>
                     <div className={classes.gameOver}></div>
@@ -76,7 +71,7 @@ const style = {
     position: 'absolute' as 'absolute',
     top: '26%',
     left: '50%',
-    transform: 'translate(-50%)',
+    transform: 'translateX(-50%)',
     minWidth: 200,
     bgcolor: 'transparent',
     border: 'unset',
@@ -85,6 +80,19 @@ const style = {
 };
 
 const useStyles = makeStyles({
+    "@keyframes translateBoxEffect": {
+        "0%": {
+            transform: "translate(-50%, 1000px)"
+        },
+        "100%": {
+            transform: "translate(-50%, 0)"
+        }
+    },
+    modal: {
+        "& .MuiBox-root": {
+            animation: "$translateBoxEffect 0.8s ease-out",
+        },
+    },
     root: {
         width: "100%",
         height: "auto",

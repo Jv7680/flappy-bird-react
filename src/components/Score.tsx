@@ -1,10 +1,20 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { selectScore } from "../redux/slices/scoreSlice";
+import scoreSound from "../assets/sounds/score.mp3";
+
+const scoreAudio = new Audio();
+scoreAudio.src = scoreSound;
 
 export default function Score() {
     const scoreState = useAppSelector(selectScore);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (scoreState > 0) {
+            scoreAudio.play();
+        }
+    }, [scoreState]);
 
     return (
         <>

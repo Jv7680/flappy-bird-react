@@ -20,7 +20,7 @@ export default function FPS() {
     return (
         <>
             <div className={classes.root}>
-                FPS: {fpsState}
+                FPS: {fpsState === 0 ? "..." : fpsState}
             </div>
         </>
     )

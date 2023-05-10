@@ -23,13 +23,13 @@ const fpsSlice = createSlice({
             return state;
         },
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(resetState, (state) => {
-                state = initState;
-                return state;
-            })
-    },
+    // extraReducers: (builder) => {
+    //     builder
+    //         .addCase(resetState, (state) => {
+    //             state = initState;
+    //             return state;
+    //         })
+    // },
 })
 
 // pass this fn to useAppSelector to get the bird redux state

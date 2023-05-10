@@ -32,10 +32,10 @@ const gameStatusSlice = createSlice({
                 state = initState;
                 return state;
             })
-            .addCase(resetState, (state) => {
-                state = initState;
-                return state;
-            })
+        // .addCase(resetState, (state) => {
+        //     state = initState;
+        //     return state;
+        // })
     },
 })
 
