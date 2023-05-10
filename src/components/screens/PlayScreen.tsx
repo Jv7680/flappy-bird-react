@@ -127,8 +127,9 @@ const startGame = (dispatch: Function) => {
 };
 
 const translateLoop = () => {
-    xT -= different;
-    xP += different;
+    let newDifferent = Math.round(store.getState().fps / 30);
+    xT -= newDifferent;
+    xP += newDifferent;
     let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
 
@@ -157,8 +158,9 @@ const generatePipesLoop = () => {
 };
 
 const birdFallLoop = () => {
-    store.dispatch(fall());
-
+    let newFall = Math.round(store.getState().fps / 30);
+    store.dispatch(fall(newFall));
+    console.log("rơi", newFall);
     if (store.getState().gameStatus === 2) {
         return;
     }
