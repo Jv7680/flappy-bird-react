@@ -37,9 +37,19 @@ export default function PlayScreen() {
         playScreen.addEventListener('mousedown', handleMouseDown);
         playScreen.addEventListener('mouseup', handleMouseUp);
 
+        // for mobile device
+        playScreen.addEventListener('touchstart', handleMouseDown);
+        playScreen.addEventListener('touchend', handleMouseUp);
+
         return () => {
             document.removeEventListener('keypress', handleKeyPress);
             playScreen.removeEventListener('click', handleClick);
+
+            playScreen.removeEventListener('mousedown', handleMouseDown);
+            playScreen.removeEventListener('mouseup', handleMouseUp);
+
+            playScreen.removeEventListener('touchstart', handleMouseDown);
+            playScreen.removeEventListener('touchend', handleMouseUp);
 
             // stop the game loop
             whenGameOver(dispatch, false);
@@ -249,7 +259,7 @@ const handleClick = (event: MouseEvent) => {
 
 let intervalMouseDown: any;
 let timeoutMouseDown: any;
-const handleMouseDown = (event: MouseEvent) => {
+const handleMouseDown = (event: any) => {
     // affter a custom seccond, run fly
     timeoutMouseDown = setTimeout(() => {
         intervalMouseDown = setInterval(() => {
@@ -258,7 +268,24 @@ const handleMouseDown = (event: MouseEvent) => {
     }, 300);
 };
 
-const handleMouseUp = (event: MouseEvent) => {
+const handleMouseUp = (event: any) => {
     clearTimeout(timeoutMouseDown);
     clearInterval(intervalMouseDown);
+};
+
+// for mobile device
+let intervalTouchStartMobile: any;
+let timeoutMTouchEndMobile: any;
+const handleTouchStart = (event: any) => {
+    // affter a custom seccond, run fly
+    timeoutMTouchEndMobile = setTimeout(() => {
+        intervalTouchStartMobile = setInterval(() => {
+            store.dispatch(fly());
+        }, 90);
+    }, 300);
+};
+
+const handleTouchEnd = (event: any) => {
+    clearTimeout(timeoutMTouchEndMobile);
+    clearInterval(intervalTouchStartMobile);
 };
