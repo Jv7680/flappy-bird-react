@@ -132,7 +132,7 @@ const useStyles = makeStyles({
                 backgroundColor: "#E06119",
                 color: "#FFFFFF",
                 height: 50,
-                width: 140,
+                width: 160,
                 lineHeight: 0,
                 margin: "6px 0",
                 cursor: "pointer",
