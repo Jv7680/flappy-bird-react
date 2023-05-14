@@ -34,8 +34,8 @@ export default function PlayScreen() {
         let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
         playScreen.addEventListener('click', handleClick);
 
-        // playScreen.addEventListener('mousedown', handleMouseDown);
-        // playScreen.addEventListener('mouseup', handleMouseUp);
+        playScreen.addEventListener('mousedown', handleMouseDown);
+        playScreen.addEventListener('mouseup', handleMouseUp);
 
         return () => {
             document.removeEventListener('keypress', handleKeyPress);
@@ -93,7 +93,8 @@ const startGame = (dispatch: Function) => {
 
 const translateLoop = () => {
     // 2: Easy, 5: Hard (only true when FPS is 60)
-    let different = Math.round(store.getState().fps / 30);
+    // let different = Math.round(store.getState().fps / 30);
+    let different = +(120 / store.getState().fps).toFixed(4);
     xT -= different;
     xP += different;
     let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
@@ -124,7 +125,8 @@ const generatePipesLoop = () => {
 };
 
 const birdFallLoop = () => {
-    let newFall = Math.round(store.getState().fps / 30);
+    // let newFall = Math.round(store.getState().fps / 30);
+    let newFall = +(120 / store.getState().fps).toFixed(4);
     store.dispatch(fall(newFall));
     // console.log("rơi", newFall);
 
@@ -153,7 +155,8 @@ const checkGameOver = (dispatch: any, left: number) => {
     if (pipeNearBird) {
         // check collide with pipe by X
         if (
-            (pipeNearBird.x + left === birdState.x)
+            // (pipeNearBird.x + left === birdState.x)
+            (pipeNearBird.x + left <= birdState.x + (+(120 / store.getState().fps).toFixed(4)) && pipeNearBird.x + left >= birdState.x)
             &&
             (birdState.y <= pipeNearBird.topPipeHeight || birdState.y + birdState.height >= pipeNearBird.topPipeHeight + pipeState.gap)
         ) {
@@ -206,6 +209,8 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
     lockKeyboard(true);
 
     clearInterval(intervalGeneratePipes);
+    clearTimeout(timeoutMouseDown);
+    clearInterval(intervalMouseDown);
 
     // dispatch(resetState());
     dispatch(setGameStatus(2));
@@ -242,13 +247,18 @@ const handleClick = (event: MouseEvent) => {
     flyAudio.play();
 };
 
-// let intervalMouseDown: any;
-// const handleMouseDown = (event: MouseEvent) => {
-//     intervalMouseDown = setInterval(() => {
-//         store.dispatch(fly());
-//     }, 80);
-// };
+let intervalMouseDown: any;
+let timeoutMouseDown: any;
+const handleMouseDown = (event: MouseEvent) => {
+    // affter a custom seccond, run fly
+    timeoutMouseDown = setTimeout(() => {
+        intervalMouseDown = setInterval(() => {
+            store.dispatch(fly());
+        }, 90);
+    }, 300);
+};
 
-// const handleMouseUp = (event: MouseEvent) => {
-//     clearInterval(intervalMouseDown);
-// };
+const handleMouseUp = (event: MouseEvent) => {
+    clearTimeout(timeoutMouseDown);
+    clearInterval(intervalMouseDown);
+};

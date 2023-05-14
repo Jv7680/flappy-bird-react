@@ -7,7 +7,7 @@ export interface fpsState {
     fps: number;
 }
 
-const initState: number = 0;
+const initState: number = 60;
 
 const fpsSlice = createSlice({
     // Tên tiền số cho mỗi action

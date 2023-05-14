@@ -29,6 +29,6 @@ const scoreStyles: any = {
     top: 50,
     transform: "translateX(-50%)",
     fontFamily: "VT323",
-    fontSize: 40,
+    fontSize: 50,
     color: "#FFFFFF",
 };
