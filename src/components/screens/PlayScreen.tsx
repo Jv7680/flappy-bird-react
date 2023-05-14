@@ -270,7 +270,8 @@ const handleKeyPress = (event: KeyboardEvent) => {
 };
 
 const handleClick = (event: MouseEvent) => {
-    store.dispatch(fly(1));
+    // store.dispatch(fly(1));
+    makeBirdFly();
     flyAudio.play();
 };
 
@@ -280,9 +281,10 @@ const handleMouseDown = (event: any) => {
     // affter a custom seccond, run fly
     timeoutMouseDown = setTimeout(() => {
         intervalMouseDown = setInterval(() => {
-            store.dispatch(fly(1));
+            // store.dispatch(fly(1));
+            makeBirdFly();
             flyAudio.play();
-        }, 90);
+        }, 100);
     }, 300);
 };
 
