@@ -30,5 +30,5 @@ export default function Bird() {
 const birdStyles: any = {
     position: 'absolute',
     background: `url(${birdImg})`,
-    transition: 'transform 30ms linear',
+    transition: 'transform 18ms linear',
 };
