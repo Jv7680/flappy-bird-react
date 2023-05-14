@@ -238,18 +238,42 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
 }
 
 let flyDispatchCount: number = 0;
-const makeBirdFly = () => {
-    flyDispatchCount++;
+let isMouseUp: boolean = false;
+const makeBirdFly = (isMouseDown: boolean = false) => {
     let flyTo = +(360 / store.getState().fps).toFixed(4);
 
-    if (flyDispatchCount === 10 || store.getState().gameStatus === 2) {
-        flyDispatchCount = 0;
-        return;
+    const makeFly = () => {
+        flyDispatchCount++;
+
+
+        if (flyDispatchCount === 10 || store.getState().gameStatus === 2) {
+            flyDispatchCount = 0;
+            return;
+        }
+
+        store.dispatch(fly(flyTo));
+        flyAudio.play();
+
+        requestAnimationFrame(makeFly);
+    };
+
+    const makeFlyWhenMouseDown = () => {
+        if (isMouseUp || store.getState().gameStatus === 2) {
+            return;
+        }
+
+        store.dispatch(fly(flyTo));
+        flyAudio.play();
+
+        requestAnimationFrame(makeFlyWhenMouseDown);
+    };
+
+    if (isMouseDown) {
+        makeFlyWhenMouseDown();
     }
-
-    store.dispatch(fly(flyTo));
-
-    requestAnimationFrame(makeBirdFly);
+    else {
+        makeFly();
+    }
 };
 
 const lockKeyboard = (isLocked: boolean): void => {
@@ -263,16 +287,12 @@ const lockKeyboard = (isLocked: boolean): void => {
 
 const handleKeyPress = (event: KeyboardEvent) => {
     if (event.code === "Space" || event.code === "Enter") {
-        // store.dispatch(fly());
         makeBirdFly();
-        flyAudio.play();
     }
 };
 
 const handleClick = (event: MouseEvent) => {
-    // store.dispatch(fly(1));
     makeBirdFly();
-    flyAudio.play();
 };
 
 let intervalMouseDown: any;
@@ -280,15 +300,12 @@ let timeoutMouseDown: any;
 const handleMouseDown = (event: any) => {
     // affter a custom seccond, run fly
     timeoutMouseDown = setTimeout(() => {
-        intervalMouseDown = setInterval(() => {
-            // store.dispatch(fly(1));
-            makeBirdFly();
-            flyAudio.play();
-        }, 100);
+        isMouseUp = false;
+        makeBirdFly(true);
     }, 300);
 };
 
 const handleMouseUp = (event: any) => {
     clearTimeout(timeoutMouseDown);
-    clearInterval(intervalMouseDown);
+    isMouseUp = true;
 };
