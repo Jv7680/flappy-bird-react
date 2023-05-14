@@ -28,8 +28,9 @@ const birdSlice = createSlice({
     // Các function này sẽ tự động tạo ra action có type tương ứng với key, ví dụ key increment sẽ được làm thành action
     // thông qua createAction("increment"), sau đó được lưu và userSlice.actions
     reducers: {
-        fly: (state) => {
-            state.y -= 40;//50
+        fly: (state, action: PayloadAction<number>) => {
+            // state.y -= 40;//50
+            state.y -= action.payload;//50
             state.r = -30;
 
             return state;

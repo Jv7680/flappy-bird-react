@@ -110,16 +110,16 @@ const translateLoop = () => {
     let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
     let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
 
+    if (store.getState().gameStatus === 2) {
+        return;
+    }
+
     if (playScreen && translate) {
         translate.style.transform = `translateX(${xT}px)`;
         playScreen.style.width = `calc(200vw + ${xP}px)`;
     }
 
     checkGameOver(store.dispatch, xT);
-
-    if (store.getState().gameStatus === 2) {
-        return;
-    }
 
     requestAnimationFrame(translateLoop);
 };
@@ -137,12 +137,13 @@ const generatePipesLoop = () => {
 const birdFallLoop = () => {
     // let newFall = Math.round(store.getState().fps / 30);
     let newFall = +(120 / store.getState().fps).toFixed(4);
-    store.dispatch(fall(newFall));
-    // console.log("rơi", newFall);
 
     if (store.getState().gameStatus === 2) {
         return;
     }
+
+    store.dispatch(fall(newFall));
+    // console.log("rơi", newFall);
 
     requestAnimationFrame(birdFallLoop);
 };
@@ -236,6 +237,21 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
     return false;
 }
 
+let flyDispatchCount: number = 0;
+const makeBirdFly = () => {
+    flyDispatchCount++;
+    let flyTo = +(360 / store.getState().fps).toFixed(4);
+
+    if (flyDispatchCount === 10 || store.getState().gameStatus === 2) {
+        flyDispatchCount = 0;
+        return;
+    }
+
+    store.dispatch(fly(flyTo));
+
+    requestAnimationFrame(makeBirdFly);
+};
+
 const lockKeyboard = (isLocked: boolean): void => {
     if (isLocked) {
         document.removeEventListener('keypress', handleKeyPress);
@@ -247,13 +263,14 @@ const lockKeyboard = (isLocked: boolean): void => {
 
 const handleKeyPress = (event: KeyboardEvent) => {
     if (event.code === "Space" || event.code === "Enter") {
-        store.dispatch(fly());
+        // store.dispatch(fly());
+        makeBirdFly();
         flyAudio.play();
     }
 };
 
 const handleClick = (event: MouseEvent) => {
-    store.dispatch(fly());
+    store.dispatch(fly(1));
     flyAudio.play();
 };
 
@@ -263,7 +280,8 @@ const handleMouseDown = (event: any) => {
     // affter a custom seccond, run fly
     timeoutMouseDown = setTimeout(() => {
         intervalMouseDown = setInterval(() => {
-            store.dispatch(fly());
+            store.dispatch(fly(1));
+            flyAudio.play();
         }, 90);
     }, 300);
 };
@@ -271,21 +289,4 @@ const handleMouseDown = (event: any) => {
 const handleMouseUp = (event: any) => {
     clearTimeout(timeoutMouseDown);
     clearInterval(intervalMouseDown);
-};
-
-// for mobile device
-let intervalTouchStartMobile: any;
-let timeoutMTouchEndMobile: any;
-const handleTouchStart = (event: any) => {
-    // affter a custom seccond, run fly
-    timeoutMTouchEndMobile = setTimeout(() => {
-        intervalTouchStartMobile = setInterval(() => {
-            store.dispatch(fly());
-        }, 90);
-    }, 300);
-};
-
-const handleTouchEnd = (event: any) => {
-    clearTimeout(timeoutMTouchEndMobile);
-    clearInterval(intervalTouchStartMobile);
 };
