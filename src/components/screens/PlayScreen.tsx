@@ -240,7 +240,7 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
 let flyDispatchCount: number = 0;
 let isMouseUp: boolean = false;
 const makeBirdFly = (isMouseDown: boolean = false) => {
-    let flyTo = +(360 / store.getState().fps).toFixed(4);
+    // let flyTo = +(360 / store.getState().fps).toFixed(4);
 
     const makeFly = () => {
         flyDispatchCount++;
@@ -250,6 +250,10 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
             flyDispatchCount = 0;
             return;
         }
+
+        // fly up 36px
+        let newFall = +(120 / store.getState().fps).toFixed(4);
+        let flyTo = +(newFall + 4).toFixed(4);
 
         store.dispatch(fly(flyTo));
         flyAudio.play();
@@ -261,6 +265,10 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
         if (isMouseUp || store.getState().gameStatus === 2) {
             return;
         }
+
+        // fly up 36px
+        let newFall = +(120 / store.getState().fps).toFixed(4);
+        let flyTo = +(newFall + 4).toFixed(4);
 
         store.dispatch(fly(flyTo));
         flyAudio.play();
