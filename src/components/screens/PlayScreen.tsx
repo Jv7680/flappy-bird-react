@@ -195,8 +195,9 @@ const checkGameOver = (dispatch: any, left: number) => {
     }
 
     // check collide with foreground
-    if (birdState.y + birdState.height >= Math.ceil(document.documentElement.clientHeight * 0.8)) {
-        dispatch(setBirdY(Math.ceil(document.documentElement.clientHeight * 0.8) - birdState.height));
+    let foregroundHeight = document.getElementsByClassName("foreground")[0] as HTMLDivElement;
+    if (birdState.y + birdState.height >= Math.ceil(window.innerHeight - foregroundHeight.offsetHeight)) {
+        dispatch(setBirdY(Math.ceil(window.innerHeight - foregroundHeight.offsetHeight) - birdState.height));
 
         checkPlusScore = whenGameOver(dispatch);
         console.log("foreground");
