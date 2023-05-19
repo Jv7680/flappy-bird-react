@@ -244,16 +244,17 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
 
     const makeFly = () => {
         flyDispatchCount++;
+        let frameUsed = +((store.getState().fps) * 9 / 60).toFixed(4);
 
-
-        if (flyDispatchCount === 10 || store.getState().gameStatus === 2) {
+        if (flyDispatchCount > frameUsed || store.getState().gameStatus === 2) {
             flyDispatchCount = 0;
             return;
         }
 
-        // fly up 36px
+        // fly up 36px with 60FPS, so each frame is 4px for 9 frame
         let newFall = +(120 / store.getState().fps).toFixed(4);
-        let flyTo = +(newFall + 4).toFixed(4);
+        let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
+        let flyTo = +(newFall + flyEachFrame).toFixed(4);
 
         store.dispatch(fly(flyTo));
         flyAudio.play();
@@ -268,7 +269,8 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
 
         // fly up 36px
         let newFall = +(120 / store.getState().fps).toFixed(4);
-        let flyTo = +(newFall + 4).toFixed(4);
+        let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
+        let flyTo = +(newFall + flyEachFrame).toFixed(4);
 
         store.dispatch(fly(flyTo));
         flyAudio.play();
