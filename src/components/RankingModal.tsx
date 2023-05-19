@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { createStyles, makeStyles } from "@mui/styles";
 import CloseIcon from '@mui/icons-material/Close';
-import { Modal, Box } from "@mui/material";
+import { Box, Modal } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 interface RankingModalProps {
     isOpen: boolean;

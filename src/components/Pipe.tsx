@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import pipeNorthImg from "../assets/images/pipeNorth.png";
 import pipeSouthImg from "../assets/images/pipeSouth.png";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { generate, selectPipe } from "../redux/slices/pipeSlice";
+import { useAppSelector } from "../redux/hooks";
+import { selectPipe } from "../redux/slices/pipeSlice";
 
 export default function Pipe() {
     const pipeState = useAppSelector(selectPipe);
-    const dispatch = useAppDispatch();
 
     useEffect(() => {
         // let pipeWrap__north = document.getElementsByClassName("pipeWrap__north")[0];

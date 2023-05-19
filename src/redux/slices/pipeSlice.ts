@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { clearState, resetState } from '../utilActions';
-import { RootState, AppThunk } from '../store';
+import { RootState } from '../store';
+import { resetState } from '../utilActions';
 
 export interface PipesElement {
     x: number;
@@ -38,7 +37,7 @@ const pipeSlice = createSlice({
             const newPipe: PipesElement = {
                 x: initState.generateFirstPipeAtX + state.pipes.length * distanceXBetweenTwoPipes,
                 // topPipeHeight: Math.round(Math.random() * 200) + 40,
-                topPipeHeight: Math.random() * Math.ceil(window.innerHeight * 0.8 / 2) + 40,
+                topPipeHeight: Math.random() / 1.25 * Math.ceil(window.innerHeight * 0.8 / 2) + 40,
             }
             state.pipes.push(newPipe);
             return state;
