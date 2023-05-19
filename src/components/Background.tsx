@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import bgImg from "../assets/images/bg.png";
 
 export default function Background() {
