@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { fly, fall, setBirdY, BirdState, selectBird } from "../../redux/slices/birdSlice";
-import { generate, PipeState, PipesElement, selectPipe } from "../../redux/slices/pipeSlice";
-import { plusScore, setScore, selectScore } from "../../redux/slices/scoreSlice";
-import { setGameStatus, selectGameStatus } from "../../redux/slices/gameStatusSlice";
-import { clearState, gameOver, resetState } from "../../redux/utilActions";
+import { useEffect } from "react";
 import flySound from "../../assets/sounds/fly.mp3";
 import hitSound from "../../assets/sounds/hit.mp3";
-import Bird from "../Bird";
-import Background from "../Background";
-import Foregound from "../Foreground";
-import Pipe from "../Pipe";
-import GameOverModal from "../GameOverModal";
-import Score from "../Score";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fall, fly, setBirdY } from "../../redux/slices/birdSlice";
+import { selectGameStatus, setGameStatus } from "../../redux/slices/gameStatusSlice";
+import { generate } from "../../redux/slices/pipeSlice";
+import { setScore } from "../../redux/slices/scoreSlice";
 import { store } from "../../redux/store";
+import { resetState } from "../../redux/utilActions";
+import Background from "../Background";
+import Bird from "../Bird";
+import Foregound from "../Foreground";
+import GameOverModal from "../GameOverModal";
+import Pipe from "../Pipe";
+import Score from "../Score";
 
 let intervalGeneratePipes: any;
 let xT: number = 0;
@@ -124,15 +124,15 @@ const translateLoop = () => {
     requestAnimationFrame(translateLoop);
 };
 
-const generatePipesLoop = () => {
-    store.dispatch(generate());
+// const generatePipesLoop = () => {
+//     store.dispatch(generate());
 
-    if (store.getState().gameStatus === 2) {
-        return;
-    }
+//     if (store.getState().gameStatus === 2) {
+//         return;
+//     }
 
-    requestAnimationFrame(generatePipesLoop);
-};
+//     requestAnimationFrame(generatePipesLoop);
+// };
 
 const birdFallLoop = () => {
     // let newFall = Math.round(store.getState().fps / 30);
@@ -158,6 +158,7 @@ const checkGameOver = (dispatch: any, left: number) => {
         if (item.x + left >= birdState.x - pipeState.width - birdState.width) {
             return true;
         }
+        return false;
     });
 
     // console.log("pipeNearBird", pipeNearBird);
@@ -194,8 +195,8 @@ const checkGameOver = (dispatch: any, left: number) => {
     }
 
     // check collide with foreground
-    if (birdState.y + birdState.height >= Math.ceil(window.innerHeight * 0.8)) {
-        dispatch(setBirdY(Math.ceil(window.innerHeight * 0.8) - birdState.height));
+    if (birdState.y + birdState.height >= Math.ceil(document.documentElement.clientHeight * 0.8)) {
+        dispatch(setBirdY(Math.ceil(document.documentElement.clientHeight * 0.8) - birdState.height));
 
         checkPlusScore = whenGameOver(dispatch);
         console.log("foreground");
@@ -206,17 +207,15 @@ const checkGameOver = (dispatch: any, left: number) => {
         if (item.x === pipeNearBird?.x) {
             return true;
         }
+        return false;
     });
 
-    if (checkPlusScore && indexPassed != -1) {
+    if (checkPlusScore && indexPassed !== -1) {
         dispatch(setScore(indexPassed));
     }
 };
 
 const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
-    let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
-    // if (translate) translate.style.transform = `translateX(0px)`;
-
     lockKeyboard(true);
 
     clearInterval(intervalGeneratePipes);

@@ -1,16 +1,13 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import Grid from '@mui/material/Grid';
-import { createStyles, makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
-import ReplayIcon from '@mui/icons-material/Replay';
 import HomeIcon from '@mui/icons-material/Home';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Box, Modal } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router";
+import gameOverImg from "../assets/images/gameOver.png";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setGameStatus } from "../redux/slices/gameStatusSlice";
 import { selectScore } from "../redux/slices/scoreSlice";
-import { clearState, resetState } from "../redux/utilActions";
-import { Modal, Box } from "@mui/material";
-import gameOverImg from "../assets/images/gameOver.png";
+import { resetState } from "../redux/utilActions";
 
 interface GameOverModalProps {
     isOpen: boolean;

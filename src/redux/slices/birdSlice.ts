@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { resetState, clearState } from '../utilActions';
-import { RootState, AppThunk } from '../store';
-import { store } from '../store';
+import { RootState } from '../store';
+import { resetState } from '../utilActions';
 
 export interface BirdState {
     x: number;
