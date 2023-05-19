@@ -1,13 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { clearState, resetState } from '../utilActions';
-import { RootState, AppThunk } from '../store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 export interface fpsState {
     fps: number;
 }
 
-const initState: number = 60;
+const initState: number = +(localStorage.getItem("deviceStableFPS") || "60");
 
 const fpsSlice = createSlice({
     // Tên tiền số cho mỗi action

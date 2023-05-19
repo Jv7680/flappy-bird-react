@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
-import { createStyles, makeStyles } from "@mui/styles";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { store } from "../../redux/store";
+import { makeStyles } from "@mui/styles";
+import { useEffect } from "react";
+import { useAppSelector } from "../../redux/hooks";
 import { selectFPS, setFPS } from "../../redux/slices/fpsSlice";
+import { store } from "../../redux/store";
 
 export default function FPS() {
     const fpsState = useAppSelector(selectFPS);
-    const dispatch = useAppDispatch();
     const classes = useStyles();
 
     useEffect(() => {
@@ -14,6 +13,7 @@ export default function FPS() {
 
         setInterval(() => {
             store.dispatch(setFPS(newFPS));
+            localStorage.setItem("deviceStableFPS", newFPS.toString());
         }, 1000);
     }, []);
 
@@ -91,12 +91,12 @@ const useStyles = makeStyles({
     },
 });
 
-let i: number = 0;
+// let i: number = 0;
 let newFPS: number = 0;
 let previousTime: number = performance.now();
 const checkFPS = (calledTime?: number) => {
     if (calledTime) {
-        i++;
+        // i++;
         // console.log(`FPS lần ${i}`, 1000 / (calledTime - previousTime), previousTime, calledTime);
         newFPS = Math.round(1000 / (calledTime - previousTime));
         previousTime = calledTime;
