@@ -40,7 +40,7 @@ export default function Pipe() {
     )
 }
 
-const gap: number = 100;
+// const gap: number = 100;
 
 const pipeStyles: any = {
     position: 'absolute',

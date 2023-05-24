@@ -1,7 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { clearState, resetState } from '../utilActions';
-import { RootState, AppThunk } from '../store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
+import { resetState } from '../utilActions';
 
 export interface ScoreState {
     score: number;

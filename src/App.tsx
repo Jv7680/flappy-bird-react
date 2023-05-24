@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { ROUTES } from "./routes/routes";
-import FPS from "./components/FPS/FPS";
+import FPS from "./components/fps/FPS";
 
 import "./App.css";
 import "./assets/fonts/flappy-bird-font.ttf";

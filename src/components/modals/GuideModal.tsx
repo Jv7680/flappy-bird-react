@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
-import { createStyles, makeStyles } from "@mui/styles";
 import CloseIcon from '@mui/icons-material/Close';
-import enterImg from "../assets/images/enterIcon.png";
-import spaceImg from "../assets/images/spaceIcon.png";
-import mouseImg from "../assets/images/mouseIcon.png";
-import { Modal, Box } from "@mui/material";
+import { Box, Modal } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import enterImg from "../../assets/images/enterIcon.png";
+import mouseImg from "../../assets/images/mouseIcon.png";
+import spaceImg from "../../assets/images/spaceIcon.png";
 
 interface GuideModalProps {
     isOpen: boolean;

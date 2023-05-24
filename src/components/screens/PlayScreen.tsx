@@ -11,7 +11,9 @@ import { resetState } from "../../redux/utilActions";
 import Background from "../Background";
 import Bird from "../Bird";
 import Foregound from "../Foreground";
-import GameOverModal from "../GameOverModal";
+import GameOverModal from "../modals/GameOverModal";
+import GamePauseModal from "../modals/GamePauseModal";
+import PauseButton from "../buttons/PauseButton";
 import Pipe from "../Pipe";
 import Score from "../Score";
 
@@ -29,7 +31,9 @@ export default function PlayScreen() {
 
     useEffect(() => {
         startGame(dispatch);
+        document.addEventListener("visibilitychange", handleVisibilitychange);
         document.addEventListener('keypress', handleKeyPress);
+        document.addEventListener('keyup', handleKeyUp);
 
         let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
         playScreen.addEventListener('click', handleClick);
@@ -42,7 +46,10 @@ export default function PlayScreen() {
         playScreen.addEventListener('touchend', handleMouseUp);
 
         return () => {
+            document.removeEventListener("visibilitychange", handleVisibilitychange);
             document.removeEventListener('keypress', handleKeyPress);
+            document.removeEventListener('keyup', handleKeyUp);
+
             playScreen.removeEventListener('click', handleClick);
 
             playScreen.removeEventListener('mousedown', handleMouseDown);
@@ -54,6 +61,7 @@ export default function PlayScreen() {
             // stop the game loop
             whenGameOver(dispatch, false);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -65,7 +73,9 @@ export default function PlayScreen() {
             </div>
             <Bird></Bird>
             <Score></Score>
+            <PauseButton />
             {gameStatusState === 2 && <GameOverModal isOpen={true} restart={startGame}></GameOverModal>}
+            {gameStatusState === 3 && <GamePauseModal isOpen={true} restart={startGame} restartWhenGamePause={restartWhenGamePause} continue={pauseGame}></GamePauseModal>}
         </div>
     )
 }
@@ -83,6 +93,15 @@ const playScreenTranslateStyles: any = {
     left: 0,
 };
 
+const pauseGame = (pause: boolean) => {
+    if (pause) {
+        store.dispatch(setGameStatus(3));
+    }
+    else {
+        store.dispatch(setGameStatus(1));
+    }
+};
+
 const startGame = (dispatch: Function) => {
     xT = 0;
     xP = 0;
@@ -93,7 +112,10 @@ const startGame = (dispatch: Function) => {
     lockKeyboard(false);
 
     intervalGeneratePipes = setInterval(() => {
-        dispatch(generate());
+        // not generate when the game paused
+        if (store.getState().gameStatus !== 3) {
+            dispatch(generate());
+        }
     }, 600);
 
     birdFallLoop();
@@ -102,55 +124,47 @@ const startGame = (dispatch: Function) => {
 };
 
 const translateLoop = () => {
-    // 2: Easy, 5: Hard (only true when FPS is 60)
-    // let different = Math.round(store.getState().fps / 30);
-    let different = +(120 / store.getState().fps).toFixed(4);
-    xT -= different;
-    xP += different;
-    let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
-    let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
-
-    if (store.getState().gameStatus === 2) {
+    if (store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
         return;
     }
 
-    if (playScreen && translate) {
-        translate.style.transform = `translateX(${xT}px)`;
-        playScreen.style.width = `calc(200vw + ${xP}px)`;
-    }
+    if (store.getState().gameStatus !== 3) {
+        // 2: Easy, 5: Hard (only true when FPS is 60)
+        let different = +(120 / store.getState().fps).toFixed(4);
+        xT -= different;
+        xP += different;
+        let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
+        let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
 
-    checkGameOver(store.dispatch, xT);
+        if (playScreen && translate) {
+            translate.style.transform = `translateX(${xT}px)`;
+            playScreen.style.width = `calc(200vw + ${xP}px)`;
+        }
+
+        checkGameOver(store.dispatch, xT);
+    }
 
     requestAnimationFrame(translateLoop);
 };
-
-// const generatePipesLoop = () => {
-//     store.dispatch(generate());
-
-//     if (store.getState().gameStatus === 2) {
-//         return;
-//     }
-
-//     requestAnimationFrame(generatePipesLoop);
-// };
 
 const birdFallLoop = () => {
     // let newFall = Math.round(store.getState().fps / 30);
     let newFall = +(120 / store.getState().fps).toFixed(4);
 
-    if (store.getState().gameStatus === 2) {
+    if (store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
         return;
     }
 
-    store.dispatch(fall(newFall));
-    // console.log("rơi", newFall);
+    if (store.getState().gameStatus !== 3) {
+        store.dispatch(fall(newFall));
+    }
 
     requestAnimationFrame(birdFallLoop);
 };
 
 // check game over
 const checkGameOver = (dispatch: any, left: number) => {
-    let { bird: birdState, pipe: pipeState, score: scoreState } = store.getState();
+    let { bird: birdState, pipe: pipeState } = store.getState();
     let checkPlusScore: boolean = true;
 
 
@@ -224,7 +238,7 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
     clearTimeout(timeoutMouseDown);
     clearInterval(intervalMouseDown);
 
-    // dispatch(resetState());
+    // game over
     dispatch(setGameStatus(2));
 
     if (playHitAudio) {
@@ -236,7 +250,18 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
     }
 
     return false;
-}
+};
+
+const restartWhenGamePause = () => {
+    lockKeyboard(true);
+
+    clearInterval(intervalGeneratePipes);
+    clearTimeout(timeoutMouseDown);
+    clearInterval(intervalMouseDown);
+
+    // game over
+    store.dispatch(setGameStatus(4));
+};
 
 let flyDispatchCount: number = 0;
 let isMouseUp: boolean = false;
@@ -247,34 +272,38 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
         flyDispatchCount++;
         let frameUsed = +((store.getState().fps) * 9 / 60).toFixed(4);
 
-        if (flyDispatchCount > frameUsed || store.getState().gameStatus === 2) {
+        if (flyDispatchCount > frameUsed || store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
             flyDispatchCount = 0;
             return;
         }
 
-        // fly up 36px with 60FPS, so each frame is 4px for 9 frame
-        let newFall = +(120 / store.getState().fps).toFixed(4);
-        let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
-        let flyTo = +(newFall + flyEachFrame).toFixed(4);
+        if (store.getState().gameStatus !== 3) {
+            // fly up 36px with 60FPS, so each frame is 4px for 9 frame
+            let newFall = +(120 / store.getState().fps).toFixed(4);
+            let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
+            let flyTo = +(newFall + flyEachFrame).toFixed(4);
 
-        store.dispatch(fly(flyTo));
-        flyAudio.play();
+            store.dispatch(fly(flyTo));
+            flyAudio.play();
+        }
 
         requestAnimationFrame(makeFly);
     };
 
     const makeFlyWhenMouseDown = () => {
-        if (isMouseUp || store.getState().gameStatus === 2) {
+        if (isMouseUp || store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
             return;
         }
 
-        // fly up 36px
-        let newFall = +(120 / store.getState().fps).toFixed(4);
-        let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
-        let flyTo = +(newFall + flyEachFrame).toFixed(4);
+        if (store.getState().gameStatus !== 3) {
+            // fly up 36px
+            let newFall = +(120 / store.getState().fps).toFixed(4);
+            let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
+            let flyTo = +(newFall + flyEachFrame).toFixed(4);
 
-        store.dispatch(fly(flyTo));
-        flyAudio.play();
+            store.dispatch(fly(flyTo));
+            flyAudio.play();
+        }
 
         requestAnimationFrame(makeFlyWhenMouseDown);
     };
@@ -296,19 +325,45 @@ const lockKeyboard = (isLocked: boolean): void => {
     }
 }
 
+const handleVisibilitychange = (event: any) => {
+    if (document.visibilityState === "hidden") {
+        pauseGame(true)
+    } else if (document.visibilityState === "visible") {
+        console.log("user back");
+    }
+};
+
 const handleKeyPress = (event: KeyboardEvent) => {
     if (event.code === "Space" || event.code === "Enter") {
         makeBirdFly();
     }
+
+    if (event.code === "KeyA") {
+        pauseGame(false);
+    }
 };
 
-const handleClick = (event: MouseEvent) => {
+const handleKeyUp = (event: KeyboardEvent) => {
+    if (event.code === "Escape") {
+        pauseGame(true)
+    }
+};
+
+const handleClick = (event: any) => {
+    if (Array.from(event.target.classList).find(item => item === "btn-pause")) {
+        return;
+    }
+
     makeBirdFly();
 };
 
 let intervalMouseDown: any;
 let timeoutMouseDown: any;
 const handleMouseDown = (event: any) => {
+    if (Array.from(event.target.classList).find(item => item === "btn-pause")) {
+        return;
+    }
+
     // affter a custom seccond, run fly
     timeoutMouseDown = setTimeout(() => {
         isMouseUp = false;

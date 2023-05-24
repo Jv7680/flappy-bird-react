@@ -1,30 +1,23 @@
-import { useState, useEffect } from "react";
+import { Box } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import { createStyles, makeStyles } from "@mui/styles";
-import { Modal, Box } from "@mui/material";
-import Background from "../Background";
-import Foregound from "../Foreground";
-import RankingModal from "../RankingModal";
-import GuideModal from "../GuideModal";
-import bgImg from "../../assets/images/bg.png";
 import birdImg from "../../assets/images/bird.png";
 import logoImg from "../../assets/images/logo.png";
 import { useAppDispatch } from "../../redux/hooks";
-import { clearState } from "../../redux/utilActions";
-import { setGameStatus } from "../../redux/slices/gameStatusSlice";
+import Background from "../Background";
+import Foregound from "../Foreground";
+import RankingModal from "../modals/RankingModal";
+import GuideModal from "../modals/GuideModal";
 
 export default function HomeScreen() {
     const [openRanking, setOpenRanking] = useState<boolean>(false);
     const [openGuide, setOpenGuide] = useState<boolean>(false);
     const navigateTo = useNavigate();
+    // eslint-disable-next-line
     const dispatch = useAppDispatch();
 
     const classes = useStyles();
-
-    // useEffect(() => {
-    //     dispatch(clearState());
-    //     dispatch(setGameStatus(2));
-    // }, []);
 
     const handleCloseRankingModal = () => {
         setOpenRanking(false);

@@ -1,7 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { clearState, gameOver, resetState } from '../utilActions';
-import { RootState, AppThunk } from '../store';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
+import { gameOver } from '../utilActions';
 
 export interface ScoreState {
     gameStatus: number;
@@ -10,6 +9,8 @@ export interface ScoreState {
 // 0: nothing
 // 1: playing
 // 2: game over
+// 3: paused
+// 4: equall with 2 but use when don't want the modal game over show
 const initState: number = 0;
 
 const gameStatusSlice = createSlice({

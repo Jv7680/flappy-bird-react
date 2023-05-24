@@ -1,26 +1,24 @@
+import PauseIcon from '@mui/icons-material/Pause';
 import { makeStyles } from "@mui/styles";
 import { useEffect } from "react";
-import { useAppSelector } from "../../redux/hooks";
-import { selectFPS, setFPS } from "../../redux/slices/fpsSlice";
+import { setGameStatus } from "../../redux/slices/gameStatusSlice";
 import { store } from "../../redux/store";
 
-export default function FPS() {
-    const fpsState = useAppSelector(selectFPS);
+export default function PauseButton() {
     const classes = useStyles();
 
     useEffect(() => {
-        checkFPS();
-
-        setInterval(() => {
-            store.dispatch(setFPS(newFPS));
-            localStorage.setItem("deviceStableFPS", newFPS.toString());
-        }, 1000);
+        document.querySelector(".btn-pause path")?.classList.add("btn-pause");
     }, []);
+
+    const handlePause = (event: any) => {
+        store.dispatch(setGameStatus(3));
+    };
 
     return (
         <>
-            <div className={classes.root}>
-                FPS: {fpsState === 0 ? "..." : fpsState}
+            <div className={classes.root} >
+                <button className="btn-pause" title="" onClick={handlePause}><PauseIcon className="btn-pause" fontSize="inherit"></PauseIcon></button>
             </div>
         </>
     )
@@ -28,26 +26,31 @@ export default function FPS() {
 
 const useStyles = makeStyles({
     root: {
-        position: "fixed",
-        top: 0,
-        left: 8,
-        width: 80,
-        height: 30,
+        position: "absolute",
+        top: 4,
+        left: "calc(100vw - 48px)",
         border: "unset",
         backgroundColor: "unset",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
         color: "#FFFFFF",
         fontFamily: 'VT323',
-        fontSize: 22,
         zIndex: 3,
 
-        "& .title": {
-            position: "absolute",
-            top: 8,
-            left: "50%",
-            transform: "translateX(-50%)",
+        "& button": {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 22,
+            width: 40,
+            height: 26,
+            cursor: "pointer",
+            color: "#FFFFFF",
+            backgroundColor: "#E6611E",
+            borderRadius: 4,
+            border: "3px solid #FFFFFF",
+        },
+        "& button:active": {
+            borderStyle: "inset",
+            backgroundColor: "#E37435",
         },
         "& .close": {
             position: "absolute",
@@ -90,17 +93,3 @@ const useStyles = makeStyles({
         },
     },
 });
-
-// let i: number = 0;
-let newFPS: number = 0;
-let previousTime: number = performance.now();
-const checkFPS = (calledTime?: number) => {
-    if (calledTime) {
-        // i++;
-        // console.log(`FPS lần ${i}`, 1000 / (calledTime - previousTime), previousTime, calledTime);
-        newFPS = Math.round(1000 / (calledTime - previousTime));
-        previousTime = calledTime;
-    }
-
-    requestAnimationFrame(checkFPS);
-};

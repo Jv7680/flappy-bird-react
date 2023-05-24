@@ -3,11 +3,10 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Box, Modal } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router";
-import gameOverImg from "../assets/images/gameOver.png";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setGameStatus } from "../redux/slices/gameStatusSlice";
-import { selectScore } from "../redux/slices/scoreSlice";
-import { resetState } from "../redux/utilActions";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setGameStatus } from "../../redux/slices/gameStatusSlice";
+import { selectScore } from "../../redux/slices/scoreSlice";
+import { resetState } from "../../redux/utilActions";
 
 interface GameOverModalProps {
     isOpen: boolean;
@@ -47,7 +46,7 @@ export default function GameOverModal(props: GameOverModalProps) {
                 className={classes.modal}
             >
                 <Box sx={style}>
-                    <div className={classes.gameOver}></div>
+                    <div className={classes.gameOver}>Game Over</div>
                     <div className={classes.root}>
                         <div className="score">
                             <span>SCORE <br /> {scoreState}</span>
@@ -139,12 +138,13 @@ const useStyles = makeStyles({
     gameOver: {
         position: "absolute",
         width: "100%",
-        height: "100%",
-        background: `url(${gameOverImg})`,
-        backgroundSize: "contain",
-        backgroundRepeat: "no-repeat",
-        top: 0,
+        top: -66,
         left: 0,
-        transform: "translateY(-56%)",
+        fontFamily: 'VT323',
+        fontSize: 56,
+        fontWeight: "bold",
+        color: "#F28634",
+        textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
+        textAlign: "center",
     },
 });

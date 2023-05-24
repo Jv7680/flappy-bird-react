@@ -1,0 +1,158 @@
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import HomeIcon from '@mui/icons-material/Home';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Box, Modal } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { selectScore } from "../../redux/slices/scoreSlice";
+import { resetState } from "../../redux/utilActions";
+
+interface GamePauseModalProps {
+    isOpen: boolean;
+    restartWhenGamePause: Function;
+    restart: Function;
+    continue: Function;
+}
+
+export default function GamePauseModal(props: GamePauseModalProps) {
+    const dispatch = useAppDispatch();
+    const scoreState = useAppSelector(selectScore);
+    const navigateTo = useNavigate();
+    const classes = useStyles();
+
+    const handleRestart = () => {
+        props.restartWhenGamePause();
+
+        let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
+        translate.style.transform = `translateX(0px)`;
+
+        dispatch(resetState());
+
+        setTimeout(() => {
+            props.restart(dispatch);
+        }, 400);
+    };
+
+    const handleContinue = () => {
+        props.continue(false);
+    };
+
+    const handleGoHome = () => {
+        navigateTo("/");
+        dispatch(resetState());
+    };
+
+    return (
+        <>
+            <Modal
+                open={props.isOpen}
+                disableAutoFocus
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                className={classes.modal}
+            >
+                <Box sx={style}>
+                    <div className={classes.gamePause}>Game Paused</div>
+                    <div className={classes.root}>
+                        <div className="score">
+                            <span>SCORE <br /> {scoreState}</span>
+                            <span>BEST <br /> {999999} </span>
+                        </div>
+                        <div className="btn">
+                            <button title="" onClick={() => handleContinue()}><ArrowRightIcon fontSize="inherit"></ArrowRightIcon></button>
+                            <button title="" onClick={() => handleRestart()}><ReplayIcon fontSize="inherit"></ReplayIcon></button>
+                            <button title="" onClick={() => handleGoHome()}><HomeIcon fontSize="inherit"></HomeIcon></button>
+                        </div>
+                    </div>
+                </Box>
+            </Modal >
+        </>
+    )
+}
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '26%',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    minWidth: 200,
+    bgcolor: 'transparent',
+    border: 'unset',
+    boxShadow: 24,
+    padding: 0,
+};
+
+const useStyles = makeStyles({
+    "@keyframes translateBoxEffect": {
+        "0%": {
+            transform: "translate(-50%, 1000px)"
+        },
+        "100%": {
+            transform: "translate(-50%, 0)"
+        }
+    },
+    modal: {
+        "& .MuiBox-root": {
+            animation: "$translateBoxEffect 0.8s ease-out",
+        },
+    },
+    root: {
+        width: "100%",
+        height: "auto",
+        padding: 4,
+        border: "4px solid #D2AA4F",
+        borderStyle: "inset",
+        borderRadius: 6,
+        backgroundColor: "#DBDA96",
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+
+        "& .score": {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: 4,
+            userSelect: "none",
+        },
+
+        "& .score span": {
+            display: "block",
+            margin: "0 16px 4px",
+            textAlign: "center",
+            fontFamily: "VT323",
+            fontSize: 30,
+            color: "#CBAD56",
+        },
+
+        "& .btn button": {
+            backgroundColor: "#D2AA4F",
+            color: "#523747",
+            outline: "none",
+            borderRadius: 4,
+            cursor: "pointer",
+            margin: 4,
+            fontSize: 30,
+            padding: 4,
+            lineHeight: 0,
+        },
+        "& .btn button:active": {
+            borderStyle: "inset",
+        },
+    },
+    gamePause: {
+        position: "absolute",
+        width: "100%",
+        top: -60,
+        left: 0,
+        fontFamily: 'VT323',
+        fontSize: 50,
+        fontWeight: "bold",
+        color: "#F28634",
+        textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
+        textAlign: "center",
+    },
+});
