@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Modal } from "@mui/material";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import { makeStyles } from "@mui/styles";
-import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { selectSetting, setSoundSetting, setThemeSetting, setBirdTypeSetting } from '../../redux/slices/settingSlice';
-import birdImg from "../../assets/images/bird.png";
-import birdBlueImg from "../../assets/images/bird_blue.png";
-import birdPinkImg from "../../assets/images/bird_pink.png";
-import birdGreyImg from "../../assets/images/bird_grey.png";
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { selectSetting, setBirdTypeSetting, setSoundSetting, setThemeSetting } from '../../redux/slices/settingSlice';
 import { LocalStorage } from '../../services/storageService';
+import { SettingUtils } from '../../utils/settingUtils';
 
 interface SettingModalProps {
     isOpen: boolean;
@@ -87,10 +84,10 @@ export default function SettingModal(props: SettingModalProps) {
                                     </div>
                                     <span>Chú chim yêu thích</span>
                                     <div className="birdTypeContainer">
-                                        <img className={settingState.birdType === 1 ? "active" : ""} id="1" src={birdImg} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
-                                        <img className={settingState.birdType === 2 ? "active" : ""} id="2" src={birdGreyImg} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
-                                        <img className={settingState.birdType === 3 ? "active" : ""} id="3" src={birdPinkImg} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
-                                        <img className={settingState.birdType === 4 ? "active" : ""} id="4" src={birdBlueImg} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === 1 ? "active" : ""} id="1" src={SettingUtils.getBirdImgBySetting(1)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === 2 ? "active" : ""} id="2" src={SettingUtils.getBirdImgBySetting(2)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === 3 ? "active" : ""} id="3" src={SettingUtils.getBirdImgBySetting(3)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === 4 ? "active" : ""} id="4" src={SettingUtils.getBirdImgBySetting(4)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
                                     </div>
                                 </>
                             }

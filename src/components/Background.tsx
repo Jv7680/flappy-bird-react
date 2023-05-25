@@ -8,7 +8,7 @@ export default function Background() {
     const classes = useStyles();
     return (
         <>
-            <div className={"background " + classes.root} style={{ background: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[0]})` }}></div>
+            <div className={"background " + classes.root} style={{ background: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[0]})`, backgroundRepeat: "repeat-x", backgroundSize: "contain" }}></div>
         </>
     )
 };
@@ -17,8 +17,8 @@ const useStyles = makeStyles({
     root: {
         position: 'relative',
         height: "100%",
-        backgroundRepeat: "repeat-x",
-        backgroundSize: "contain",
+        // backgroundRepeat: "repeat-x",
+        // backgroundSize: "contain",
         overflow: 'hidden',
     }
 });
