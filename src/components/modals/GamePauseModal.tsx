@@ -94,7 +94,7 @@ const useStyles = makeStyles({
     },
     modal: {
         "& .MuiBox-root": {
-            animation: "$translateBoxEffect 0.8s ease-out",
+            // animation: "$translateBoxEffect 0.8s ease-out",
         },
     },
     root: {

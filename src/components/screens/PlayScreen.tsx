@@ -16,6 +16,7 @@ import GamePauseModal from "../modals/GamePauseModal";
 import PauseButton from "../buttons/PauseButton";
 import Pipe from "../Pipe";
 import Score from "../Score";
+import { SettingUtils } from "../../utils/settingUtils";
 
 let intervalGeneratePipes: any;
 let xT: number = 0;
@@ -242,7 +243,7 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
     dispatch(setGameStatus(2));
 
     if (playHitAudio) {
-        hitAudio.play();
+        SettingUtils.getSoundBySetting(store.getState().setting.sound) && hitAudio.play();
     }
     else {
         // reset when this component unmount
@@ -284,7 +285,7 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
             let flyTo = +(newFall + flyEachFrame).toFixed(4);
 
             store.dispatch(fly(flyTo));
-            flyAudio.play();
+            SettingUtils.getSoundBySetting(store.getState().setting.sound) && flyAudio.play();
         }
 
         requestAnimationFrame(makeFly);
@@ -302,7 +303,7 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
             let flyTo = +(newFall + flyEachFrame).toFixed(4);
 
             store.dispatch(fly(flyTo));
-            flyAudio.play();
+            SettingUtils.getSoundBySetting(store.getState().setting.sound) && flyAudio.play();
         }
 
         requestAnimationFrame(makeFlyWhenMouseDown);

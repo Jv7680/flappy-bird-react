@@ -1,34 +1,42 @@
-import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { selectScore } from "../redux/slices/scoreSlice";
+import { useEffect } from "react";
 import scoreSound from "../assets/sounds/score.mp3";
+import { useAppSelector } from "../redux/hooks";
+import { selectScore } from "../redux/slices/scoreSlice";
+import { SettingUtils } from "../utils/settingUtils";
+import { selectSetting } from "../redux/slices/settingSlice";
+import { makeStyles } from "@mui/styles";
 
 const scoreAudio = new Audio();
 scoreAudio.src = scoreSound;
 
 export default function Score() {
     const scoreState = useAppSelector(selectScore);
-    const dispatch = useAppDispatch();
+    const settingState = useAppSelector(selectSetting);
+    const classes = useStyles();
 
     useEffect(() => {
         if (scoreState > 0) {
-            scoreAudio.play();
+            SettingUtils.getSoundBySetting(settingState.sound) && scoreAudio.play();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scoreState]);
 
     return (
         <>
-            <div className="score" style={scoreStyles}>{scoreState}</div>
+            <div className={"score " + classes.root}>{scoreState}</div>
         </>
     )
-}
-
-const scoreStyles: any = {
-    position: 'absolute',
-    left: "calc(100vw / 2)",
-    top: 50,
-    transform: "translateX(-50%)",
-    fontFamily: "VT323",
-    fontSize: 50,
-    color: "#FFFFFF",
 };
+
+const useStyles = makeStyles({
+    root: {
+        position: 'absolute',
+        left: "calc(100vw / 2)",
+        top: 50,
+        transform: "translateX(-50%)",
+        fontFamily: "VT323",
+        fontSize: 50,
+        color: "#FFFFFF",
+        userSelect: "none",
+    }
+});

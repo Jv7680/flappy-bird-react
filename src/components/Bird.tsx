@@ -1,34 +1,35 @@
-import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import birdImg from "../assets/images/bird.png";
-import { selectBird, fly, fall } from "../redux/slices/birdSlice";
+
+import { makeStyles } from "@mui/styles";
+import { useAppSelector } from "../redux/hooks";
+import { selectBird } from "../redux/slices/birdSlice";
+import { selectSetting } from "../redux/slices/settingSlice";
+import { SettingUtils } from "../utils/settingUtils";
 
 export default function Bird() {
     const birdState = useAppSelector(selectBird);
-    const dispatch = useAppDispatch();
+    const settingState = useAppSelector(selectSetting);
+    const classes = useStyles();
 
     return (
         <>
             <div
-                className="bird"
+                className={"bird " + classes.root}
                 style={{
                     width: birdState.width,
                     height: birdState.height,
                     left: birdState.x - birdState.width,
                     top: birdState.y,
-                    // top: 100,
                     transform: `rotate(${birdState.r}deg)`,
-                    // transform: `translateY(${birdState.y}px)`,
-                    ...birdStyles,
+                    background: `url(${SettingUtils.getBirdImgBySetting(settingState.birdType)})`,
                 }}
             >
             </div>
         </>
     )
-}
-
-const birdStyles: any = {
-    position: 'absolute',
-    background: `url(${birdImg})`,
-    // transition: 'transform 18ms linear',
 };
+
+const useStyles = makeStyles({
+    root: {
+        position: 'absolute',
+    }
+});

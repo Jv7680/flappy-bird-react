@@ -1,19 +1,24 @@
-import bgImg from "../assets/images/bg.png";
+import { makeStyles } from "@mui/styles";
+import { useAppSelector } from "../redux/hooks";
+import { selectSetting } from "../redux/slices/settingSlice";
+import { SettingUtils } from "../utils/settingUtils";
 
 export default function Background() {
+    const settingState = useAppSelector(selectSetting);
+    const classes = useStyles();
     return (
         <>
-            <div className="background" style={bgStyles}></div>
+            <div className={"background " + classes.root} style={{ background: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[0]})` }}></div>
         </>
     )
-}
-
-const bgStyles: any = {
-    position: 'relative',
-    // width: "100%",
-    height: "100%",
-    background: `url(${bgImg})`,
-    backgroundRepeat: "repeat-x",
-    backgroundSize: "contain",
-    overflow: 'hidden',
 };
+
+const useStyles = makeStyles({
+    root: {
+        position: 'relative',
+        height: "100%",
+        backgroundRepeat: "repeat-x",
+        backgroundSize: "contain",
+        overflow: 'hidden',
+    }
+});

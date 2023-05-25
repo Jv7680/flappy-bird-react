@@ -2,17 +2,23 @@ import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import birdImg from "../../assets/images/bird.png";
+import { SettingUtils } from "../../utils/settingUtils";
+import { selectSetting } from "../../redux/slices/settingSlice";
+
 import logoImg from "../../assets/images/logo.png";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Background from "../Background";
 import Foregound from "../Foreground";
-import RankingModal from "../modals/RankingModal";
+import SettingButton from "../buttons/SettingButton";
 import GuideModal from "../modals/GuideModal";
+import RankingModal from "../modals/RankingModal";
+import SettingModal from "../modals/SettingModal";
 
 export default function HomeScreen() {
+    const settingState = useAppSelector(selectSetting);
     const [openRanking, setOpenRanking] = useState<boolean>(false);
     const [openGuide, setOpenGuide] = useState<boolean>(false);
+    const [openSetting, setOpenSetting] = useState<boolean>(false);
     const navigateTo = useNavigate();
     // eslint-disable-next-line
     const dispatch = useAppDispatch();
@@ -27,10 +33,15 @@ export default function HomeScreen() {
         setOpenGuide(false);
     };
 
+    const handleCloseSettingModal = () => {
+        setOpenSetting(false);
+    };
+
     return (
         <>
             <RankingModal isOpen={openRanking} handleClose={handleCloseRankingModal} />
             <GuideModal isOpen={openGuide} handleClose={handleCloseGuideModal} />
+            <SettingModal isOpen={openSetting} handleClose={handleCloseSettingModal} />
             <div className={classes.root}>
                 <div className="homeScreen__translate">
                     <Background></Background>
@@ -39,7 +50,7 @@ export default function HomeScreen() {
                 <Box sx={style}>
                     <div className="content">
                         <div className="content__logo"></div>
-                        <div className="content__bird"></div>
+                        <div className="content__bird" style={{ background: `url(${SettingUtils.getBirdImgBySetting(settingState.birdType)})`, }}></div>
                     </div>
                     <div className="btn">
                         <button className="btn__play" onClick={() => { navigateTo("/play") }}>VÀO GAME</button>
@@ -48,13 +59,14 @@ export default function HomeScreen() {
                     </div>
                 </Box>
             </div>
+            <SettingButton onClick={() => { setOpenSetting(true) }} />
         </>
     )
 }
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '50%',
+    top: '40%',
     left: '50%',
     transform: 'translate(-50%,-50%)',
     minWidth: 200,
@@ -152,7 +164,6 @@ const useStyles = makeStyles({
             width: 38,
             height: 26,
             marginLeft: 6,
-            background: `url(${birdImg})`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
         },

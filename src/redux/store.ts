@@ -4,6 +4,7 @@ import pipeReducer from './slices/pipeSlice';
 import scoreReducer from './slices/scoreSlice';
 import gameStatusReducer from './slices/gameStatusSlice';
 import fpsReducer from './slices/fpsSlice';
+import settingReducer from './slices/settingSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         score: scoreReducer,
         gameStatus: gameStatusReducer,
         fps: fpsReducer,
+        setting: settingReducer,
     },
 });
 

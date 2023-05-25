@@ -1,25 +1,27 @@
-import PauseIcon from '@mui/icons-material/Pause';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { makeStyles } from "@mui/styles";
 import { useEffect } from "react";
-import { setGameStatus } from "../../redux/slices/gameStatusSlice";
-import { store } from "../../redux/store";
 
-export default function PauseButton() {
+interface SettingButtonProps {
+    onClick: Function,
+};
+
+export default function SettingButton(props: SettingButtonProps) {
     const classes = useStyles();
 
     useEffect(() => {
         document.querySelector(".btn-pause path")?.classList.add("btn-pause");
     }, []);
 
-    const handlePause = (event: any) => {
+    const handleClick = (event: any) => {
         event.target.blur();
-        store.dispatch(setGameStatus(3));
+        props.onClick();
     };
 
     return (
         <>
             <div className={classes.root} >
-                <button className="btn-pause" title="" onClick={handlePause}><PauseIcon className="btn-pause" fontSize="inherit"></PauseIcon></button>
+                <button className="btn-pause" title="" onClick={handleClick}><SettingsIcon className="btn-pause" fontSize="inherit"></SettingsIcon> <span style={{ fontFamily: "VT323", fontSize: 20 }}>Cài đặt</span></button>
             </div>
         </>
     )
@@ -29,7 +31,7 @@ const useStyles = makeStyles({
     root: {
         position: "absolute",
         top: 8,
-        left: "calc(100vw - 48px)",
+        right: 8,
         border: "unset",
         backgroundColor: "unset",
         color: "#FFFFFF",
@@ -41,17 +43,17 @@ const useStyles = makeStyles({
             alignItems: "center",
             justifyContent: "center",
             fontSize: 22,
-            width: 40,
             height: 26,
             cursor: "pointer",
             color: "#FFFFFF",
-            backgroundColor: "#E6611E",
+            backgroundColor: "transparent",
             borderRadius: 4,
-            border: "3px solid #FFFFFF",
+            border: "unset",
+            outline: "none",
         },
-        "& button:active": {
-            borderStyle: "inset",
-            backgroundColor: "#E37435",
+        "& button:hover": {
+            // color: "#e76a23",
+
         },
         "& .close": {
             position: "absolute",
@@ -94,3 +96,5 @@ const useStyles = makeStyles({
         },
     },
 });
+
+
