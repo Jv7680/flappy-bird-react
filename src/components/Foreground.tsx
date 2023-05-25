@@ -8,7 +8,7 @@ export default function Foregound() {
     const classes = useStyles();
     return (
         <>
-            <div className={"foreground " + classes.root} style={{ background: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[1]})`, backgroundRepeat: "repeat-x", backgroundSize: "contain" }}></div>
+            <div className={"foreground " + classes.root} style={{ backgroundImage: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[1]})` }}></div>
         </>
     )
 };
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         bottom: 0,
         width: "100%",
         height: "20vh",
-        // backgroundRepeat: "repeat-x",
-        // backgroundSize: "contain",
+        backgroundRepeat: "repeat-x",
+        backgroundSize: "contain",
     }
 });

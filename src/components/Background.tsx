@@ -6,9 +6,10 @@ import { SettingUtils } from "../utils/settingUtils";
 export default function Background() {
     const settingState = useAppSelector(selectSetting);
     const classes = useStyles();
+
     return (
         <>
-            <div className={"background " + classes.root} style={{ background: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[0]})`, backgroundRepeat: "repeat-x", backgroundSize: "contain" }}></div>
+            <div className={"background " + classes.root} style={{ backgroundImage: `url(${SettingUtils.getThemeImgBySetting(settingState.theme)[0]})` }}></div>
         </>
     )
 };
@@ -17,8 +18,8 @@ const useStyles = makeStyles({
     root: {
         position: 'relative',
         height: "100%",
-        // backgroundRepeat: "repeat-x",
-        // backgroundSize: "contain",
+        backgroundRepeat: "repeat-x",
+        backgroundSize: "contain",
         overflow: 'hidden',
     }
 });
