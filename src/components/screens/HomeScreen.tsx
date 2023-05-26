@@ -127,6 +127,7 @@ const useStyles = makeStyles({
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
+                touchAction: "none",
 
             },
             "& .btn button": {
