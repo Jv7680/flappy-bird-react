@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import scoreSound from "../assets/sounds/score.mp3";
 import { useAppSelector } from "../redux/hooks";
 import { selectScore } from "../redux/slices/scoreSlice";
-import { SettingUtils } from "../utils/settingUtils";
+import { SettingUtils } from "../utils/functions/settingUtils";
 import { selectSetting } from "../redux/slices/settingSlice";
 import { makeStyles } from "@mui/styles";
 

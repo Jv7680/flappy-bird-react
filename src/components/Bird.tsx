@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { useAppSelector } from "../redux/hooks";
 import { selectBird } from "../redux/slices/birdSlice";
 import { selectSetting } from "../redux/slices/settingSlice";
-import { SettingUtils } from "../utils/settingUtils";
+import { SettingUtils } from "../utils/functions/settingUtils";
 
 export default function Bird() {
     const birdState = useAppSelector(selectBird);

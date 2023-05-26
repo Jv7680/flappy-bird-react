@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { SettingUtils } from "../../utils/settingUtils";
+import { SettingUtils } from "../../utils/functions/settingUtils";
 import { selectSetting } from "../../redux/slices/settingSlice";
 
 import logoImg from "../../assets/images/logo.png";

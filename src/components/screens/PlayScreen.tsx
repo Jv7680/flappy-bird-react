@@ -16,7 +16,7 @@ import GamePauseModal from "../modals/GamePauseModal";
 import PauseButton from "../buttons/PauseButton";
 import Pipe from "../Pipe";
 import Score from "../Score";
-import { SettingUtils } from "../../utils/settingUtils";
+import { SettingUtils } from "../../utils/functions/settingUtils";
 
 let intervalGeneratePipes: any;
 let xT: number = 0;

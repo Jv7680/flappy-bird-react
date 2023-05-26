@@ -1,7 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { useAppSelector } from "../redux/hooks";
 import { selectSetting } from "../redux/slices/settingSlice";
-import { SettingUtils } from "../utils/settingUtils";
+import { SettingUtils } from "../utils/functions/settingUtils";
 
 export default function Background() {
     const settingState = useAppSelector(selectSetting);

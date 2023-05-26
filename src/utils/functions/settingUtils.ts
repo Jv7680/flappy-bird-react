@@ -1,11 +1,11 @@
-import birdImg from "../assets/images/bird.png";
-import birdBlueImg from "../assets/images/bird_blue.png";
-import birdPinkImg from "../assets/images/bird_pink.png";
-import birdGreyImg from "../assets/images/bird_grey.png";
-import bgImg from "../assets/images/bg.png";
-import bgNightImg from "../assets/images/bg_night.png";
-import fgImg from "../assets/images/fg.png";
-import fgNightImg from "../assets/images/fg_night.png";
+import birdImg from "../../assets/images/bird.png";
+import birdBlueImg from "../../assets/images/bird_blue.png";
+import birdPinkImg from "../../assets/images/bird_pink.png";
+import birdGreyImg from "../../assets/images/bird_grey.png";
+import bgImg from "../../assets/images/bg.png";
+import bgNightImg from "../../assets/images/bg_night.png";
+import fgImg from "../../assets/images/fg.png";
+import fgNightImg from "../../assets/images/fg_night.png";
 
 const getSoundBySetting = (soundSetting: number) => {
     if (soundSetting === 1) {

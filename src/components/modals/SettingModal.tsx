@@ -10,7 +10,9 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { selectSetting, setBirdTypeSetting, setSoundSetting, setThemeSetting } from '../../redux/slices/settingSlice';
 import { LocalStorage } from '../../services/storageService';
-import { SettingUtils } from '../../utils/settingUtils';
+import { SettingUtils } from '../../utils/functions/settingUtils';
+import Login from '../login/Login';
+import Register from '../register/Register';
 
 interface SettingModalProps {
     isOpen: boolean;
@@ -22,6 +24,7 @@ export default function SettingModal(props: SettingModalProps) {
     const dispatch = useAppDispatch();
     const settingState = useAppSelector(selectSetting);
     const [tabValue, setTabValue] = useState(0);
+    const [tabAccountValue, setTabAccountValue] = useState(0);
     useEffect(() => {
         LocalStorage.setUserSetting(JSON.stringify(settingState));
     }, [settingState]);
@@ -38,12 +41,18 @@ export default function SettingModal(props: SettingModalProps) {
         dispatch(setBirdTypeSetting(+event.target.id));
     };
 
+    const handleCloseModal = () => {
+        setTabValue(0);
+        setTabAccountValue(0);
+        props.handleClose();
+    };
+
     return (
         <>
             <Modal
                 open={props.isOpen}
                 disableAutoFocus
-                onClose={() => { props.handleClose() }}
+                onClose={() => { handleCloseModal() }}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -53,7 +62,7 @@ export default function SettingModal(props: SettingModalProps) {
                             CÀI ĐẶT
                         </div>
                         <div className="close">
-                            <button title="" onClick={() => props.handleClose()}><CloseIcon fontSize="inherit"></CloseIcon></button>
+                            <button title="" onClick={() => handleCloseModal()}><CloseIcon fontSize="inherit"></CloseIcon></button>
                         </div>
                         <div className="content">
                             <Tabs
@@ -94,7 +103,12 @@ export default function SettingModal(props: SettingModalProps) {
                             {
                                 tabValue === 1 &&
                                 <>
-                                    Đang cập nhật
+                                    {
+                                        tabAccountValue === 0 && <Login setTabAccountValue={setTabAccountValue} />
+                                    }
+                                    {
+                                        tabAccountValue === 1 && <Register setTabAccountValue={setTabAccountValue} />
+                                    }
                                 </>
                             }
                         </div>
@@ -107,7 +121,7 @@ export default function SettingModal(props: SettingModalProps) {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '20%',
+    top: '10%',
     left: '50%',
     transform: 'translate(-50%)',
     minWidth: 300,

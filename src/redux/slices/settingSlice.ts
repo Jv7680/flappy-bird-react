@@ -7,12 +7,14 @@ const stringUserSetting = LocalStorage.getUserSetting();
 interface settingState {
     sound: number;
     theme: number;
+    mode: number;
     birdType: number;
 };
 
 const initState: settingState = stringUserSetting ? JSON.parse(stringUserSetting) : {
     sound: 1,
     theme: 1,
+    mode: 1,
     birdType: 1,
 };
 
