@@ -130,6 +130,7 @@ const useStyles = makeStyles({
 
             },
             "& .btn button": {
+                touchAction: "none",
                 fontFamily: "VT323",
                 fontSize: 22,
                 border: "3px solid #FFFFFF",
