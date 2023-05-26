@@ -127,11 +127,10 @@ const useStyles = makeStyles({
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
-                touchAction: "none",
 
             },
             "& .btn button": {
-                touchAction: "none",
+                "-webkit-tap-highlight-color": "transparent",
                 fontFamily: "VT323",
                 fontSize: 22,
                 border: "3px solid #FFFFFF",

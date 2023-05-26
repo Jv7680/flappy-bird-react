@@ -80,6 +80,7 @@ const useStyles = makeStyles({
             right: 0,
         },
         "& .close button": {
+            "-webkit-tap-highlight-color": "transparent",
             backgroundColor: "#D2AA4F",
             color: "#523747",
             outline: "none",

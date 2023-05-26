@@ -39,6 +39,7 @@ const useStyles = makeStyles({
         zIndex: 3,
 
         "& button": {
+            "-webkit-tap-highlight-color": "transparent",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -54,45 +55,6 @@ const useStyles = makeStyles({
         "& button:hover": {
             // color: "#e76a23",
 
-        },
-        "& .close": {
-            position: "absolute",
-            top: 0,
-            right: 0,
-        },
-        "& .close button": {
-            backgroundColor: "#D2AA4F",
-            color: "#523747",
-            outline: "none",
-            borderRadius: 4,
-            cursor: "pointer",
-            margin: 4,
-            fontSize: 16,
-            padding: 4,
-            lineHeight: 0,
-        },
-        "& .close button:active": {
-            borderStyle: "inset",
-        },
-
-        "& .content": {
-            margin: "40px 0 4px 0",
-
-            "& span": {
-
-            },
-            "& div": {
-                margin: "4px 0 16px 0",
-            },
-            "& ul": {
-                margin: "4px 0",
-            },
-            "& li": {
-
-                "& img": {
-                    width: 18,
-                },
-            },
         },
     },
 });

@@ -37,6 +37,7 @@ const useStyles = makeStyles({
         zIndex: 3,
 
         "& button": {
+            "-webkit-tap-highlight-color": "transparent",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

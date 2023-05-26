@@ -108,6 +108,7 @@ const useStyles = makeStyles({
         justifyContent: "space-between",
 
         "& .loginButton": {
+            "-webkit-tap-highlight-color": "transparent",
             fontFamily: "VT323",
             lineHeight: 1.2,
             fontSize: 20,
@@ -127,6 +128,7 @@ const useStyles = makeStyles({
         textAlign: "right",
 
         "& span": {
+            "-webkit-tap-highlight-color": "transparent",
             cursor: "pointer",
             userSelect: "none",
         },
@@ -139,6 +141,7 @@ const useStyles = makeStyles({
         textAlign: "right",
 
         "& span": {
+            "-webkit-tap-highlight-color": "transparent",
             cursor: "pointer",
             userSelect: "none",
         },
