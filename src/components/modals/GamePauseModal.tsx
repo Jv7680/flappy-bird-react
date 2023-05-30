@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { selectScore } from "../../redux/slices/scoreSlice";
 import { resetState } from "../../redux/utilActions";
+import { useTranslation } from 'react-i18next';
 
 interface GamePauseModalProps {
     isOpen: boolean;
@@ -19,6 +20,7 @@ export default function GamePauseModal(props: GamePauseModalProps) {
     const dispatch = useAppDispatch();
     const scoreState = useAppSelector(selectScore);
     const navigateTo = useNavigate();
+    const { t } = useTranslation(["play"]);
     const classes = useStyles();
 
     const handleRestart = () => {
@@ -53,11 +55,11 @@ export default function GamePauseModal(props: GamePauseModalProps) {
                 className={classes.modal}
             >
                 <Box sx={style}>
-                    <div className={classes.gamePause}>Game Paused</div>
+                    <div className={classes.gamePause}>{t('play:gamePause')}</div>
                     <div className={classes.root}>
                         <div className="score">
-                            <span>SCORE <br /> {scoreState}</span>
-                            <span>BEST <br /> {999999} </span>
+                            <span>{t('play:score')} <br /> {scoreState}</span>
+                            <span>{t('play:bestScore')} <br /> {999999} </span>
                         </div>
                         <div className="btn">
                             <button title="" onClick={() => handleContinue()}><ArrowRightIcon fontSize="inherit"></ArrowRightIcon></button>
@@ -150,7 +152,7 @@ const useStyles = makeStyles({
         top: -60,
         left: 0,
         fontFamily: 'VT323',
-        fontSize: 50,
+        fontSize: 48,
         fontWeight: "bold",
         color: "#F28634",
         textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",

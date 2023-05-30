@@ -58,13 +58,20 @@ export default function TextInputComponent(props: TextInputComponentProps) {
               sx={{
                 "&.MuiFormLabel-root.Mui-focused": {
                   color: "#523747",
+                  backgroundColor: "#DBDA96",
                 },
                 fontFamily: "VT323",
                 fontSize: 20,
                 top: -4,
               }}
             >
-              {label}<span style={{ color: "red", marginLeft: 4 }}>{isRequire ? "*" : ""}</span>
+              {label}
+              {
+                isRequire ?
+                  <span style={{ color: "red", marginLeft: 4, marginRight: 4 }}>*</span>
+                  :
+                  <span style={{ color: "red", marginLeft: 4 }}></span>
+              }
             </InputLabel>
           )
         }
@@ -92,7 +99,7 @@ export default function TextInputComponent(props: TextInputComponentProps) {
             </InputAdornment>
           }
           disabled={disabled}
-          label={label + (isRequire ? "**" : "")}
+          label={label + (isRequire ? "*" : "")}
           sx={{
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "#000000",

@@ -1,18 +1,17 @@
 import { makeStyles } from "@mui/styles";
-import { useEffect } from "react";
-import { useAppSelector } from "../../redux/hooks";
-import { selectFPS, setFPS } from "../../redux/slices/fpsSlice";
+import { useEffect, useState } from "react";
+import { setFPS } from "../../redux/slices/fpsSlice";
 import { store } from "../../redux/store";
 
 export default function FPS() {
-    const fpsState = useAppSelector(selectFPS);
+    const [tempFPS, setTempFPS] = useState<number>(60);
     const classes = useStyles();
 
     useEffect(() => {
         checkFPS();
 
         setInterval(() => {
-            store.dispatch(setFPS(newFPS));
+            setTempFPS(newFPS);
             localStorage.setItem("deviceStableFPS", newFPS.toString());
         }, 1000);
     }, []);
@@ -20,7 +19,7 @@ export default function FPS() {
     return (
         <>
             <div className={classes.root}>
-                FPS: {fpsState === 0 ? "..." : fpsState}
+                FPS: {tempFPS === 0 ? "..." : tempFPS}
             </div>
         </>
     )
@@ -42,63 +41,18 @@ const useStyles = makeStyles({
         fontFamily: 'VT323',
         fontSize: 22,
         zIndex: 3,
-
-        "& .title": {
-            position: "absolute",
-            top: 8,
-            left: "50%",
-            transform: "translateX(-50%)",
-        },
-        "& .close": {
-            position: "absolute",
-            top: 0,
-            right: 0,
-        },
-        "& .close button": {
-            backgroundColor: "#D2AA4F",
-            color: "#523747",
-            outline: "none",
-            borderRadius: 4,
-            cursor: "pointer",
-            margin: 4,
-            fontSize: 16,
-            padding: 4,
-            lineHeight: 0,
-        },
-        "& .close button:active": {
-            borderStyle: "inset",
-        },
-
-        "& .content": {
-            margin: "40px 0 4px 0",
-
-            "& span": {
-
-            },
-            "& div": {
-                margin: "4px 0 16px 0",
-            },
-            "& ul": {
-                margin: "4px 0",
-            },
-            "& li": {
-
-                "& img": {
-                    width: 18,
-                },
-            },
-        },
     },
 });
 
 // let i: number = 0;
-let newFPS: number = 0;
+let newFPS: number = 60;
 let previousTime: number = performance.now();
 const checkFPS = (calledTime?: number) => {
     if (calledTime) {
         // i++;
         // console.log(`FPS lần ${i}`, 1000 / (calledTime - previousTime), previousTime, calledTime);
         newFPS = Math.round(1000 / (calledTime - previousTime));
+        store.dispatch(setFPS(Math.round(newFPS / 10) * 10));
         previousTime = calledTime;
     }
 

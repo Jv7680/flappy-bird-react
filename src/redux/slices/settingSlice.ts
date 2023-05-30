@@ -8,6 +8,7 @@ interface settingState {
     sound: number;
     theme: number;
     mode: number;
+    language: string;
     birdType: number;
 };
 
@@ -15,6 +16,7 @@ const initState: settingState = stringUserSetting ? JSON.parse(stringUserSetting
     sound: 1,
     theme: 1,
     mode: 1,
+    language: "en",
     birdType: 1,
 };
 
@@ -30,6 +32,10 @@ const settingSlice = createSlice({
         },
         setThemeSetting: (state, action: PayloadAction<number>) => {
             state.theme = action.payload;
+            return state;
+        },
+        setLanguageSetting: (state, action: PayloadAction<string>) => {
+            state.language = action.payload;
             return state;
         },
         setBirdTypeSetting: (state, action: PayloadAction<number>) => {
@@ -48,5 +54,5 @@ const settingSlice = createSlice({
 
 export const selectSetting = (state: RootState) => state.setting;
 
-export const { setSoundSetting, setThemeSetting, setBirdTypeSetting } = settingSlice.actions;
+export const { setSoundSetting, setThemeSetting, setLanguageSetting, setBirdTypeSetting } = settingSlice.actions;
 export default settingSlice.reducer;

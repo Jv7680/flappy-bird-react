@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import TextInputComponent from "../../utils/components/TextInputComponent";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useTranslation } from "react-i18next";
 
 interface RegisterProps {
     setTabAccountValue: Function;
@@ -49,6 +50,7 @@ const validateRegister = Yup.object({
 
 export default function Register(props: RegisterProps) {
     const classes = useStyles();
+    const { t } = useTranslation(["home"]);
     const [showPass, setShowPass] = useState(false);
 
     useEffect(() => {
@@ -74,7 +76,7 @@ export default function Register(props: RegisterProps) {
                                 error={formikPros.errors.userName}
                                 touched={formikPros.touched.userName}
                                 value={formikPros.values.userName}
-                                label={"Tên đăng nhập"}
+                                label={t("home:register.userName")}
                                 onChange={formikPros.handleChange("userName")}
                                 onBlur={formikPros.handleBlur("userName")}
                                 isRequire
@@ -84,7 +86,7 @@ export default function Register(props: RegisterProps) {
                                 error={formikPros.errors.password}
                                 touched={formikPros.touched.password}
                                 value={formikPros.values.password}
-                                label={"Mật khẩu"}
+                                label={t("home:register.password")}
                                 onChange={formikPros.handleChange("password")}
                                 onBlur={formikPros.handleBlur("password")}
                                 rightIcon={showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
@@ -99,7 +101,7 @@ export default function Register(props: RegisterProps) {
                                 error={formikPros.errors.fullName}
                                 touched={formikPros.touched.fullName}
                                 value={formikPros.values.fullName}
-                                label={"Họ và tên"}
+                                label={t("home:register.fullName")}
                                 onChange={formikPros.handleChange("fullName")}
                                 onBlur={formikPros.handleBlur("fullName")}
                                 isRequire
@@ -109,16 +111,16 @@ export default function Register(props: RegisterProps) {
                                 error={formikPros.errors.gmail}
                                 touched={formikPros.touched.gmail}
                                 value={formikPros.values.gmail}
-                                label={"Gmail"}
+                                label={t("home:register.gmail")}
                                 onChange={formikPros.handleChange("gmail")}
                                 onBlur={formikPros.handleBlur("gmail")}
                             />
                             <div className={classes.forgotPassword}>
-                                <span onClick={() => { props.setTabAccountValue(0) }}>Đã có tài khoản? Đăng nhập</span>
+                                <span onClick={() => { props.setTabAccountValue(0) }}>{t("home:alreadyHaveAccount")}</span>
                             </div>
                             <div className={classes.btnContainer}>
                                 <button type="submit" className="loginButton" onClick={() => formikPros.handleSubmit()} color="primary">
-                                    Xác nhận
+                                    {t("home:register.submit")}
                                 </button>
                             </div>
                         </>

@@ -13,12 +13,14 @@ import SettingButton from "../buttons/SettingButton";
 import GuideModal from "../modals/GuideModal";
 import RankingModal from "../modals/RankingModal";
 import SettingModal from "../modals/SettingModal";
+import { useTranslation } from "react-i18next";
 
 export default function HomeScreen() {
     const settingState = useAppSelector(selectSetting);
     const [openRanking, setOpenRanking] = useState<boolean>(false);
     const [openGuide, setOpenGuide] = useState<boolean>(false);
     const [openSetting, setOpenSetting] = useState<boolean>(false);
+    const { t } = useTranslation(["home"]);
     const navigateTo = useNavigate();
     // eslint-disable-next-line
     const dispatch = useAppDispatch();
@@ -53,9 +55,9 @@ export default function HomeScreen() {
                         <div className="content__bird" style={{ background: `url(${SettingUtils.getBirdImgBySetting(settingState.birdType)})`, }}></div>
                     </div>
                     <div className="btn">
-                        <button className="btn__play" onClick={() => { navigateTo("/play") }}>VÀO GAME</button>
-                        <button className="btn__rank" onClick={() => { setOpenRanking(true) }}>BẢNG XẾP HẠNG</button>
-                        <button className="btn__guide" onClick={() => { setOpenGuide(true) }}>HƯỚNG DẪN</button>
+                        <button className="btn__play" onClick={() => { navigateTo("/play") }}>{t("home:play")}</button>
+                        <button className="btn__rank" onClick={() => { setOpenRanking(true) }}>{t("home:leaderboard.title")}</button>
+                        <button className="btn__guide" onClick={() => { setOpenGuide(true) }}>{t("home:guide.title")}</button>
                     </div>
                 </Box>
             </div>
@@ -105,14 +107,11 @@ const useStyles = makeStyles({
     root: {
         width: "100vw",
         height: "100vh",
-        // background: `url(${bgImg})`,
-        // backgroundSize: "contain",
-        // backgroundRepeat: "repeat-x",
 
         "& .homeScreen__translate": {
-            width: 10000,
+            width: 100000,
             height: "100%",
-            animation: "$translateEffect 30s infinite linear",
+            animation: "$translateEffect 300s infinite linear",
         },
         "& .MuiBox-root": {
             display: "flex",

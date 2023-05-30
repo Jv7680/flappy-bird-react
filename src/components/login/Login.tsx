@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import TextInputComponent from "../../utils/components/TextInputComponent";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useTranslation } from 'react-i18next';
 
 interface LoginProps {
     setTabAccountValue: Function;
@@ -36,6 +37,7 @@ const validateLogin = Yup.object({
 
 export default function Login(props: LoginProps) {
     const classes = useStyles();
+    const { t } = useTranslation(["home"]);
     const [showPass, setShowPass] = useState(false);
 
     useEffect(() => {
@@ -61,7 +63,7 @@ export default function Login(props: LoginProps) {
                                 error={formikPros.errors.userName}
                                 touched={formikPros.touched.userName}
                                 value={formikPros.values.userName}
-                                label={"Tên đăng nhập"}
+                                label={t("home:login.userName")}
                                 onChange={formikPros.handleChange("userName")}
                                 onBlur={formikPros.handleBlur("userName")}
                                 isRequire
@@ -71,7 +73,7 @@ export default function Login(props: LoginProps) {
                                 error={formikPros.errors.password}
                                 touched={formikPros.touched.password}
                                 value={formikPros.values.password}
-                                label={"Mật khẩu"}
+                                label={t("home:login.password")}
                                 onChange={formikPros.handleChange("password")}
                                 onBlur={formikPros.handleBlur("password")}
                                 rightIcon={showPass ? <VisibilityIcon /> : <VisibilityOffIcon />}
@@ -82,14 +84,15 @@ export default function Login(props: LoginProps) {
                                 isRequire
                             />
                             <div className={classes.register}>
-                                <span onClick={() => { props.setTabAccountValue(1) }}>Đăng ký</span>
+                                <span onClick={() => { props.setTabAccountValue(1) }}>{t("home:register.title")}</span>
                             </div>
                             <div className={classes.forgotPassword}>
-                                <span>Quên mật khẩu?</span>
+                                {/* <span>Quên mật khẩu?</span> */}
+                                <span>{t("home:forgotPassword")}</span>
                             </div>
                             <div className={classes.btnContainer}>
                                 <button type="submit" className="loginButton" onClick={() => formikPros.handleSubmit()} color="primary">
-                                    Đăng nhập
+                                    {t("home:login.title")}
                                 </button>
                             </div>
                         </>

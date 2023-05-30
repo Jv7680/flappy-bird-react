@@ -3,7 +3,13 @@ import { Box, Modal } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import enterImg from "../../assets/images/enterIcon.png";
 import mouseImg from "../../assets/images/mouseIcon.png";
+import mouseHoldImg from "../../assets/images/mouseHoldIcon.png";
+import tapImg from "../../assets/images/tapScreen.png";
+import tapHoldImg from "../../assets/images/tapHoldScreen.png";
 import spaceImg from "../../assets/images/spaceIcon.png";
+import escImg from "../../assets/images/escIcon.png";
+import rImg from "../../assets/images/rIcon.png";
+import { useTranslation } from 'react-i18next';
 
 interface GuideModalProps {
     isOpen: boolean;
@@ -11,6 +17,7 @@ interface GuideModalProps {
 }
 
 export default function GuideModal(props: GuideModalProps) {
+    const { t } = useTranslation(["home"]);
     const classes = useStyles();
 
     return (
@@ -25,15 +32,15 @@ export default function GuideModal(props: GuideModalProps) {
                 <Box sx={style}>
                     <div className={classes.root}>
                         <div className="title">
-                            HƯỚNG DẪN
+                            {t('home:guide.title')}
                         </div>
                         <div className="close">
                             <button title="" onClick={() => props.handleClose()}><CloseIcon fontSize="inherit"></CloseIcon></button>
                         </div>
                         <div className="content">
-                            <span>TRÊN MÁY TÍNH</span>
+                            <span>{t('home:guide.onComputer')}</span>
                             <div>
-                                Sử dụng các hành động sau để làm chú chim bay lên.
+                                {t('home:guide.actionMakeBirdFly')}
                                 <ul>
                                     <li>
                                         Enter <img src={enterImg} alt="notFound" />
@@ -42,13 +49,32 @@ export default function GuideModal(props: GuideModalProps) {
                                         Space <img src={spaceImg} alt="notFound" />
                                     </li>
                                     <li>
-                                        Click chuột <img src={mouseImg} alt="notFound" />
+                                        {t('home:guide.mouseClick')} <img src={mouseImg} alt="notFound" />
+                                    </li>
+                                    <li>
+                                        {t('home:guide.mouseHoldClick')} <img src={mouseHoldImg} alt="notFound" />
+                                    </li>
+                                </ul>
+                                {t('home:guide.actionPausedResumeGame')}
+                                <ul>
+                                    <li>
+                                        Escape <img src={escImg} alt="notFound" /> {t('home:guide.pauseGame')}
+                                    </li>
+                                    <li>
+                                        R <img src={rImg} alt="notFound" style={{ width: 14 }} /> {t('home:guide.resumeGame')}
                                     </li>
                                 </ul>
                             </div>
-                            <span>TRÊN THIẾT BỊ DI ĐỘNG</span>
+                            <span>{t('home:guide.onMobile')}</span>
                             <div>
-                                Tap vào màn hình để làm chú chim bay lên.
+                                <ul>
+                                    <li>
+                                        {t('home:guide.tapScreen')} <img src={tapImg} alt="notFound" />
+                                    </li>
+                                    <li>
+                                        {t('home:guide.tapHoldScreen')} <img src={tapHoldImg} alt="notFound" />
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -60,10 +86,10 @@ export default function GuideModal(props: GuideModalProps) {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '20%',
+    top: '10%',
     left: '50%',
     transform: 'translate(-50%)',
-    minWidth: 300,
+    minWidth: 350,
     bgcolor: 'transparent',
     border: 'unset',
     boxShadow: 24,
@@ -117,7 +143,7 @@ const useStyles = makeStyles({
         },
 
         "& .content": {
-            margin: "40px 0 4px 0",
+            margin: "40px 8px 4px 8px",
 
             "& span": {
 

@@ -1,12 +1,14 @@
 import SettingsIcon from '@mui/icons-material/Settings';
 import { makeStyles } from "@mui/styles";
 import { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 interface SettingButtonProps {
     onClick: Function,
 };
 
 export default function SettingButton(props: SettingButtonProps) {
+    const { t } = useTranslation(["home"]);
     const classes = useStyles();
 
     useEffect(() => {
@@ -21,7 +23,7 @@ export default function SettingButton(props: SettingButtonProps) {
     return (
         <>
             <div className={classes.root} >
-                <button className="btn-pause" title="" onClick={handleClick}><SettingsIcon className="btn-pause" fontSize="inherit"></SettingsIcon> <span style={{ fontFamily: "VT323", fontSize: 20 }}>Cài đặt</span></button>
+                <button className="btn-pause" title="" onClick={handleClick}><SettingsIcon className="btn-pause" fontSize="inherit"></SettingsIcon> <span style={{ fontFamily: "VT323", fontSize: 20 }}>{t('home:setting.button')}</span></button>
             </div>
         </>
     )
@@ -39,7 +41,6 @@ const useStyles = makeStyles({
         zIndex: 3,
 
         "& button": {
-            "-webkit-tap-highlight-color": "transparent",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -53,8 +54,7 @@ const useStyles = makeStyles({
             outline: "none",
         },
         "& button:hover": {
-            // color: "#e76a23",
-
+            textDecoration: "underline",
         },
     },
 });

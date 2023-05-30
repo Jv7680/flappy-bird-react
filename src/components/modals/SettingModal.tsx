@@ -8,11 +8,12 @@ import Tabs from '@mui/material/Tabs';
 import { makeStyles } from "@mui/styles";
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { selectSetting, setBirdTypeSetting, setSoundSetting, setThemeSetting } from '../../redux/slices/settingSlice';
+import { selectSetting, setBirdTypeSetting, setSoundSetting, setThemeSetting, setLanguageSetting } from '../../redux/slices/settingSlice';
 import { LocalStorage } from '../../services/storageService';
 import { SettingUtils } from '../../utils/functions/settingUtils';
 import Login from '../login/Login';
 import Register from '../register/Register';
+import { useTranslation } from 'react-i18next';
 
 interface SettingModalProps {
     isOpen: boolean;
@@ -22,6 +23,7 @@ interface SettingModalProps {
 export default function SettingModal(props: SettingModalProps) {
     const classes = useStyles();
     const dispatch = useAppDispatch();
+    const { t, i18n } = useTranslation(["home"]);
     const settingState = useAppSelector(selectSetting);
     const [tabValue, setTabValue] = useState(0);
     const [tabAccountValue, setTabAccountValue] = useState(0);
@@ -39,6 +41,11 @@ export default function SettingModal(props: SettingModalProps) {
 
     const handleChangeBirdTypeSetting = (event: any) => {
         dispatch(setBirdTypeSetting(+event.target.id));
+    };
+
+    const handleChangeLanguageSetting = (event: any) => {
+        dispatch(setLanguageSetting(event.target.value));
+        i18n.changeLanguage(event.target.value);
     };
 
     const handleCloseModal = () => {
@@ -59,7 +66,7 @@ export default function SettingModal(props: SettingModalProps) {
                 <Box sx={style}>
                     <div className={classes.root}>
                         <div className="title">
-                            CÀI ĐẶT
+                            {t('home:setting.title')}
                         </div>
                         <div className="close">
                             <button title="" onClick={() => handleCloseModal()}><CloseIcon fontSize="inherit"></CloseIcon></button>
@@ -71,27 +78,34 @@ export default function SettingModal(props: SettingModalProps) {
                                 aria-label="Tabs where selection follows focus"
                                 selectionFollowsFocus
                             >
-                                <Tab label="Chung" />
-                                <Tab label="Tài khoản" />
+                                <Tab label={t('home:setting.general')} />
+                                <Tab label={t('home:setting.account')} />
                             </Tabs>
                             {
                                 tabValue === 0 &&
                                 <>
-                                    <span>Âm thanh</span>
+                                    <span>{t('home:setting.sound')}</span>
                                     <div>
                                         <FormGroup style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.sound === 1} onChange={handleChangeSoundSetting} />} label="Bật" />
-                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.sound === 2} onChange={handleChangeSoundSetting} />} label="Tắt" />
+                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.sound === 1} onChange={handleChangeSoundSetting} />} label={t('home:setting.sound on')} />
+                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.sound === 2} onChange={handleChangeSoundSetting} />} label={t('home:setting.sound off')} />
                                         </FormGroup>
                                     </div>
-                                    <span>Chủ đề</span>
+                                    <span>{t('home:setting.theme')}</span>
                                     <div>
                                         <FormGroup style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.theme === 1} onChange={handleChangeThemeSetting} />} label="Ngày" />
-                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.theme === 2} onChange={handleChangeThemeSetting} />} label="Đêm" />
+                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.theme === 1} onChange={handleChangeThemeSetting} />} label={t('home:setting.theme light')} />
+                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.theme === 2} onChange={handleChangeThemeSetting} />} label={t('home:setting.theme dark')} />
                                         </FormGroup>
                                     </div>
-                                    <span>Chú chim yêu thích</span>
+                                    <span>{t('home:setting.language')}</span>
+                                    <div>
+                                        <FormGroup style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                                            <FormControlLabel value={"vi"} control={<Checkbox checked={settingState.language === "vi"} onChange={handleChangeLanguageSetting} />} label="Tiếng Việt" />
+                                            <FormControlLabel value={"en"} control={<Checkbox checked={settingState.language === "en"} onChange={handleChangeLanguageSetting} />} label="English" />
+                                        </FormGroup>
+                                    </div>
+                                    <span>{t('home:setting.bird type')}</span>
                                     <div className="birdTypeContainer">
                                         <img className={settingState.birdType === 1 ? "active" : ""} id="1" src={SettingUtils.getBirdImgBySetting(1)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
                                         <img className={settingState.birdType === 2 ? "active" : ""} id="2" src={SettingUtils.getBirdImgBySetting(2)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
@@ -161,7 +175,7 @@ const useStyles = makeStyles({
         },
 
         "& .MuiCheckbox-root": {
-            padding: "4px 9px 8px 9px",
+            // padding: "4px 9px 8px 9px",
             color: "#937635 !important",
         },
 
@@ -177,7 +191,6 @@ const useStyles = makeStyles({
             right: 0,
         },
         "& .close button": {
-            "-webkit-tap-highlight-color": "transparent",
             backgroundColor: "#D2AA4F",
             color: "#523747",
             outline: "none",

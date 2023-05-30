@@ -1,0 +1,48 @@
+{
+    "play": "PLAY",
+    "leaderboard": {
+        "title": "LEADERBOARD"
+    },
+    "guide": {
+        "title": "GUIDE",
+        "onComputer": "ON COMPUTER",
+        "onMobile": "ON PHONE",
+        "actionMakeBirdFly": "Use the following actions to make the bird fly",
+        "actionPausedResumeGame": "To pause or return the game",
+        "pauseGame": "to pause the game",
+        "resumeGame": "to resume the game",
+        "mouseClick": "Mouse click",
+        "mouseHoldClick": "Click and hold the mouse to make the bird fly continuously",
+        "tapScreen": "Tap the screen to make the bird fly",
+        "tapHoldScreen": "Tap and hold the screen to make the bird fly continuously"
+    },
+    "setting": {
+        "button": "Setting",
+        "title": "Setting",
+        "general": "General",
+        "account": "Account",
+        "sound": "Sound",
+        "sound on": "On",
+        "sound off": "Off",
+        "theme": "Theme",
+        "theme light": "Day",
+        "theme dark": "Night",
+        "language": "Language",
+        "bird type": "Choose your favorite bird"
+    },
+    "login": {
+        "title": "Login",
+        "userName": "User name",
+        "password": "Password"
+    },
+    "register": {
+        "title": "Register",
+        "userName": "User name",
+        "password": "Password",
+        "fullName": "Your full name",
+        "gmail": "Gmail",
+        "submit": "Submit"
+    },
+    "alreadyHaveAccount": "Login",
+    "forgotPassword": "Forgot password?"
+}

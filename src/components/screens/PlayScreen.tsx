@@ -17,6 +17,7 @@ import PauseButton from "../buttons/PauseButton";
 import Pipe from "../Pipe";
 import Score from "../Score";
 import { SettingUtils } from "../../utils/functions/settingUtils";
+import { FunctionUtils } from "../../utils/functions/functionUtils";
 
 let intervalGeneratePipes: any;
 let xT: number = 0;
@@ -61,6 +62,24 @@ export default function PlayScreen() {
 
             // stop the game loop
             whenGameOver(dispatch, false);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // remove context menu in browser when hold click on background and foreground
+    useEffect(() => {
+        let background = document.getElementsByClassName("background")[0] as HTMLDivElement;
+        background.oncontextmenu = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
+
+        let foreground = document.getElementsByClassName("foreground")[0] as HTMLDivElement;
+        foreground.oncontextmenu = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -145,7 +164,7 @@ const translateLoop = () => {
         checkGameOver(store.dispatch, xT);
     }
 
-    requestAnimationFrame(translateLoop);
+    FunctionUtils.requestAnimationFrame(translateLoop);
 };
 
 const birdFallLoop = () => {
@@ -160,7 +179,7 @@ const birdFallLoop = () => {
         store.dispatch(fall(newFall));
     }
 
-    requestAnimationFrame(birdFallLoop);
+    FunctionUtils.requestAnimationFrame(birdFallLoop);
 };
 
 // check game over
@@ -288,7 +307,7 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
             SettingUtils.getSoundBySetting(store.getState().setting.sound) && flyAudio.play();
         }
 
-        requestAnimationFrame(makeFly);
+        FunctionUtils.requestAnimationFrame(makeFly);
     };
 
     const makeFlyWhenMouseDown = () => {
@@ -306,7 +325,7 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
             SettingUtils.getSoundBySetting(store.getState().setting.sound) && flyAudio.play();
         }
 
-        requestAnimationFrame(makeFlyWhenMouseDown);
+        FunctionUtils.requestAnimationFrame(makeFlyWhenMouseDown);
     };
 
     if (isMouseDown) {
@@ -339,7 +358,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
         makeBirdFly();
     }
 
-    if (event.code === "KeyA") {
+    if (event.code === "KeyR") {
         pauseGame(false);
     }
 };
@@ -350,7 +369,13 @@ const handleKeyUp = (event: KeyboardEvent) => {
     }
 };
 
+let clickTime: number;
 const handleClick = (event: any) => {
+    // prevent click when user used mousedown event
+    if (performance.now() - clickTime > 300) {
+        return;
+    }
+
     if (Array.from(event.target.classList).find(item => item === "btn-pause")) {
         return;
     }
@@ -361,6 +386,7 @@ const handleClick = (event: any) => {
 let intervalMouseDown: any;
 let timeoutMouseDown: any;
 const handleMouseDown = (event: any) => {
+    clickTime = performance.now();
     if (Array.from(event.target.classList).find(item => item === "btn-pause")) {
         return;
     }

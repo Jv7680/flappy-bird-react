@@ -1,6 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Modal } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { useTranslation } from 'react-i18next';
 
 interface RankingModalProps {
     isOpen: boolean;
@@ -8,6 +9,7 @@ interface RankingModalProps {
 }
 
 export default function RankingModal(props: RankingModalProps) {
+    const { t } = useTranslation(["home"]);
     const classes = useStyles();
 
     return (
@@ -22,7 +24,7 @@ export default function RankingModal(props: RankingModalProps) {
                 <Box sx={style}>
                     <div className={classes.root}>
                         <div className="title">
-                            BẢNG XẾP HẠNG
+                            {t('home:leaderboard.title')}
                         </div>
                         <div className="close">
                             <button title="" onClick={() => props.handleClose()}><CloseIcon fontSize="inherit"></CloseIcon></button>

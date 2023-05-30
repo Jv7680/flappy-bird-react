@@ -1,0 +1,48 @@
+{
+    "play": "VÀO GAME",
+    "leaderboard": {
+        "title": "BẢNG XẾP HẠNG"
+    },
+    "guide": {
+        "title": "HƯỚNG DẪN",
+        "onComputer": "TRÊN MÁY TÍNH",
+        "onMobile": "TRÊN THIẾT BỊ DI ĐỘNG",
+        "actionMakeBirdFly": "Sử dụng các hành động sau để làm chú chim bay lên",
+        "actionPausedResumeGame": "Để tạm dừng hoặc trở lại trò chơi",
+        "pauseGame": "để tạm dừng trò chơi",
+        "resumeGame": "để trở lại trò chơi",
+        "mouseClick": "Click chuột",
+        "mouseHoldClick": "Nhấn giữ chuột để bay liên tục",
+        "tapScreen": "Tap vào màn hình để làm chú chim bay lên",
+        "tapHoldScreen": "Nhấn giữ màn hình để làm chú chim bay liên tục"
+    },
+    "setting": {
+        "button": "Cài đặt",
+        "title": "Cài đặt",
+        "general": "Chung",
+        "account": "Tài khoản",
+        "sound": "Âm thanh",
+        "sound on": "Bật",
+        "sound off": "Tắt",
+        "theme": "Chủ đề",
+        "theme light": "Ngày",
+        "theme dark": "Đêm",
+        "language": "Ngôn ngữ",
+        "bird type": "Chú chim yêu thích"
+    },
+    "login": {
+        "title": "Đăng nhập",
+        "userName": "Tên đăng nhập",
+        "password": "Mật khẩu"
+    },
+    "register": {
+        "title": "Đăng ký",
+        "userName": "Tên đăng nhập",
+        "password": "Mật khẩu",
+        "fullName": "Họ và tên",
+        "gmail": "Gmail",
+        "submit": "Xác nhận"
+    },
+    "alreadyHaveAccount": "Đã có tài khoản? Đăng nhập",
+    "forgotPassword": "Quên mật khẩu?"
+}

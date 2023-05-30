@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setGameStatus } from "../../redux/slices/gameStatusSlice";
 import { selectScore } from "../../redux/slices/scoreSlice";
 import { resetState } from "../../redux/utilActions";
+import { useTranslation } from 'react-i18next';
 
 interface GameOverModalProps {
     isOpen: boolean;
@@ -17,6 +18,7 @@ export default function GameOverModal(props: GameOverModalProps) {
     const dispatch = useAppDispatch();
     const scoreState = useAppSelector(selectScore);
     const navigateTo = useNavigate();
+    const { t } = useTranslation(["play"]);
     const classes = useStyles();
 
     const handleRestart = () => {
@@ -46,11 +48,11 @@ export default function GameOverModal(props: GameOverModalProps) {
                 className={classes.modal}
             >
                 <Box sx={style}>
-                    <div className={classes.gameOver}>Game Over</div>
+                    <div className={classes.gameOver}>{t('play:gameOver')}</div>
                     <div className={classes.root}>
                         <div className="score">
-                            <span>SCORE <br /> {scoreState}</span>
-                            <span>BEST <br /> {999999} </span>
+                            <span>{t('play:score')} <br /> {scoreState}</span>
+                            <span>{t('play:bestScore')} <br /> {999999} </span>
                         </div>
                         <div className="btn">
                             <button title="" onClick={() => handleRestart()}><ReplayIcon fontSize="inherit"></ReplayIcon></button>
@@ -142,7 +144,7 @@ const useStyles = makeStyles({
         top: -66,
         left: 0,
         fontFamily: 'VT323',
-        fontSize: 56,
+        fontSize: 54,
         fontWeight: "bold",
         color: "#F28634",
         textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
