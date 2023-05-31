@@ -1,0 +1,23 @@
+{
+    "empty": "Vui lòng không để trống trường này",
+    "userName": {
+        "min": "Tối thiểu 5 ký tự",
+        "max": "Tối đa 10 ký tự",
+        "regexNotice": "Tên đăng nhập chỉ được phép chứa chữ cái hoặc số và không có khoảng trắng.<br /> Ví dụ: user123, Peaches,..."
+    },
+    "password": {
+        "min": "Tối thiểu 5 ký tự",
+        "max": "Tối đa 10 ký tự",
+        "regexNotice": "Mật khẩu chỉ được phép chứa chữ cái hoặc số và không có khoảng trắng.<br /> Ví dụ: helloWorld, Peaches,..."
+    },
+    "fullName": {
+        "min": "Tối thiểu 5 ký tự",
+        "max": "Tối đa 20 ký tự",
+        "regexNotice": "Tên chỉ được phép chứa chữ cái hoặc số, bạn có thể đặt tên tiếng Việt.<br /> Ví dụ: Vũ Trung Tín, Peaches,..."
+    },
+    "gmail": {
+        "min": "Tối thiểu 10 ký tự",
+        "max": "Tối đa 30 ký tự",
+        "regexNotice": "Gmail chỉ được phép chứa chữ cái, số hoặc ký tự _ và không có khoảng trắng.<br /> Ví dụ: tinvt_7680@gmail.com,..."
+    }
+}

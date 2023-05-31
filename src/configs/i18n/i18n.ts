@@ -5,17 +5,21 @@ import HOME_VI from "../../locales/vi/home.json";
 import HOME_EN from "../../locales/en/home.json";
 import PLAY_VI from "../../locales/vi/play.json";
 import PLAY_EN from "../../locales/en/play.json";
+import VALIDATE_VI from "../../locales/vi/validate.json";
+import VALIDATE_EN from "../../locales/en/validate.json";
 
 export type Locales = "vi" | "en";
 
 export const resources = {
     vi: {
         home: HOME_VI,
-        play: PLAY_VI
+        play: PLAY_VI,
+        validate: VALIDATE_VI
     },
     en: {
         home: HOME_EN,
-        play: PLAY_EN
+        play: PLAY_EN,
+        validate: VALIDATE_EN
     },
 };
 
@@ -29,7 +33,7 @@ i18n
         resources,
         lng: languageState,
         fallbackLng: "en",
-        ns: ["home", "play"],
+        ns: ["home", "play", "validate"],
         defaultNS,
         interpolation: {
             escapeValue: false // react already safes from xss

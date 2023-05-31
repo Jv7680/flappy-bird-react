@@ -6,6 +6,7 @@ import TextInputComponent from "../../utils/components/TextInputComponent";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
+import { REGEX_USER_NAME, REGEX_PASSWORD } from "../../utils/constants/constants";
 
 interface LoginProps {
     setTabAccountValue: Function;
@@ -21,24 +22,25 @@ const initialLogin: LoginData = {
     password: "",
 };
 
-const emptyInputErr = "Vui lòng không để trống trường này";
-const validateLogin = Yup.object({
-    userName: Yup.string()
-        .required(emptyInputErr)
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(10, "Tối đa 10 ký tự")
-        .trim(),
-    password: Yup.string()
-        .required(emptyInputErr)
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(10, "Tối đa 10 ký tự")
-        .trim(),
-});
-
 export default function Login(props: LoginProps) {
     const classes = useStyles();
-    const { t } = useTranslation(["home"]);
+    const { t } = useTranslation(["home", "validate"]);
     const [showPass, setShowPass] = useState(false);
+
+    const validateLogin = Yup.object({
+        userName: Yup.string()
+            .required(t("validate:empty"))
+            .min(5, t("validate:userName.min"))
+            .matches(REGEX_USER_NAME, t("validate:userName.regexNotice"))
+            .max(10, t("validate:userName.max"))
+            .trim(),
+        password: Yup.string()
+            .required(t("validate:empty"))
+            .min(5, t("validate:password.min"))
+            .matches(REGEX_PASSWORD, t("validate:password.regexNotice"))
+            .max(10, t("validate:password.max"))
+            .trim(),
+    });
 
     useEffect(() => {
 

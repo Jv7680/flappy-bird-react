@@ -6,6 +6,7 @@ import TextInputComponent from "../../utils/components/TextInputComponent";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from "react-i18next";
+import { REGEX_USER_NAME, REGEX_PASSWORD, REGEX_FULL_NAME, REGEX_GMAIL } from "../../utils/constants/constants";
 
 interface RegisterProps {
     setTabAccountValue: Function;
@@ -25,33 +26,36 @@ const initialRegister: RegisterData = {
     gmail: "",
 };
 
-const emptyInputErr = "Vui lòng không để trống trường này";
-const validateRegister = Yup.object({
-    userName: Yup.string()
-        .required(emptyInputErr)
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(10, "Tối đa 10 ký tự")
-        .trim(),
-    password: Yup.string()
-        .required(emptyInputErr)
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(10, "Tối đa 10 ký tự")
-        .trim(),
-    fullName: Yup.string()
-        .required(emptyInputErr)
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(10, "Tối đa 10 ký tự")
-        .trim(),
-    gmail: Yup.string()
-        .min(6, "Tối thiểu 6 ký tự")
-        .max(10, "Tối đa 10 ký tự")
-        .trim(),
-});
-
 export default function Register(props: RegisterProps) {
     const classes = useStyles();
-    const { t } = useTranslation(["home"]);
+    const { t } = useTranslation(["home", "validate"]);
     const [showPass, setShowPass] = useState(false);
+
+    const validateRegister = Yup.object({
+        userName: Yup.string()
+            .required(t("validate:empty"))
+            .min(5, t("validate:userName.min"))
+            .matches(REGEX_USER_NAME, t("validate:userName.regexNotice"))
+            .max(10, t("validate:userName.max"))
+            .trim(),
+        password: Yup.string()
+            .required(t("validate:empty"))
+            .min(5, t("validate:password.min"))
+            .matches(REGEX_PASSWORD, t("validate:password.regexNotice"))
+            .max(10, t("validate:password.max"))
+            .trim(),
+        fullName: Yup.string()
+            .required(t("validate:empty"))
+            .min(5, t("validate:fullName.min"))
+            .matches(REGEX_FULL_NAME, t("validate:fullName.regexNotice"))
+            .max(20, t("validate:fullName.max"))
+            .trim(),
+        gmail: Yup.string()
+            .min(10, t("validate:gmail.min"))
+            .matches(REGEX_GMAIL, t("validate:gmail.regexNotice"))
+            .max(30, t("validate:gmail.max"))
+            .trim(),
+    });
 
     useEffect(() => {
 

@@ -138,9 +138,12 @@ const style = {
     top: '10%',
     left: '50%',
     transform: 'translate(-50%)',
-    minWidth: 300,
+    width: 300,
+    maxHeight: "80vh",
+    overflow: "auto",
     bgcolor: 'transparent',
     border: 'unset',
+    borderRadius: "4px",
     boxShadow: 24,
     padding: 0,
 };

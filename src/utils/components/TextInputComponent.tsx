@@ -58,11 +58,11 @@ export default function TextInputComponent(props: TextInputComponentProps) {
               sx={{
                 "&.MuiFormLabel-root.Mui-focused": {
                   color: "#523747",
-                  backgroundColor: "#DBDA96",
                 },
                 fontFamily: "VT323",
                 fontSize: 20,
                 top: -4,
+                backgroundColor: "#DBDA96",
               }}
             >
               {label}
@@ -124,7 +124,7 @@ export default function TextInputComponent(props: TextInputComponentProps) {
       {
         error && touched ?
           (
-            <div className={classes.textErr}>{error}</div>
+            <div className={classes.textErr} dangerouslySetInnerHTML={{ __html: error }}></div>
           )
           :
           (

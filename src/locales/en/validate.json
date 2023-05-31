@@ -1,0 +1,23 @@
+{
+    "empty": "This field is required",
+    "userName": {
+        "min": "Minimum 5 characters",
+        "max": "Maximum 10 characters",
+        "regexNotice": "Username can only contain letters or numbers and no spaces.<br /> Example: user123, Peaches,..."
+    },
+    "password": {
+        "min": "Minimum 5 characters",
+        "max": "Maximum 10 characters",
+        "regexNotice": "Passwords can only contain letters or numbers and no spaces.<br /> Example: helloWorld, Peaches,..."
+    },
+    "fullName": {
+        "min": "Minimum 5 characters",
+        "max": "Maximum 20 characters",
+        "regexNotice": "Full name is only allowed to contain letters or numbers, you can put Vietnamese names.<br /> For example: Vũ Trung Tín, Peaches,..."
+    },
+    "gmail": {
+        "min": "Minimum 10 characters",
+        "max": "Maximum 30 characters",
+        "regexNotice": "Gmail is only allowed to contain letters, numbers or _ characters and no spaces.<br /> Example: tinvt_7680@gmail.com,..."
+    }
+}
