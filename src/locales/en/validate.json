@@ -13,7 +13,7 @@
     "fullName": {
         "min": "Minimum 5 characters",
         "max": "Maximum 20 characters",
-        "regexNotice": "Full name is only allowed to contain letters or numbers, you can put Vietnamese names.<br /> For example: Vũ Trung Tín, Peaches,..."
+        "regexNotice": "Full name is only allowed to contain letters or numbers, you can put Vietnamese names.<br /> Example: Vũ Trung Tín, Peaches,..."
     },
     "gmail": {
         "min": "Minimum 10 characters",

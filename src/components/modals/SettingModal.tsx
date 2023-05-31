@@ -139,7 +139,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%)',
     width: 300,
-    maxHeight: "80vh",
+    maxHeight: "80%",
     overflow: "auto",
     bgcolor: 'transparent',
     border: 'unset',
