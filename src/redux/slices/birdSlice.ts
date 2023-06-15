@@ -12,20 +12,15 @@ export interface BirdState {
 
 const initState: BirdState = {
     x: 120,
-    y: Math.ceil(window.innerHeight * 0.8 / 2),
+    y: Math.ceil(window.innerHeight * 0.8 / 3),
     r: 0,
     width: 38,
     height: 26,
 }
 
 const birdSlice = createSlice({
-    // Tên tiền số cho mỗi action
     name: 'bird',
-    // Khởi tạo state, các key(và value tương ứng) ở object này sẽ được lưu vào state của redux
     initialState: initState,
-    // Mỗi key là một function với chức năng thay đổi giá trị ở initial state
-    // Các function này sẽ tự động tạo ra action có type tương ứng với key, ví dụ key increment sẽ được làm thành action
-    // thông qua createAction("increment"), sau đó được lưu và userSlice.actions
     reducers: {
         fly: (state, action: PayloadAction<number>) => {
             // state.y -= 40;//50
@@ -65,7 +60,6 @@ const birdSlice = createSlice({
     },
 })
 
-// pass this fn to useAppSelector to get the bird redux state
 export const selectBird = (state: RootState) => state.bird;
 
 export const { fly, fall, setBirdY } = birdSlice.actions;

@@ -61,7 +61,7 @@ export default function TextInputComponent(props: TextInputComponentProps) {
                 },
                 fontFamily: "VT323",
                 fontSize: 20,
-                top: -4,
+                top: -5,
                 backgroundColor: "#DBDA96",
               }}
             >
@@ -111,7 +111,7 @@ export default function TextInputComponent(props: TextInputComponentProps) {
               color: "#523747"
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#523747"
+              borderColor: disabled ? "rgba(0, 0, 0, 0.26)" : "#523747",
             },
             "& input": {
               fontFamily: "VT323",

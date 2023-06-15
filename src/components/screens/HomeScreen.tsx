@@ -2,29 +2,32 @@ import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { SettingUtils } from "../../utils/functions/settingUtils";
 import { selectSetting } from "../../redux/slices/settingSlice";
+import { SettingUtils } from "../../utils/functions/settingUtils";
 
+import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 import logoImg from "../../assets/images/logo.png";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { selectUser } from "../../redux/slices/userSlice";
 import Background from "../Background";
 import Foregound from "../Foreground";
 import SettingButton from "../buttons/SettingButton";
 import GuideModal from "../modals/GuideModal";
 import RankingModal from "../modals/RankingModal";
 import SettingModal from "../modals/SettingModal";
-import { useTranslation } from "react-i18next";
+import { handleSetTabValue } from "../modals/SettingModal";
 
 export default function HomeScreen() {
     const settingState = useAppSelector(selectSetting);
     const [openRanking, setOpenRanking] = useState<boolean>(false);
     const [openGuide, setOpenGuide] = useState<boolean>(false);
     const [openSetting, setOpenSetting] = useState<boolean>(false);
-    const { t } = useTranslation(["home"]);
+    const userState = useAppSelector(selectUser);
+    const { t } = useTranslation(["home", "alert"]);
     const navigateTo = useNavigate();
     // eslint-disable-next-line
     const dispatch = useAppDispatch();
-
     const classes = useStyles();
 
     const handleCloseRankingModal = () => {
@@ -39,11 +42,45 @@ export default function HomeScreen() {
         setOpenSetting(false);
     };
 
+    const handlePlay = () => {
+        if (userState.fullName.length === 0) {
+            Swal.fire({
+                title: t("alert:playButNotLogin.title"),
+                text: t("alert:playButNotLogin.content"),
+                icon: "warning",
+                allowOutsideClick: false,
+                showDenyButton: true,
+                showCloseButton: true,
+                confirmButtonText: t("alert:playButNotLogin.btnConfirmText"),
+                denyButtonText: t("alert:playButNotLogin.btnCancelText"),
+                hideClass: {
+                    backdrop: "swal2-noanimation",
+                    popup: "",
+                    icon: ""
+                },
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    navigateTo("/play");
+                }
+                else if (result.isDenied) {
+                    setOpenSetting(true);
+                    handleSetTabValue(1);
+                }
+            });
+        }
+        else {
+            navigateTo("/play");
+        }
+    };
+
     return (
         <>
             <RankingModal isOpen={openRanking} handleClose={handleCloseRankingModal} />
             <GuideModal isOpen={openGuide} handleClose={handleCloseGuideModal} />
             <SettingModal isOpen={openSetting} handleClose={handleCloseSettingModal} />
+            <div className={classes.userFullName}>
+                Xin chào {userState.fullName.length === 0 ? "người lạ ^_^" : userState.fullName}
+            </div>
             <div className={classes.root}>
                 <div className="homeScreen__translate">
                     <Background></Background>
@@ -55,7 +92,7 @@ export default function HomeScreen() {
                         <div className="content__bird" style={{ background: `url(${SettingUtils.getBirdImgBySetting(settingState.birdType)})`, }}></div>
                     </div>
                     <div className="btn">
-                        <button className="btn__play" onClick={() => { navigateTo("/play") }}>{t("home:play")}</button>
+                        <button className="btn__play" onClick={() => { handlePlay() }}>{t("home:play")}</button>
                         <button className="btn__rank" onClick={() => { setOpenRanking(true) }}>{t("home:leaderboard.title")}</button>
                         <button className="btn__guide" onClick={() => { setOpenGuide(true) }}>{t("home:guide.title")}</button>
                     </div>
@@ -167,5 +204,14 @@ const useStyles = makeStyles({
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
         },
+    },
+    userFullName: {
+        position: "absolute",
+        top: 8,
+        left: 8,
+        fontSize: '20px',
+        width: 'max-content',
+        color: "#ffffff",
+        zIndex: 10,
     },
 });

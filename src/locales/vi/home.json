@@ -43,6 +43,38 @@
         "gmail": "Gmail",
         "submit": "Xác nhận"
     },
+    "changePassword": {
+        "title": "Đổi mật khẩu",
+        "currentPassword": "Mật khẩu hiện tại",
+        "newPassword": "Mật khẩu mới",
+        "renewPassword": "Xác nhận mật khẩu mới"
+    },
+    "breadcrumb": {
+        "generalSetting": "Cài đặt chung",
+        "accountSetting": "Cài đặt tài khoản",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "manage": "Quản lý",
+        "forgotPassword": "Quên mật khẩu",
+        "changePassword": "Đổi mật khẩu"
+    },
+    "rankModal": {
+        "rank": "Hạng",
+        "name": "Tên",
+        "score": "Điểm",
+        "currentRank": "Bạn đang đứng hạng"
+    },
     "alreadyHaveAccount": "Đã có tài khoản? Đăng nhập",
-    "forgotPassword": "Quên mật khẩu?"
+    "forgotPassword": "Quên mật khẩu?",
+    "forgotPasswordTitle": "Đặt lại mật khẩu",
+    "forgotPasswordContent": "Đây là mật khẩu mới của bạn:",
+    "forgotPasswordWarning": "Lưu ý: Bạn nên đổi lại mật khẩu này hoặc xóa tin nhắn này để tránh mật khẩu bị rò rỉ!",
+    "forgotPasswordNote": "Hãy nhập địa chỉ gmail của bạn.<br/>Thử kiểm tra thư rác nếu bạn không nhận được mail.",
+    "edit": "Chỉnh sửa",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "logout": "Đăng xuất",
+    "logoutSuccess": "Đăng xuất thành công",
+    "submit": "Xác nhận",
+    "orLoginWith": "Hoặc đăng nhập với"
 }

@@ -1,0 +1,14 @@
+{
+    "gmailEmpty": {
+        "title": "Gmail is empty!",
+        "content": "The gmail information is optional, but it is necessary in case you need to recover your password, you can still add gmail later in the setting.",
+        "btnConfirmText": "Continue",
+        "btnCancelText": "Add gmail"
+    },
+    "playButNotLogin": {
+        "title": "You are not logged in!",
+        "content": "Since you are not logged in, the number of points you can play will not be counted in the leaderboard, please log in to compete with other players ^_^",
+        "btnConfirmText": "Continue play",
+        "btnCancelText": "Log in now"
+    }
+}

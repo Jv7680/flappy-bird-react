@@ -9,7 +9,6 @@ export default function Bird() {
     const birdState = useAppSelector(selectBird);
     const settingState = useAppSelector(selectSetting);
     const classes = useStyles();
-
     return (
         <>
             <div

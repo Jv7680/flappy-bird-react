@@ -8,6 +8,7 @@ import { setGameStatus } from "../../redux/slices/gameStatusSlice";
 import { selectScore } from "../../redux/slices/scoreSlice";
 import { resetState } from "../../redux/utilActions";
 import { useTranslation } from 'react-i18next';
+import { selectUser } from '../../redux/slices/userSlice';
 
 interface GameOverModalProps {
     isOpen: boolean;
@@ -17,6 +18,7 @@ interface GameOverModalProps {
 export default function GameOverModal(props: GameOverModalProps) {
     const dispatch = useAppDispatch();
     const scoreState = useAppSelector(selectScore);
+    const userState = useAppSelector(selectUser);
     const navigateTo = useNavigate();
     const { t } = useTranslation(["play"]);
     const classes = useStyles();
@@ -52,7 +54,7 @@ export default function GameOverModal(props: GameOverModalProps) {
                     <div className={classes.root}>
                         <div className="score">
                             <span>{t('play:score')} <br /> {scoreState}</span>
-                            <span>{t('play:bestScore')} <br /> {999999} </span>
+                            <span style={{ display: userState.fullName.length > 0 ? "unset" : "none" }}>{t('play:bestScore')} <br /> {userState.bestScore} </span>
                         </div>
                         <div className="btn">
                             <button title="" onClick={() => handleRestart()}><ReplayIcon fontSize="inherit"></ReplayIcon></button>

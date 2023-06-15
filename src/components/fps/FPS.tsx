@@ -28,9 +28,9 @@ export default function FPS() {
 const useStyles = makeStyles({
     root: {
         position: "fixed",
-        top: 0,
-        left: 8,
-        width: 80,
+        bottom: 0,
+        right: 8,
+        width: 'max-content',
         height: 30,
         border: "unset",
         backgroundColor: "unset",

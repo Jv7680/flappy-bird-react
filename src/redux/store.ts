@@ -5,6 +5,9 @@ import scoreReducer from './slices/scoreSlice';
 import gameStatusReducer from './slices/gameStatusSlice';
 import fpsReducer from './slices/fpsSlice';
 import settingReducer from './slices/settingSlice';
+import userReducer from './slices/userSlice';
+import isLoadingReducer from './slices/isLoadingSlice';
+import rankListReducer from './slices/rankListSlice';
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +17,9 @@ export const store = configureStore({
         gameStatus: gameStatusReducer,
         fps: fpsReducer,
         setting: settingReducer,
+        user: userReducer,
+        isLoading: isLoadingReducer,
+        rankList: rankListReducer,
     },
 });
 

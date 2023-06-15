@@ -1,0 +1,14 @@
+{
+    "gmailEmpty": {
+        "title": "Gmail bị bỏ trống!",
+        "content": "Thông tin về gmail là không bắt buộc, tuy nhiên nó là cần thiết trong trường hợp bạn cần lấy lại mật khẩu, bạn vẫn có thể bổ sung gmail sau trong phần cài đặt.",
+        "btnConfirmText": "Tiếp tục",
+        "btnCancelText": "Bổ sung gmail"
+    },
+    "playButNotLogin": {
+        "title": "Bạn chưa đăng nhập!",
+        "content": "Vì bạn chưa đăng nhập, nên số điểm chơi được sẽ không được tính vào bảng xếp hạng, hãy đăng nhập để cùng so tài với những người chơi khác bạn nhé ^_^",
+        "btnConfirmText": "Chơi luôn",
+        "btnCancelText": "Đăng nhập ngay"
+    }
+}

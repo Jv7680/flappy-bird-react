@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import HomeScreen from "../components/screens/HomeScreen";
 import PlayScreen from "../components/screens/PlayScreen";
 

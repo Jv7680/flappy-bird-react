@@ -1,12 +1,19 @@
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { makeStyles } from "@mui/styles";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import * as Yup from "yup";
-import TextInputComponent from "../../utils/components/TextInputComponent";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
-import { REGEX_USER_NAME, REGEX_PASSWORD } from "../../utils/constants/constants";
+import * as Yup from "yup";
+import APIService, { ResponseData } from "../../services/ApiService";
+import TextInputComponent from "../../utils/components/TextInputComponent";
+import { REGEX_PASSWORD, REGEX_USER_NAME } from "../../utils/constants/constants";
+import { useAppDispatch } from '../../redux/hooks';
+import { getUserDetail } from '../../redux/slices/userSlice';
+import { FunctionUtils } from '../../utils/functions/functionUtils';
+import { getRankList } from '../../redux/slices/rankListSlice';
+import Divider from '@mui/material/Divider';
+import GoogleButton from '../buttons/GoogleButton';
 
 interface LoginProps {
     setTabAccountValue: Function;
@@ -24,6 +31,7 @@ const initialLogin: LoginData = {
 
 export default function Login(props: LoginProps) {
     const classes = useStyles();
+    const dispatch = useAppDispatch();
     const { t } = useTranslation(["home", "validate"]);
     const [showPass, setShowPass] = useState(false);
 
@@ -47,12 +55,30 @@ export default function Login(props: LoginProps) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleLogin = async (loginData: LoginData) => {
+        let body = {
+            userName: loginData.userName,
+            password: loginData.password,
+        }
+        let result: ResponseData<any> = await APIService.post("/api/v1/auth/login", body);
+        if (result?.code === 202) {
+            let resultThunk = await dispatch(getUserDetail());
+            if (resultThunk.payload) {
+                props.setTabAccountValue(2);
+                await dispatch(getRankList());
+            }
+        }
+    };
+
     return (
         <>
             <Formik
                 initialValues={initialLogin}
                 onSubmit={(data) => {
                     console.log("data form login", data);
+                    let newData = FunctionUtils.trimDataObj(data);
+                    console.log("new data form login", newData);
+                    handleLogin(newData);
                 }}
                 validateOnChange
                 validationSchema={validateLogin}
@@ -89,14 +115,22 @@ export default function Login(props: LoginProps) {
                                 <span onClick={() => { props.setTabAccountValue(1) }}>{t("home:register.title")}</span>
                             </div>
                             <div className={classes.forgotPassword}>
-                                {/* <span>Quên mật khẩu?</span> */}
-                                <span>{t("home:forgotPassword")}</span>
+                                <span onClick={() => { props.setTabAccountValue(4) }}>{t("home:forgotPassword")}</span>
                             </div>
                             <div className={classes.btnContainer}>
                                 <button type="submit" className="loginButton" onClick={() => formikPros.handleSubmit()} color="primary">
                                     {t("home:login.title")}
                                 </button>
                             </div>
+                            <Divider sx={{
+                                margin: "12px 0 8px 0",
+                                "&::before,&::after": {
+                                    borderTop: "thin solid rgb(82 55 71 / 68%)",
+                                },
+                            }}>
+                                {t("home:orLoginWith")}
+                            </Divider>
+                            <GoogleButton />
                         </>
                     )
                 }

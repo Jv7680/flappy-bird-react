@@ -2,14 +2,21 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box, Modal } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useTranslation } from 'react-i18next';
+import { selectRankList } from '../../redux/slices/rankListSlice';
+import { selectUser } from '../../redux/slices/userSlice';
+import { useAppSelector } from '../../redux/hooks';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 interface RankingModalProps {
     isOpen: boolean;
     handleClose: Function;
 }
 
+let userRank: number = 0;
 export default function RankingModal(props: RankingModalProps) {
     const { t } = useTranslation(["home"]);
+    const rankListState = useAppSelector(selectRankList);
+    const userState = useAppSelector(selectUser);
     const classes = useStyles();
 
     return (
@@ -30,8 +37,55 @@ export default function RankingModal(props: RankingModalProps) {
                             <button title="" onClick={() => props.handleClose()}><CloseIcon fontSize="inherit"></CloseIcon></button>
                         </div>
                         <div className="content">
-                            <span>ĐANG CẬP NHẬT...</span>
+                            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                                <thead style={{ backgroundColor: "#D2AA4F", }}>
+                                    <tr>
+                                        <th style={{ width: "20%", borderRight: "2px solid #dbda96" }}>{t('home:rankModal.rank')}</th>
+                                        <th style={{ textAlign: "left", paddingLeft: 20 }}>{t('home:rankModal.name')}</th>
+                                        <th style={{ width: "20%", borderLeft: "2px solid #dbda96" }}>{t('home:rankModal.score')}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        rankListState.length > 0 &&
+                                        <>
+                                            {
+                                                rankListState.map((item, index) => {
+                                                    userState.fullName === item.fullName && (userRank = index + 1)
+                                                    return (
+                                                        <tr
+                                                            key={index}
+                                                            style={{ height: 32, borderBottom: index === rankListState.length - 1 ? "unset" : "1px solid #D2AA4F", backgroundColor: userState.fullName === item.fullName ? "#d9bc79" : "unset" }}
+                                                        >
+                                                            <td style={{ textAlign: "center" }}>
+                                                                <span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                                    {index + 1 === 1 && <EmojiEventsIcon fontSize="inherit" htmlColor="#F7B934" />}
+                                                                    {index + 1 === 2 && <EmojiEventsIcon fontSize="inherit" htmlColor="#A5A5A5" />}
+                                                                    {index + 1 === 3 && <EmojiEventsIcon fontSize="inherit" htmlColor="#FA9366" />}
+                                                                    {index + 1}
+                                                                </span>
+                                                            </td>
+                                                            <td style={{ textAlign: "left", paddingLeft: 20 }}>{item.fullName}</td>
+                                                            <td style={{ textAlign: "center" }}>{item.bestScore}</td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </>
+                                    }
+                                </tbody>
+                            </table>
+
                         </div>
+                        {
+                            userState.fullName.length > 0 &&
+                            <>
+                                <div style={{ height: 23, width: "100%" }}></div>
+                                <div className="userRank">
+                                    {t('home:rankModal.currentRank') + " " + userRank}
+                                </div>
+                            </>
+                        }
                     </div>
                 </Box>
             </Modal >
@@ -44,7 +98,7 @@ const style = {
     top: '20%',
     left: '50%',
     transform: 'translate(-50%)',
-    minWidth: 300,
+    width: 300,
     bgcolor: 'transparent',
     border: 'unset',
     boxShadow: 24,
@@ -98,7 +152,20 @@ const useStyles = makeStyles({
         },
 
         "& .content": {
-            margin: "40px 0 4px 0",
+            margin: "40px 0 0 0",
+            paddingBottom: 4,
+            width: "100%",
+            height: 300,
+            overflow: "auto",
+        },
+        "& .userRank": {
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            padding: '4px 4px 4px 4px',
+            boxSizing: 'border-box',
+            backgroundColor: '#d9bc79',
         },
     },
 });

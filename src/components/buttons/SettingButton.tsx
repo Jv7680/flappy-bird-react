@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     root: {
         position: "absolute",
         top: 8,
-        right: 8,
+        right: 0,
         border: "unset",
         backgroundColor: "unset",
         color: "#FFFFFF",

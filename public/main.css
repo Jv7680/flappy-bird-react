@@ -1,6 +1,6 @@
 * {
     font-family: 'VT323';
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 html {
@@ -18,11 +18,11 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: background-color 0s 10000s;
-    -webkit-transition: background-color 0s 10000s;
-    -moz-transition: background-color 0s 10000s;
-    -ms-transition: background-color 0s 10000s;
-    -o-transition: background-color 0s 10000s;
+    transition: background-color 0s 10000000s, color 0s 10000000s;
+    -webkit-transition: background-color 0s 10000000s, color 0s 10000000s;
+    -moz-transition: background-color 0s 10000000s, color 0s 10000000s;
+    -ms-transition: background-color 0s 10000000s, color 0s 10000000s;
+    -o-transition: background-color 0s 10000000s, color 0s 10000000s;
 }
 
 button,
@@ -55,4 +55,110 @@ img {
 
 body {
     scroll-behavior: smooth;
+}
+
+/* override sweetalert2 css  */
+.swal2-container {
+    z-index: 2000;
+}
+
+.swal2-popup {
+    border: 4px inset #D2AA4F;
+    background-color: #DBDA96;
+    color: #523747;
+    min-width: 80vw;
+}
+
+.swal2-title {
+    font-size: 26px;
+    padding: 8px 1em 0 !important;
+}
+
+.swal2-close {
+    font-size: 28px;
+    color: #6d5c66;
+}
+
+.swal2-close:hover {
+    color: #523747;
+}
+
+.swal2-close:focus {
+    box-shadow: unset !important;
+}
+
+.swal2-html-container {
+    text-align: unset !important;
+}
+
+.swal2-icon {
+    border-color: #D2AA4F !important;
+    color: #D2AA4F !important;
+}
+
+.swal2-actions {
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: end;
+}
+
+.swal2-actions button,
+.swal2-html-container {
+    font-size: 20px !important;
+}
+
+.swal2-actions button {
+    min-width: 90px !important;
+    color: #523747 !important;
+    line-height: 1.2 !important;
+    border: 2px outset black !important;
+    border-radius: 4px !important;
+    padding: 1px 6px 1px 6px !important;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    -ms-border-radius: 4px !important;
+    -o-border-radius: 4px !important;
+}
+
+.swal2-actions button:hover {
+    background-image: unset !important;
+}
+
+.swal2-actions button:active {
+    background-image: unset !important;
+    border-style: inset !important;
+}
+
+.swal2-actions button:focus {
+    box-shadow: unset !important;
+}
+
+.swal2-actions .swal2-confirm {
+    background-color: #D2AA4F !important;
+}
+
+.swal2-actions .swal2-cancel {
+    border: unset !important;
+    background-color: #d2aa4f63 !important;
+}
+
+.swal2-actions .swal2-cancel:hover {
+    background-color: #D2AA4F !important;
+}
+
+.swal2-actions .swal2-cancel:active {
+    border-style: unset !important;
+}
+
+.swal2-actions .swal2-deny {
+    border: unset !important;
+    background-color: #d2aa4f63 !important;
+}
+
+.swal2-actions .swal2-deny:hover {
+    background-color: #D2AA4F !important;
+}
+
+.swal2-actions .swal2-deny:active {
+    border-style: unset !important;
 }

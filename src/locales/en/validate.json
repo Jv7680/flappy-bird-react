@@ -8,6 +8,7 @@
     "password": {
         "min": "Minimum 5 characters",
         "max": "Maximum 10 characters",
+        "notMatchWithNewPassword": "Not match with new password",
         "regexNotice": "Passwords can only contain letters or numbers and no spaces.<br /> Example: helloWorld, Peaches,..."
     },
     "fullName": {
@@ -18,6 +19,6 @@
     "gmail": {
         "min": "Minimum 10 characters",
         "max": "Maximum 30 characters",
-        "regexNotice": "Gmail is only allowed to contain letters, numbers or _ characters and no spaces.<br /> Example: tinvt_7680@gmail.com,..."
+        "regexNotice": "Gmail is only allowed to contain letters, numbers or . characters and no spaces.<br /> Example: tinvt_7680@gmail.com,..."
     }
 }

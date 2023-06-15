@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import flySound from "../../assets/sounds/fly.mp3";
 import hitSound from "../../assets/sounds/hit.mp3";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -6,18 +7,20 @@ import { fall, fly, setBirdY } from "../../redux/slices/birdSlice";
 import { selectGameStatus, setGameStatus } from "../../redux/slices/gameStatusSlice";
 import { generate } from "../../redux/slices/pipeSlice";
 import { setScore } from "../../redux/slices/scoreSlice";
+import { setBestScore, updateUserBestScore } from "../../redux/slices/userSlice";
+import { getRankList } from "../../redux/slices/rankListSlice";
 import { store } from "../../redux/store";
 import { resetState } from "../../redux/utilActions";
+import { FunctionUtils } from "../../utils/functions/functionUtils";
+import { SettingUtils } from "../../utils/functions/settingUtils";
 import Background from "../Background";
 import Bird from "../Bird";
 import Foregound from "../Foreground";
-import GameOverModal from "../modals/GameOverModal";
-import GamePauseModal from "../modals/GamePauseModal";
-import PauseButton from "../buttons/PauseButton";
 import Pipe from "../Pipe";
 import Score from "../Score";
-import { SettingUtils } from "../../utils/functions/settingUtils";
-import { FunctionUtils } from "../../utils/functions/functionUtils";
+import PauseButton from "../buttons/PauseButton";
+import GameOverModal from "../modals/GameOverModal";
+import GamePauseModal from "../modals/GamePauseModal";
 
 let intervalGeneratePipes: any;
 let xT: number = 0;
@@ -29,10 +32,19 @@ hitAudio.src = hitSound;
 
 export default function PlayScreen() {
     const gameStatusState = useAppSelector(selectGameStatus);
+    let isLoading = useAppSelector((state) => state.isLoading);
     const dispatch = useAppDispatch();
+    const navigateTo = useNavigate();
 
     useEffect(() => {
-        startGame(dispatch);
+        // playing
+        dispatch(setGameStatus(1));
+        // dispatch(resetState());
+
+        setTimeout(() => {
+            startGame(dispatch);
+        }, 600);
+
         document.addEventListener("visibilitychange", handleVisibilitychange);
         document.addEventListener('keypress', handleKeyPress);
         document.addEventListener('keyup', handleKeyUp);
@@ -60,6 +72,9 @@ export default function PlayScreen() {
             playScreen.removeEventListener('touchstart', handleMouseDown);
             playScreen.removeEventListener('touchend', handleMouseUp);
 
+            // update user best score
+            handleUpdateUserBestScore();
+
             // stop the game loop
             whenGameOver(dispatch, false);
         };
@@ -81,6 +96,13 @@ export default function PlayScreen() {
             event.stopPropagation();
             return false;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (isLoading) {
+            navigateTo("/");
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -116,6 +138,7 @@ const playScreenTranslateStyles: any = {
 const pauseGame = (pause: boolean) => {
     if (pause) {
         store.dispatch(setGameStatus(3));
+        handleUpdateUserBestScore();
     }
     else {
         store.dispatch(setGameStatus(1));
@@ -269,7 +292,23 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
         dispatch(resetState());
     }
 
+    // update best score
+    handleUpdateUserBestScore();
+
     return false;
+};
+
+export const handleUpdateUserBestScore = async () => {
+    let currentScore = store.getState().score;
+    let userState = store.getState().user;
+
+    if (userState.fullName.length > 0 && currentScore > userState.bestScore) {
+        store.dispatch(setBestScore(currentScore));
+
+        let result = await store.dispatch(updateUserBestScore(currentScore));
+        await store.dispatch(getRankList());
+        console.log("result handleUpdateUserBestScore", result);
+    }
 };
 
 const restartWhenGamePause = () => {
@@ -346,8 +385,9 @@ const lockKeyboard = (isLocked: boolean): void => {
 }
 
 const handleVisibilitychange = (event: any) => {
+    let gameStatus = store.getState().gameStatus;
     if (document.visibilityState === "hidden") {
-        pauseGame(true)
+        gameStatus !== 2 && pauseGame(true)
     } else if (document.visibilityState === "visible") {
         console.log("user back");
     }

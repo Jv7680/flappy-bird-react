@@ -8,6 +8,7 @@
     "password": {
         "min": "Tối thiểu 5 ký tự",
         "max": "Tối đa 10 ký tự",
+        "notMatchWithNewPassword": "Trường này phải khớp với mật khẩu mới",
         "regexNotice": "Mật khẩu chỉ được phép chứa chữ cái hoặc số và không có khoảng trắng.<br /> Ví dụ: helloWorld, Peaches,..."
     },
     "fullName": {
@@ -18,6 +19,6 @@
     "gmail": {
         "min": "Tối thiểu 10 ký tự",
         "max": "Tối đa 30 ký tự",
-        "regexNotice": "Gmail chỉ được phép chứa chữ cái, số hoặc ký tự _ và không có khoảng trắng.<br /> Ví dụ: tinvt_7680@gmail.com,..."
+        "regexNotice": "Gmail chỉ được phép chứa chữ cái, số hoặc ký tự . và không có khoảng trắng.<br /> Ví dụ: tinvt_7680@gmail.com,..."
     }
 }

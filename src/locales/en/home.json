@@ -43,6 +43,38 @@
         "gmail": "Gmail",
         "submit": "Submit"
     },
+    "changePassword": {
+        "title": "Change password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "renewPassword": "Confirm new password"
+    },
+    "breadcrumb": {
+        "generalSetting": "General setting",
+        "accountSetting": "Account setting",
+        "login": "Login",
+        "register": "Register",
+        "manage": "Manage",
+        "forgotPassword": "Forgot password",
+        "changePassword": "Change password"
+    },
+    "rankModal": {
+        "rank": "Rank",
+        "name": "Name",
+        "score": "Score",
+        "currentRank": "Your rank is"
+    },
     "alreadyHaveAccount": "Login",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Reset password",
+    "forgotPasswordContent": "Here is your new password:",
+    "forgotPasswordWarning": "Note: You should change this password or delete this message to prevent the password from being leaked!",
+    "forgotPasswordNote": "Please enter your gmail address.<br/>Try checking spam if you don't receive mail.",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "logout": "Logout",
+    "logoutSuccess": "Logout successfully",
+    "submit": "Submit",
+    "orLoginWith": "Or login with"
 }

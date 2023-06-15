@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { useEffect } from "react";
 import { setGameStatus } from "../../redux/slices/gameStatusSlice";
 import { store } from "../../redux/store";
+import { handleUpdateUserBestScore } from '../screens/PlayScreen';
 
 export default function PauseButton() {
     const classes = useStyles();
@@ -14,6 +15,7 @@ export default function PauseButton() {
     const handlePause = (event: any) => {
         event.target.blur();
         store.dispatch(setGameStatus(3));
+        handleUpdateUserBestScore();
     };
 
     return (
