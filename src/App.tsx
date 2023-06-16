@@ -181,7 +181,7 @@ function App() {
     <div className="App" style={{ overflow: "hidden" }}>
       <ToastContainer
         position="top-right"
-        autoClose={2000}
+        autoClose={200000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -221,6 +221,7 @@ const useStyles = makeStyles({
     borderStyle: 'inset',
     color: '#523747',
     fontSize: 20,
+
     "& button": {
       color: 'inherit',
     },

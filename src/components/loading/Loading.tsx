@@ -7,7 +7,7 @@ export default function Loading() {
 
     return (
         <Backdrop
-            sx={{ color: '#fff', zIndex: 10000 }}
+            sx={{ color: '#fff', zIndex: 9998 }}
             open={isLoading}
             onClick={() => { }}
         >
