@@ -181,7 +181,7 @@ function App() {
     <div className="App" style={{ overflow: "hidden" }}>
       <ToastContainer
         position="top-right"
-        autoClose={200000}
+        autoClose={1800}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

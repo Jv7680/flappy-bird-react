@@ -95,10 +95,10 @@ export default function HomeScreen() {
                         <button className="btn__play" onClick={() => { handlePlay() }}>{t("home:play")}</button>
                         <button className="btn__rank" onClick={() => { setOpenRanking(true) }}>{t("home:leaderboard.title")}</button>
                         <button className="btn__guide" onClick={() => { setOpenGuide(true) }}>{t("home:guide.title")}</button>
+                        <SettingButton onClick={() => { setOpenSetting(true) }} />
                     </div>
                 </Box>
             </div>
-            <SettingButton onClick={() => { setOpenSetting(true) }} />
         </>
     )
 }
@@ -165,7 +165,7 @@ const useStyles = makeStyles({
                 flexDirection: "column",
 
             },
-            "& .btn button": {
+            "& .btn > button": {
                 "-webkit-tap-highlight-color": "transparent",
                 fontFamily: "VT323",
                 fontSize: 22,
@@ -179,7 +179,7 @@ const useStyles = makeStyles({
                 margin: "6px 0",
                 cursor: "pointer",
             },
-            "& .btn button:active": {
+            "& .btn > button:active": {
                 backgroundColor: "#E37435",
                 borderStyle: "inset",
             },

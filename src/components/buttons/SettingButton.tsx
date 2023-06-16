@@ -23,7 +23,7 @@ export default function SettingButton(props: SettingButtonProps) {
     return (
         <>
             <div className={classes.root} >
-                <button className="btn-pause" title="" onClick={handleClick}><SettingsIcon className="btn-pause" fontSize="inherit"></SettingsIcon> <span style={{ fontFamily: "VT323", fontSize: 20 }}>{t('home:setting.button')}</span></button>
+                <button className="btn-pause" title="" onClick={handleClick}><SettingsIcon className="btn-pause" fontSize="inherit"></SettingsIcon><span style={{ fontFamily: "VT323", fontSize: 22 }}>{t('home:setting.button')}</span></button>
             </div>
         </>
     )
@@ -31,9 +31,7 @@ export default function SettingButton(props: SettingButtonProps) {
 
 const useStyles = makeStyles({
     root: {
-        position: "absolute",
-        top: 8,
-        right: 0,
+        marginTop: 12,
         border: "unset",
         backgroundColor: "unset",
         color: "#FFFFFF",
@@ -52,6 +50,7 @@ const useStyles = makeStyles({
             borderRadius: 4,
             border: "unset",
             outline: "none",
+            letterSpacing: 1,
         },
         "& button:hover": {
             textDecoration: "underline",
