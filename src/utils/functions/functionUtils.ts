@@ -29,9 +29,9 @@ const navigateToLogin = () => {
 
 const runConfetti = () => {
     const options = {
-        particleCount: 150,
+        particleCount: 100,
         spread: 360,
-        ticks: 200,
+        ticks: 100,
     };
     confetti({
         particleCount: options.particleCount,
