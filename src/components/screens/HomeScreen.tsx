@@ -216,7 +216,7 @@ const useStyles = makeStyles({
     userFullName: {
         position: "absolute",
         top: 8,
-        left: 8,
+        left: 12,
         fontSize: '20px',
         width: 'max-content',
         color: "#ffffff",

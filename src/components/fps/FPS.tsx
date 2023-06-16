@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     root: {
         position: "fixed",
         bottom: 0,
-        right: 8,
+        right: 12,
         width: 'max-content',
         height: 30,
         border: "unset",
