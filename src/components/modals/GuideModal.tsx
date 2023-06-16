@@ -76,6 +76,7 @@ export default function GuideModal(props: GuideModalProps) {
                                     </li>
                                 </ul>
                             </div>
+                            <div>{t('home:guide.hardMode')}</div>
                         </div>
                     </div>
                 </Box>
@@ -86,9 +87,9 @@ export default function GuideModal(props: GuideModalProps) {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '10%',
+    top: '50%',
     left: '50%',
-    transform: 'translate(-50%)',
+    transform: 'translate(-50%, -50%)',
     minWidth: 350,
     bgcolor: 'transparent',
     border: 'unset',

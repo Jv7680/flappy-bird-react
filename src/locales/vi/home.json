@@ -14,7 +14,8 @@
         "mouseClick": "Click chuột",
         "mouseHoldClick": "Nhấn giữ chuột để bay liên tục",
         "tapScreen": "Tap vào màn hình để làm chú chim bay lên",
-        "tapHoldScreen": "Nhấn giữ màn hình để làm chú chim bay liên tục"
+        "tapHoldScreen": "Nhấn giữ màn hình để làm chú chim bay liên tục",
+        "hardMode": "Lưu ý: Độ khó sẽ tăng dần ở các mức điểm 10, 20 và 40 ^_^"
     },
     "setting": {
         "button": "Cài đặt",

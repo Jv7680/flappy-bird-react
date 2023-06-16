@@ -22,6 +22,7 @@ import PauseButton from "../buttons/PauseButton";
 import GameOverModal from "../modals/GameOverModal";
 import GamePauseModal from "../modals/GamePauseModal";
 
+let hardMode: number = 120;
 let intervalGeneratePipes: any;
 let xT: number = 0;
 let xP: number = 0;
@@ -77,6 +78,7 @@ export default function PlayScreen() {
 
             // stop the game loop
             whenGameOver(dispatch, false);
+            hardMode = 120;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -159,7 +161,7 @@ const startGame = (dispatch: Function) => {
         if (store.getState().gameStatus !== 3) {
             dispatch(generate());
         }
-    }, 600);
+    }, 400);
 
     birdFallLoop();
 
@@ -172,8 +174,18 @@ const translateLoop = () => {
     }
 
     if (store.getState().gameStatus !== 3) {
+        let currentScore: number = store.getState().score;
+        if (currentScore > 39) {
+            hardMode = 300;
+        }
+        else if (currentScore > 19) {
+            hardMode = 240;
+        }
+        else if (currentScore > 9) {
+            hardMode = 180;
+        }
         // 2: Easy, 5: Hard (only true when FPS is 60)
-        let different = +(120 / store.getState().fps).toFixed(4);
+        let different = +(hardMode / store.getState().fps).toFixed(4);
         xT -= different;
         xP += different;
         let playScreen = document.getElementsByClassName("playScreen")[0] as HTMLDivElement;
@@ -225,7 +237,7 @@ const checkGameOver = (dispatch: any, left: number) => {
         // check collide with pipe by X
         if (
             // (pipeNearBird.x + left === birdState.x)
-            (pipeNearBird.x + left <= birdState.x + (+(120 / store.getState().fps).toFixed(4)) && pipeNearBird.x + left >= birdState.x)
+            (pipeNearBird.x + left <= birdState.x + (+(hardMode / store.getState().fps).toFixed(4)) && pipeNearBird.x + left >= birdState.x)
             &&
             (birdState.y <= pipeNearBird.topPipeHeight || birdState.y + birdState.height >= pipeNearBird.topPipeHeight + pipeState.gap)
         ) {
@@ -294,7 +306,7 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
 
     // update best score
     handleUpdateUserBestScore();
-
+    hardMode = 120;
     return false;
 };
 

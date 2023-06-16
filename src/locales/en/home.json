@@ -14,7 +14,8 @@
         "mouseClick": "Mouse click",
         "mouseHoldClick": "Click and hold the mouse to make the bird fly continuously",
         "tapScreen": "Tap the screen to make the bird fly",
-        "tapHoldScreen": "Tap and hold the screen to make the bird fly continuously"
+        "tapHoldScreen": "Tap and hold the screen to make the bird fly continuously",
+        "hardMode": "Note: The difficulty will gradually increase at 10, 20 and 40 points ^_^"
     },
     "setting": {
         "button": "Setting",
