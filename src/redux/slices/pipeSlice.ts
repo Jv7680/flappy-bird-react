@@ -19,7 +19,7 @@ const distanceXBetweenTwoPipes: number = 400;
 const innerWidth: number = window.innerWidth;
 const initState: PipeState = {
     generateFirstPipeAtX: Math.ceil(innerWidth / 10) * 10 + 100,
-    gap: 120,
+    gap: innerWidth < 500 ? 160 : 140,
     width: 50,
     pipes: [],
 }
