@@ -76,5 +76,6 @@
     "logout": "Logout",
     "logoutSuccess": "Logout successfully",
     "submit": "Submit",
-    "orLoginWith": "Or login with"
+    "orLoginWith": "Or login with",
+    "hello": "Hello"
 }

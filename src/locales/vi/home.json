@@ -76,5 +76,6 @@
     "logout": "Đăng xuất",
     "logoutSuccess": "Đăng xuất thành công",
     "submit": "Xác nhận",
-    "orLoginWith": "Hoặc đăng nhập với"
+    "orLoginWith": "Hoặc đăng nhập với",
+    "hello": "Xin chào"
 }

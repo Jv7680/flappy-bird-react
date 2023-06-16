@@ -79,7 +79,7 @@ export default function HomeScreen() {
             <GuideModal isOpen={openGuide} handleClose={handleCloseGuideModal} />
             <SettingModal isOpen={openSetting} handleClose={handleCloseSettingModal} />
             <div className={classes.userFullName}>
-                {userState.fullName.length > 0 && `Xin chào ${userState.fullName} ^_^`}
+                {userState.fullName.length > 0 && `${t("home:hello")} ${userState.fullName} ^_^`}
             </div>
             <div className={classes.root}>
                 <div className="homeScreen__translate">
