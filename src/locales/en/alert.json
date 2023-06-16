@@ -10,5 +10,12 @@
         "content": "Since you are not logged in, the number of points you can play will not be counted in the leaderboard, please log in to compete with other players ^_^",
         "btnConfirmText": "Continue play",
         "btnCancelText": "Log in now"
-    }
+    },
+    "typeFullName": {
+        "title": "Please enter your name!",
+        "btnConfirmText": "Confirm",
+        "btnCancelText": "Back"
+    },
+    "errorServer": "Cannot connect to server",
+    "sessionTimeout": "Session timeout, please login again"
 }

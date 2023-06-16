@@ -10,5 +10,12 @@
         "content": "Vì bạn chưa đăng nhập, nên số điểm chơi được sẽ không được tính vào bảng xếp hạng, hãy đăng nhập để cùng so tài với những người chơi khác bạn nhé ^_^",
         "btnConfirmText": "Chơi luôn",
         "btnCancelText": "Đăng nhập ngay"
-    }
+    },
+    "typeFullName": {
+        "title": "Hãy nhập tên của bạn!",
+        "btnConfirmText": "Xác nhận",
+        "btnCancelText": "Trở lại"
+    },
+    "errorServer": "Không kết nối được server",
+    "sessionTimeout": "Hết phiên, vui lòng đăng nhập lại"
 }

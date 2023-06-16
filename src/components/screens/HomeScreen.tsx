@@ -79,7 +79,7 @@ export default function HomeScreen() {
             <GuideModal isOpen={openGuide} handleClose={handleCloseGuideModal} />
             <SettingModal isOpen={openSetting} handleClose={handleCloseSettingModal} />
             <div className={classes.userFullName}>
-                Xin chào {userState.fullName.length === 0 ? "người lạ ^_^" : userState.fullName}
+                {userState.fullName.length > 0 && `Xin chào ${userState.fullName} ^_^`}
             </div>
             <div className={classes.root}>
                 <div className="homeScreen__translate">
@@ -196,6 +196,14 @@ const useStyles = makeStyles({
             background: `url(${logoImg})`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
+            '@media (max-width: 400px)': {
+                width: 230,
+                height: 80,
+            },
+            '@media (max-width: 300px)': {
+                width: 220,
+                height: 80,
+            },
         },
         "& .content__bird": {
             width: 38,

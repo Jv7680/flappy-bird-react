@@ -83,6 +83,7 @@ export default function TextInputComponent(props: TextInputComponentProps) {
           onBlur={onBlur}
           required={require}
           style={{ height: 50 }}
+          autoComplete="off"
           endAdornment={
             rightIcon &&
             <InputAdornment position="end">

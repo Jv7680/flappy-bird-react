@@ -8,7 +8,7 @@ interface SettingButtonProps {
 };
 
 export default function SettingButton(props: SettingButtonProps) {
-    const { t } = useTranslation(["home"]);
+    const { t } = useTranslation(["home", "validate"]);
     const classes = useStyles();
 
     useEffect(() => {

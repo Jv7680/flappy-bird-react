@@ -4,6 +4,13 @@ import { LocalStorage } from "./storageService";
 import { toast } from "react-toastify";
 import { store } from "../redux/store";
 import { setIsLoading } from "../redux/slices/isLoadingSlice";
+import { resetState } from "../redux/utilActions";
+import { resetUser } from "../redux/slices/userSlice";
+import { i18TFunc } from "../utils/components/GlobalHistory";
+import { successStatusMsgVI } from "../locales/vi/successStatusMsg";
+import { successStatusMsgEN } from "../locales/en/successStatusMsg";
+import { errorStatusMsgVI } from "../locales/vi/errorStatusMsg";
+import { errorStatusMsgEN } from "../locales/en/errorStatusMsg";
 
 export interface ResponseData<T> {
   status: number;
@@ -36,7 +43,13 @@ const handleResponeInterceptor = async (response: AxiosResponse<any, any>) => {
   }
 
   if (![203, 204, 207, 209, 210].find(element => element === data.code)) {
-    toast.success(response.data.message);
+    let userSetting = JSON.parse(LocalStorage.getUserSetting() || "");
+    if (userSetting?.language === "vi") {
+      toast.success(successStatusMsgVI[(data.code as keyof typeof successStatusMsgVI)]);
+    }
+    else if (userSetting?.language === "en") {
+      toast.success(successStatusMsgEN[(data.code as keyof typeof successStatusMsgEN)]);
+    }
   }
 
   return response;
@@ -48,12 +61,12 @@ const handleErrorResponeInterceptor = async (error: any) => {
 
   // cannot connect to server
   if (error && !error.response) {
-    return toast.error("Lỗi server");
+    return toast.error(i18TFunc("alert:errorServer"));
   }
 
   // api not exist
   if (error && error.response.status === 404) {
-    return toast.error("Status 404");
+    return;
   }
 
   const data: ResponseData<any> = error.response.data;
@@ -74,7 +87,34 @@ const handleErrorResponeInterceptor = async (error: any) => {
     }
   }
 
-  toast.error(error.response.data.message);
+  // refresh/access token illligal, refresh token expired -> logout
+  if (data.code === 410 || data.code === 411 || data.code === 414) {
+    LocalStorage.clear();
+    store.dispatch(resetState());
+    store.dispatch(resetUser());
+    // toast.success(i18n.t("home:logoutSuccess"));
+    toast.error(i18TFunc("alert:sessionTimeout"));
+    return error.response;
+  }
+
+  // cannot find user(maybe deleted from database)
+  if (data.code === 412) {
+    LocalStorage.clear();
+    store.dispatch(resetState());
+    store.dispatch(resetUser());
+    return error.response;
+  }
+
+  if (![403, 406, 407, 408, 409, 410, 411, 412, 413, 414, 417, 422, 424, 425].find(element => element === data.code)) {
+    let userSetting = JSON.parse(LocalStorage.getUserSetting() || "");
+    if (userSetting?.language === "vi") {
+      toast.error(errorStatusMsgVI[(data.code as keyof typeof errorStatusMsgVI)]);
+    }
+    else if (userSetting?.language === "en") {
+      toast.error(errorStatusMsgEN[(data.code as keyof typeof errorStatusMsgEN)]);
+    }
+  }
+
   return error.response;
 };
 
