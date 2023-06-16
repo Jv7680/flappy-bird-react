@@ -29,9 +29,9 @@ const navigateToLogin = () => {
 
 const runConfetti = () => {
     const options = {
-        particleCount: 250,
+        particleCount: 150,
         spread: 360,
-        ticks: 500,
+        ticks: 200,
     };
     confetti({
         particleCount: options.particleCount,
@@ -51,18 +51,18 @@ const runConfetti = () => {
         origin: { x: 0.5, y: 0.5 },
         ticks: options.ticks,
     });
-    confetti({
-        particleCount: options.particleCount,
-        spread: options.spread,
-        origin: { x: 0.2, y: 0.8 },
-        ticks: options.ticks,
-    });
-    confetti({
-        particleCount: options.particleCount,
-        spread: options.spread,
-        origin: { x: 0.8, y: 0.8 },
-        ticks: options.ticks,
-    });
+    // confetti({
+    //     particleCount: options.particleCount,
+    //     spread: options.spread,
+    //     origin: { x: 0.2, y: 0.8 },
+    //     ticks: options.ticks,
+    // });
+    // confetti({
+    //     particleCount: options.particleCount,
+    //     spread: options.spread,
+    //     origin: { x: 0.8, y: 0.8 },
+    //     ticks: options.ticks,
+    // });
 };
 
 const trimDataObj = (obj: any) => {
