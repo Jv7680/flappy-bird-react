@@ -31,6 +31,9 @@ export default function SettingButton(props: SettingButtonProps) {
 
 const useStyles = makeStyles({
     root: {
+        position: "absolute",
+        left: 12,
+        bottom: 2,
         marginTop: 12,
         border: "unset",
         backgroundColor: "unset",
@@ -39,6 +42,7 @@ const useStyles = makeStyles({
         zIndex: 3,
 
         "& button": {
+            padding: "1px 0",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

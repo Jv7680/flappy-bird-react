@@ -95,10 +95,11 @@ export default function HomeScreen() {
                         <button className="btn__play" onClick={() => { handlePlay() }}>{t("home:play")}</button>
                         <button className="btn__rank" onClick={() => { setOpenRanking(true) }}>{t("home:leaderboard.title")}</button>
                         <button className="btn__guide" onClick={() => { setOpenGuide(true) }}>{t("home:guide.title")}</button>
-                        <SettingButton onClick={() => { setOpenSetting(true) }} />
+
                     </div>
                 </Box>
             </div>
+            <SettingButton onClick={() => { setOpenSetting(true) }} />
         </>
     )
 }
