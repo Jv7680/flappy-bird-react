@@ -90,7 +90,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    minWidth: 350,
+    width: 300,
     bgcolor: 'transparent',
     border: 'unset',
     boxShadow: 24,

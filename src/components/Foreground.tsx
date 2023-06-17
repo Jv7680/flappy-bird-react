@@ -18,7 +18,7 @@ const useStyles = makeStyles({
         position: 'absolute',
         bottom: 0,
         width: "100%",
-        height: "20vh",
+        height: "20%",
         backgroundRepeat: "repeat-x",
         backgroundSize: "contain",
     }

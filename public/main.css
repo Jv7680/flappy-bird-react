@@ -1,6 +1,7 @@
 * {
     font-family: 'VT323';
     -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation;
 }
 
 html {

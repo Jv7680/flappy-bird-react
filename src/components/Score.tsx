@@ -14,6 +14,7 @@ scoreAudio.src = scoreSound;
 
 const newBestScoreAudio = new Audio();
 newBestScoreAudio.src = newBestScoreSound;
+let countPlayNewBestScoreAudio: number = 0;
 
 export default function Score() {
     const scoreState = useAppSelector(selectScore);
@@ -26,12 +27,24 @@ export default function Score() {
             SettingUtils.getSoundBySetting(settingState.sound) && scoreAudio.play();
         }
 
-        if (userState.fullName.length > 0 && userState.bestScore > 0 && scoreState === userState.bestScore + 1) {
+        if (userState.fullName.length > 0 && countPlayNewBestScoreAudio === 0 && userState.bestScore > 0 && scoreState === userState.bestScore + 1) {
             SettingUtils.getSoundBySetting(settingState.sound) && newBestScoreAudio.play();
             FunctionUtils.runConfetti();
+            countPlayNewBestScoreAudio++;
+        }
+
+        if (scoreState === 0) {
+            countPlayNewBestScoreAudio = 0;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scoreState]);
+
+    useEffect(() => {
+        return () => {
+            countPlayNewBestScoreAudio = 0;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>
