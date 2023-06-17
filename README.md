@@ -11,4 +11,4 @@ This project remake the game Flappybird with ReactJS
 # Some picture about my project
 
 ### `Home page`
-![Model]([http://url/to/img.png](https://github.com/Jv7680/Git-Image/blob/main/flappybird-online/home..png?raw=true))
+![Model]((https://github.com/Jv7680/Git-Image/blob/main/flappybird-online/home..png?raw=true))
