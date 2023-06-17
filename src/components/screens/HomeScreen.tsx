@@ -164,6 +164,9 @@ const useStyles = makeStyles({
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
+                '@media (max-height: 500px)': {
+                    flexDirection: "row",
+                },
 
             },
             "& .btn > button": {
@@ -179,6 +182,9 @@ const useStyles = makeStyles({
                 lineHeight: 0,
                 margin: "6px 0",
                 cursor: "pointer",
+                '@media (max-height: 500px)': {
+                    margin: 6,
+                },
             },
             "& .btn > button:active": {
                 backgroundColor: "#E37435",

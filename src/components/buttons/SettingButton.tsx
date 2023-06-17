@@ -31,7 +31,7 @@ export default function SettingButton(props: SettingButtonProps) {
 
 const useStyles = makeStyles({
     root: {
-        position: "absolute",
+        position: "fixed",
         left: 12,
         bottom: 2,
         marginTop: 12,
