@@ -211,6 +211,10 @@ const useStyles = makeStyles({
                 width: 220,
                 height: 80,
             },
+            '@media (max-height: 300px)': {
+                width: 210,
+                height: 70,
+            },
         },
         "& .content__bird": {
             width: 38,
