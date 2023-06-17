@@ -2,11 +2,13 @@
 
 This project remake the game Flappybird with ReactJS
 
-# To run this React project
+# To run this React project, follow these step
 
-### `git clone` --> ### `npm i --force` --> ### `npm start`
+### `1. git clone`
+### `2. npm i --force`
+### `3. npm start`
 
 # Some picture about my project
 
 ### `Home page`
-![alt text]([http://url/to/img.png](https://github.com/Jv7680/Git-Image/blob/main/flappybird-online/home..png?raw=true))
+![Model]([http://url/to/img.png](https://github.com/Jv7680/Git-Image/blob/main/flappybird-online/home..png?raw=true))
