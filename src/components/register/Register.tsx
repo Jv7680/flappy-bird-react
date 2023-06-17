@@ -27,9 +27,9 @@ interface RegisterData {
 };
 
 const initialRegister: RegisterData = {
-    userName: "tinadmin",
-    password: "123456789",
-    fullName: "vutrungtin xxx",
+    userName: "",
+    password: "",
+    fullName: "",
     gmail: "",
 };
 
