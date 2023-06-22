@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { setGameStatus } from "../../redux/slices/gameStatusSlice";
 import { store } from "../../redux/store";
 import { handleUpdateUserBestScore } from '../screens/PlayScreen';
-
+import { gameStatusTypes } from '../../utils/constants/types';
 export default function PauseButton() {
     const classes = useStyles();
 
@@ -14,7 +14,7 @@ export default function PauseButton() {
 
     const handlePause = (event: any) => {
         event.target.blur();
-        store.dispatch(setGameStatus(3));
+        store.dispatch(setGameStatus(gameStatusTypes.GAME_PAUSED));
         handleUpdateUserBestScore();
     };
 

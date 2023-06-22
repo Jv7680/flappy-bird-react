@@ -16,23 +16,13 @@ const navigateToLogin = () => {
     customizedNavigate("/login");
 };
 
-// const hashPassword = (password: string) => {
-//     try {
-//         const salt = bcrypt.genSaltSync(10);
-//         const hashedPassword = bcrypt.hashSync(password, salt);
-//         return hashedPassword;
-//     } catch (error) {
-//         console.log("Error hashing password", error);
-//         return false;
-//     }
-// };
-
 const runConfetti = () => {
     const options = {
         particleCount: 100,
         spread: 360,
         ticks: 100,
     };
+
     confetti({
         particleCount: options.particleCount,
         spread: options.spread,
@@ -51,18 +41,6 @@ const runConfetti = () => {
         origin: { x: 0.5, y: 0.5 },
         ticks: options.ticks,
     });
-    // confetti({
-    //     particleCount: options.particleCount,
-    //     spread: options.spread,
-    //     origin: { x: 0.2, y: 0.8 },
-    //     ticks: options.ticks,
-    // });
-    // confetti({
-    //     particleCount: options.particleCount,
-    //     spread: options.spread,
-    //     origin: { x: 0.8, y: 0.8 },
-    //     ticks: options.ticks,
-    // });
 };
 
 const trimDataObj = (obj: any) => {

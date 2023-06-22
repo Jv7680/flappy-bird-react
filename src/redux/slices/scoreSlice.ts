@@ -9,13 +9,8 @@ export interface ScoreState {
 const initState: number = 0;
 
 const scoreSlice = createSlice({
-    // Tên tiền số cho mỗi action
     name: 'score',
-    // Khởi tạo state, các key(và value tương ứng) ở object này sẽ được lưu vào state của redux
     initialState: initState,
-    // Mỗi key là một function với chức năng thay đổi giá trị ở initial state
-    // Các function này sẽ tự động tạo ra action có type tương ứng với key, ví dụ key increment sẽ được làm thành action
-    // thông qua createAction("increment"), sau đó được lưu và userSlice.actions
     reducers: {
         plusScore: (state) => {
             state++;
@@ -28,10 +23,6 @@ const scoreSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // .addCase(gameOver, (state) => {
-            //     state = initState;
-            //     return state;
-            // })
             .addCase(resetState, (state) => {
                 state = initState;
                 return state;

@@ -21,6 +21,7 @@ import Score from "../Score";
 import PauseButton from "../buttons/PauseButton";
 import GameOverModal from "../modals/GameOverModal";
 import GamePauseModal from "../modals/GamePauseModal";
+import { gameStatusTypes } from "../../utils/constants/types";
 
 let hardMode: number = 120;
 let intervalGeneratePipes: any;
@@ -39,7 +40,7 @@ export default function PlayScreen() {
 
     useEffect(() => {
         // playing
-        dispatch(setGameStatus(1));
+        dispatch(setGameStatus(gameStatusTypes.PLAYING));
         // dispatch(resetState());
 
         setTimeout(() => {
@@ -118,8 +119,8 @@ export default function PlayScreen() {
             <Bird></Bird>
             <Score></Score>
             <PauseButton />
-            {gameStatusState === 2 && <GameOverModal isOpen={true} restart={startGame}></GameOverModal>}
-            {gameStatusState === 3 && <GamePauseModal isOpen={true} restart={startGame} restartWhenGamePause={restartWhenGamePause} continue={pauseGame}></GamePauseModal>}
+            {gameStatusState === gameStatusTypes.GAME_OVER && <GameOverModal isOpen={true} restart={startGame}></GameOverModal>}
+            {gameStatusState === gameStatusTypes.GAME_PAUSED && <GamePauseModal isOpen={true} restart={startGame} restartWhenGamePause={restartWhenGamePause} continue={pauseGame}></GamePauseModal>}
         </div>
     )
 }
@@ -139,11 +140,11 @@ const playScreenTranslateStyles: any = {
 
 const pauseGame = (pause: boolean) => {
     if (pause) {
-        store.dispatch(setGameStatus(3));
+        store.dispatch(setGameStatus(gameStatusTypes.GAME_PAUSED));
         handleUpdateUserBestScore();
     }
     else {
-        store.dispatch(setGameStatus(1));
+        store.dispatch(setGameStatus(gameStatusTypes.PLAYING));
     }
 };
 
@@ -152,13 +153,13 @@ const startGame = (dispatch: Function) => {
     xP = 0;
 
     // playing
-    store.dispatch(setGameStatus(1));
+    store.dispatch(setGameStatus(gameStatusTypes.PLAYING));
 
     lockKeyboard(false);
 
     intervalGeneratePipes = setInterval(() => {
         // not generate when the game paused
-        if (store.getState().gameStatus !== 3) {
+        if (store.getState().gameStatus !== gameStatusTypes.GAME_PAUSED) {
             dispatch(generate());
         }
     }, 400);
@@ -169,11 +170,11 @@ const startGame = (dispatch: Function) => {
 };
 
 const translateLoop = () => {
-    if (store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
+    if (store.getState().gameStatus === gameStatusTypes.GAME_OVER || store.getState().gameStatus === gameStatusTypes.GAME_OVER_NOT_SHOW_MODAL) {
         return;
     }
 
-    if (store.getState().gameStatus !== 3) {
+    if (store.getState().gameStatus !== gameStatusTypes.GAME_PAUSED) {
         let currentScore: number = store.getState().score;
         if (currentScore > 39) {
             hardMode = 300;
@@ -206,11 +207,11 @@ const birdFallLoop = () => {
     // let newFall = Math.round(store.getState().fps / 30);
     let newFall = +(120 / store.getState().fps).toFixed(4);
 
-    if (store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
+    if (store.getState().gameStatus === gameStatusTypes.GAME_OVER || store.getState().gameStatus === gameStatusTypes.GAME_OVER_NOT_SHOW_MODAL) {
         return;
     }
 
-    if (store.getState().gameStatus !== 3) {
+    if (store.getState().gameStatus !== gameStatusTypes.GAME_PAUSED) {
         store.dispatch(fall(newFall));
     }
 
@@ -294,7 +295,7 @@ const whenGameOver = (dispatch: any, playHitAudio: boolean = true): boolean => {
     clearInterval(intervalMouseDown);
 
     // game over
-    dispatch(setGameStatus(2));
+    dispatch(setGameStatus(gameStatusTypes.GAME_OVER));
 
     if (playHitAudio) {
         SettingUtils.getSoundBySetting(store.getState().setting.sound) && hitAudio.play();
@@ -331,7 +332,7 @@ const restartWhenGamePause = () => {
     clearInterval(intervalMouseDown);
 
     // game over
-    store.dispatch(setGameStatus(4));
+    store.dispatch(setGameStatus(gameStatusTypes.GAME_OVER_NOT_SHOW_MODAL));
 };
 
 let flyDispatchCount: number = 0;
@@ -343,12 +344,12 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
         flyDispatchCount++;
         let frameUsed = +((store.getState().fps) * 9 / 60).toFixed(4);
 
-        if (flyDispatchCount > frameUsed || store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
+        if (flyDispatchCount > frameUsed || store.getState().gameStatus === gameStatusTypes.GAME_OVER || store.getState().gameStatus === gameStatusTypes.GAME_OVER_NOT_SHOW_MODAL) {
             flyDispatchCount = 0;
             return;
         }
 
-        if (store.getState().gameStatus !== 3) {
+        if (store.getState().gameStatus !== gameStatusTypes.GAME_PAUSED) {
             // fly up 36px with 60FPS, so each frame is 4px for 9 frame
             let newFall = +(120 / store.getState().fps).toFixed(4);
             let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
@@ -362,11 +363,11 @@ const makeBirdFly = (isMouseDown: boolean = false) => {
     };
 
     const makeFlyWhenMouseDown = () => {
-        if (isMouseUp || store.getState().gameStatus === 2 || store.getState().gameStatus === 4) {
+        if (isMouseUp || store.getState().gameStatus === gameStatusTypes.GAME_OVER || store.getState().gameStatus === gameStatusTypes.GAME_OVER_NOT_SHOW_MODAL) {
             return;
         }
 
-        if (store.getState().gameStatus !== 3) {
+        if (store.getState().gameStatus !== gameStatusTypes.GAME_PAUSED) {
             // fly up 36px
             let newFall = +(120 / store.getState().fps).toFixed(4);
             let flyEachFrame = +(240 / store.getState().fps).toFixed(4);
@@ -399,7 +400,7 @@ const lockKeyboard = (isLocked: boolean): void => {
 const handleVisibilitychange = (event: any) => {
     let gameStatus = store.getState().gameStatus;
     if (document.visibilityState === "hidden") {
-        gameStatus !== 2 && pauseGame(true)
+        gameStatus !== gameStatusTypes.GAME_OVER && pauseGame(true)
     } else if (document.visibilityState === "visible") {
         console.log("user back");
     }

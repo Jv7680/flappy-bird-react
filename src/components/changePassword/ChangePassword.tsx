@@ -1,11 +1,10 @@
-import { makeStyles } from "@mui/styles";
-import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { makeStyles } from "@mui/styles";
+import { Formik } from "formik";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-import { useAppDispatch } from "../../redux/hooks";
 import APIService, { ResponseData } from "../../services/ApiService";
 import TextInputComponent from "../../utils/components/TextInputComponent";
 import { REGEX_PASSWORD } from "../../utils/constants/constants";
@@ -25,8 +24,6 @@ export default function ChangePassword(props: ChangePasswordProps) {
     const classes = useStyles();
     const { t } = useTranslation(["home", "validate"]);
     const [showPass, setShowPass] = useState(false);
-    // eslint-disable-next-line
-    const dispatch = useAppDispatch();
 
     const initialChangePassword: ChangePasswordData = {
         currentPassword: "",
@@ -55,11 +52,6 @@ export default function ChangePassword(props: ChangePasswordProps) {
             .oneOf([Yup.ref("newPassword")], t("validate:password.notMatchWithNewPassword"))
             .trim(),
     });
-
-    useEffect(() => {
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const handleSave = async (changePasswordData: ChangePasswordData) => {
         let body = {

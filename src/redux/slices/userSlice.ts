@@ -84,22 +84,6 @@ const userSlice = createSlice({
                 // state.isError = true;
                 // state.isLoading = false;
             })
-        // .addCase(updateUserBestScore.pending, (state) => {
-        //     // state.isError = false;
-        //     // state.isLoading = true;                                                                                                                                                                                                                                                         
-        // })
-        // .addCase(updateUserBestScore.fulfilled, (state, action) => {
-        //     state = action.payload.data;
-        //     return state;
-        // })
-        // .addCase(updateUserBestScore.rejected, (state) => {
-        //     // state.isError = true;
-        //     // state.isLoading = false;
-        // })
-        // .addCase(resetState, (state) => {
-        //     state = initState;
-        //     return state;
-        // })
     },
 })
 

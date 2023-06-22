@@ -21,6 +21,7 @@ import Register from '../register/Register';
 import ForgotPassword from '../forgotPassword/ForgotPassword';
 import { resetState } from '../../redux/utilActions';
 import { toast } from 'react-toastify';
+import * as settingTypes from "../../utils/constants/types";
 
 interface SettingModalProps {
     isOpen: boolean;
@@ -35,21 +36,18 @@ export default function SettingModal(props: SettingModalProps) {
     const { t, i18n } = useTranslation(["home"]);
     const settingState = useAppSelector(selectSetting);
     const userState = useAppSelector(selectUser);
-    const [tabValue, setTabValue] = useState<number>(0);
-    const [tabAccountValue, setTabAccountValue] = useState<number>(0);
+    const [tabValue, setTabValue] = useState<number>(settingTypes.setting.GENERAL);
+    const [tabAccountValue, setTabAccountValue] = useState<number>(settingTypes.accountSetting.LOGIN);
 
     handleSetTabValue = setTabValue;
 
     useEffect(() => {
         LocalStorage.setUserSetting(JSON.stringify(settingState));
-        // if(userState.fullName.length){
-
-        // }
     }, [settingState]);
 
     useEffect(() => {
-        userState.accountType === 1 && setTabAccountValue(2);
-        userState.accountType === 2 && setTabAccountValue(5);
+        userState.accountType === settingTypes.accountType.NORMAL && setTabAccountValue(settingTypes.accountSetting.PROFILE);
+        userState.accountType === settingTypes.accountType.GOOGLE && setTabAccountValue(settingTypes.accountSetting.GOOGLE_LOGOUT);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userState]);
 
@@ -71,10 +69,10 @@ export default function SettingModal(props: SettingModalProps) {
     };
 
     const handleCloseModal = () => {
-        setTabValue(0);
-        !LocalStorage.getToken() && setTabAccountValue(0);
-        userState.accountType === 1 && setTabAccountValue(2);
-        userState.accountType === 2 && setTabAccountValue(5);
+        setTabValue(settingTypes.setting.GENERAL);
+        !LocalStorage.getToken() && setTabAccountValue(settingTypes.accountSetting.LOGIN);
+        userState.accountType === settingTypes.accountType.NORMAL && setTabAccountValue(settingTypes.accountSetting.PROFILE);
+        userState.accountType === settingTypes.accountType.GOOGLE && setTabAccountValue(settingTypes.accountSetting.GOOGLE_LOGOUT);
         props.handleClose();
     };
 
@@ -82,7 +80,7 @@ export default function SettingModal(props: SettingModalProps) {
         LocalStorage.clear();
         dispatch(resetState());
         dispatch(resetUser());
-        setTabAccountValue(0);
+        setTabAccountValue(settingTypes.accountSetting.LOGIN);
         toast.success(t("home:logoutSuccess"));
     };
 
@@ -116,7 +114,7 @@ export default function SettingModal(props: SettingModalProps) {
                                 <Tab label={t('home:setting.account')} />
                             </Tabs>
                             {
-                                tabValue === 0 &&
+                                tabValue === settingTypes.setting.GENERAL &&
                                 <>
                                     <Breadcrumb
                                         listBreadcrumb={[t('home:breadcrumb.generalSetting')]}
@@ -125,38 +123,38 @@ export default function SettingModal(props: SettingModalProps) {
                                     <span>{t('home:setting.sound')}</span>
                                     <div>
                                         <FormGroup style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.sound === 1} onChange={handleChangeSoundSetting} />} label={t('home:setting.sound on')} />
-                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.sound === 2} onChange={handleChangeSoundSetting} />} label={t('home:setting.sound off')} />
+                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.sound === settingTypes.generalSetting.sound.ON} onChange={handleChangeSoundSetting} />} label={t('home:setting.sound on')} />
+                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.sound === settingTypes.generalSetting.sound.OFF} onChange={handleChangeSoundSetting} />} label={t('home:setting.sound off')} />
                                         </FormGroup>
                                     </div>
                                     <span>{t('home:setting.theme')}</span>
                                     <div>
                                         <FormGroup style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.theme === 1} onChange={handleChangeThemeSetting} />} label={t('home:setting.theme light')} />
-                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.theme === 2} onChange={handleChangeThemeSetting} />} label={t('home:setting.theme dark')} />
+                                            <FormControlLabel value={1} control={<Checkbox checked={settingState.theme === settingTypes.generalSetting.theme.DAY} onChange={handleChangeThemeSetting} />} label={t('home:setting.theme light')} />
+                                            <FormControlLabel value={2} control={<Checkbox checked={settingState.theme === settingTypes.generalSetting.theme.NIGHT} onChange={handleChangeThemeSetting} />} label={t('home:setting.theme dark')} />
                                         </FormGroup>
                                     </div>
                                     <span>{t('home:setting.language')}</span>
                                     <div>
                                         <FormGroup style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                                            <FormControlLabel value={"vi"} control={<Checkbox checked={settingState.language === "vi"} onChange={handleChangeLanguageSetting} />} label="Tiếng Việt" />
-                                            <FormControlLabel value={"en"} control={<Checkbox checked={settingState.language === "en"} onChange={handleChangeLanguageSetting} />} label="English" />
+                                            <FormControlLabel value={"vi"} control={<Checkbox checked={settingState.language === settingTypes.generalSetting.language.VIETNAMESE} onChange={handleChangeLanguageSetting} />} label="Tiếng Việt" />
+                                            <FormControlLabel value={"en"} control={<Checkbox checked={settingState.language === settingTypes.generalSetting.language.ENGLISH} onChange={handleChangeLanguageSetting} />} label="English" />
                                         </FormGroup>
                                     </div>
                                     <span>{t('home:setting.bird type')}</span>
                                     <div className="birdTypeContainer">
-                                        <img className={settingState.birdType === 1 ? "active" : ""} id="1" src={SettingUtils.getBirdImgBySetting(1)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
-                                        <img className={settingState.birdType === 2 ? "active" : ""} id="2" src={SettingUtils.getBirdImgBySetting(2)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
-                                        <img className={settingState.birdType === 3 ? "active" : ""} id="3" src={SettingUtils.getBirdImgBySetting(3)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
-                                        <img className={settingState.birdType === 4 ? "active" : ""} id="4" src={SettingUtils.getBirdImgBySetting(4)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === settingTypes.generalSetting.birdType.YELLOW ? "active" : ""} id="1" src={SettingUtils.getBirdImgBySetting(settingTypes.generalSetting.birdType.YELLOW)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === settingTypes.generalSetting.birdType.GREY ? "active" : ""} id="2" src={SettingUtils.getBirdImgBySetting(settingTypes.generalSetting.birdType.GREY)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === settingTypes.generalSetting.birdType.PINK ? "active" : ""} id="3" src={SettingUtils.getBirdImgBySetting(settingTypes.generalSetting.birdType.PINK)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
+                                        <img className={settingState.birdType === settingTypes.generalSetting.birdType.BLUE ? "active" : ""} id="4" src={SettingUtils.getBirdImgBySetting(settingTypes.generalSetting.birdType.BLUE)} alt="notFound" width={38} height={26} onClick={handleChangeBirdTypeSetting} />
                                     </div>
                                 </>
                             }
                             {
-                                tabValue === 1 &&
+                                tabValue === settingTypes.setting.ACCOUNT &&
                                 <>
                                     {
-                                        tabAccountValue === 0 &&
+                                        tabAccountValue === settingTypes.accountSetting.LOGIN &&
                                         <>
                                             <Breadcrumb
                                                 listBreadcrumb={[t('home:breadcrumb.accountSetting'), t('home:breadcrumb.login')]}
@@ -165,7 +163,7 @@ export default function SettingModal(props: SettingModalProps) {
                                         </>
                                     }
                                     {
-                                        tabAccountValue === 1 &&
+                                        tabAccountValue === settingTypes.accountSetting.REGISTER &&
                                         <>
                                             <Breadcrumb
                                                 listBreadcrumb={[t('home:breadcrumb.accountSetting'), t('home:breadcrumb.register')]}
@@ -174,7 +172,7 @@ export default function SettingModal(props: SettingModalProps) {
                                         </>
                                     }
                                     {
-                                        tabAccountValue === 2 &&
+                                        tabAccountValue === settingTypes.accountSetting.PROFILE &&
                                         <>
                                             <Breadcrumb
                                                 listBreadcrumb={[t('home:breadcrumb.accountSetting'), t('home:breadcrumb.manage')]}
@@ -183,7 +181,7 @@ export default function SettingModal(props: SettingModalProps) {
                                         </>
                                     }
                                     {
-                                        tabAccountValue === 3 &&
+                                        tabAccountValue === settingTypes.accountSetting.CHANGE_PASSWORD &&
                                         <>
                                             <Breadcrumb
                                                 listBreadcrumb={[t('home:breadcrumb.accountSetting'), t('home:breadcrumb.changePassword')]}
@@ -192,7 +190,7 @@ export default function SettingModal(props: SettingModalProps) {
                                         </>
                                     }
                                     {
-                                        tabAccountValue === 4 &&
+                                        tabAccountValue === settingTypes.accountSetting.FORGOT_PASSWORD &&
                                         <>
                                             <Breadcrumb
                                                 listBreadcrumb={[t('home:breadcrumb.accountSetting'), t('home:breadcrumb.forgotPassword')]}
@@ -201,7 +199,7 @@ export default function SettingModal(props: SettingModalProps) {
                                         </>
                                     }
                                     {
-                                        tabAccountValue === 5 &&
+                                        tabAccountValue === settingTypes.accountSetting.GOOGLE_LOGOUT &&
                                         <>
                                             <Breadcrumb
                                                 listBreadcrumb={[t('home:breadcrumb.accountSetting'), t('home:breadcrumb.manage')]}
@@ -224,9 +222,9 @@ export default function SettingModal(props: SettingModalProps) {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '10%',
+    top: '50%',
     left: '50%',
-    transform: 'translate(-50%)',
+    transform: 'translate(-50%, -50%)',
     width: 300,
     maxHeight: "80%",
     overflow: "auto",
@@ -235,6 +233,9 @@ const style = {
     borderRadius: "4px",
     boxShadow: 24,
     padding: 0,
+    '@media (max-width: 450px)': {
+        width: 300,
+    },
 };
 
 const useStyles = makeStyles({
@@ -250,7 +251,6 @@ const useStyles = makeStyles({
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
-        // alignItems: "center",
         justifyContent: "center",
         color: "#523747",
         fontFamily: 'VT323',
@@ -267,7 +267,6 @@ const useStyles = makeStyles({
         },
 
         "& .MuiCheckbox-root": {
-            // padding: "4px 9px 8px 9px",
             color: "#937635 !important",
         },
 
@@ -324,12 +323,9 @@ const useStyles = makeStyles({
 
             },
             "& div": {
-                // margin: "4px 0 16px 0",
             },
             "& .birdTypeContainer": {
                 display: "flex",
-                // flexDirection: "column",
-                // alignItems: "center",
                 justifyContent: "center",
                 marginTop: 8,
             },

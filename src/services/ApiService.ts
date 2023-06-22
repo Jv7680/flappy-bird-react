@@ -92,7 +92,6 @@ const handleErrorResponeInterceptor = async (error: any) => {
     LocalStorage.clear();
     store.dispatch(resetState());
     store.dispatch(resetUser());
-    // toast.success(i18n.t("home:logoutSuccess"));
     toast.error(i18TFunc("alert:sessionTimeout"));
     return error.response;
   }

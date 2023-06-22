@@ -48,11 +48,6 @@ const birdSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // .addCase(gameOver, (state) => {
-            //     state = initState;
-            //     // return { ...state, y: window.innerHeight, r: 90 };
-            //     return state;
-            // })
             .addCase(resetState, (state) => {
                 state = initState;
                 return state;

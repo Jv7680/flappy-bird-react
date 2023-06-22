@@ -95,14 +95,19 @@ export default function RankingModal(props: RankingModalProps) {
 
 const style = {
     position: 'absolute' as 'absolute',
-    top: '20%',
+    top: '50%',
     left: '50%',
-    transform: 'translate(-50%)',
+    transform: 'translate(-50%, -50%)',
     width: 300,
     bgcolor: 'transparent',
     border: 'unset',
     boxShadow: 24,
     padding: 0,
+    maxHeight: '80%',
+    overflow: 'auto',
+    '@media (max-width: 450px)': {
+        width: 300,
+    },
 };
 
 const useStyles = makeStyles({

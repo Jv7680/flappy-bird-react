@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -56,11 +56,6 @@ export default function Profile(props: ProfileProps) {
             .max(30, t("validate:gmail.max"))
             .trim(),
     });
-
-    useEffect(() => {
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const handleSave = async (profileData: ProfileData) => {
         let body = {

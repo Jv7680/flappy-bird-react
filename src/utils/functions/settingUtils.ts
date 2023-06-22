@@ -6,38 +6,51 @@ import bgImg from "../../assets/images/bg.png";
 import bgNightImg from "../../assets/images/bg_night.png";
 import fgImg from "../../assets/images/fg.png";
 import fgNightImg from "../../assets/images/fg_night.png";
+import * as settingTypes from "../constants/types";
 
 const getSoundBySetting = (soundSetting: number) => {
-    if (soundSetting === 1) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return soundSetting === settingTypes.generalSetting.sound.ON;
 };
 
 const getThemeImgBySetting = (themeSetting: number) => {
-    if (themeSetting === 1) {
-        return [bgImg, fgImg];
+    const dayTheme = [bgImg, fgImg];
+    const nightTheme = [bgNightImg, fgNightImg];
+
+    let result;
+    switch (themeSetting) {
+        case settingTypes.generalSetting.theme.DAY:
+            result = dayTheme;
+            break;
+        case settingTypes.generalSetting.theme.NIGHT:
+            result = nightTheme;
+            break;
+        default:
+            result = dayTheme;
     }
-    else {
-        return [bgNightImg, fgNightImg];
-    }
+
+    return result;
 };
 
 const getBirdImgBySetting = (birdTypeSetting: number) => {
-    if (birdTypeSetting === 1) {
-        return birdImg;
+    let result;
+    switch (birdTypeSetting) {
+        case settingTypes.generalSetting.birdType.YELLOW:
+            result = birdImg;
+            break;
+        case settingTypes.generalSetting.birdType.GREY:
+            result = birdGreyImg;
+            break;
+        case settingTypes.generalSetting.birdType.PINK:
+            result = birdPinkImg;
+            break;
+        case settingTypes.generalSetting.birdType.BLUE:
+            result = birdBlueImg;
+            break;
+        default:
+            result = birdImg;
     }
-    else if (birdTypeSetting === 2) {
-        return birdGreyImg;
-    }
-    else if (birdTypeSetting === 3) {
-        return birdPinkImg;
-    }
-    else {
-        return birdBlueImg;
-    }
+
+    return result;
 };
 
 export const SettingUtils = {

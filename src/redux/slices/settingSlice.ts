@@ -43,13 +43,6 @@ const settingSlice = createSlice({
             return state;
         },
     },
-    // extraReducers: (builder) => {
-    //     builder
-    //         .addCase(resetState, (state) => {
-    //             state = initState;
-    //             return state;
-    //         })
-    // },
 })
 
 export const selectSetting = (state: RootState) => state.setting;

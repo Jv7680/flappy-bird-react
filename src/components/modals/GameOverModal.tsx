@@ -9,6 +9,9 @@ import { selectScore } from "../../redux/slices/scoreSlice";
 import { resetState } from "../../redux/utilActions";
 import { useTranslation } from 'react-i18next';
 import { selectUser } from '../../redux/slices/userSlice';
+import { setGenerateFirstPipeAtX } from '../../redux/slices/pipeSlice';
+import { setBirdY } from '../../redux/slices/birdSlice';
+import { gameStatusTypes } from '../../utils/constants/types';
 
 interface GameOverModalProps {
     isOpen: boolean;
@@ -27,8 +30,10 @@ export default function GameOverModal(props: GameOverModalProps) {
         let translate = document.getElementsByClassName("playScreen__translate")[0] as HTMLDivElement;
         translate.style.transform = `translateX(0px)`;
 
-        dispatch(setGameStatus(1));
+        dispatch(setGameStatus(gameStatusTypes.PLAYING));
         dispatch(resetState());
+        dispatch(setGenerateFirstPipeAtX(Math.ceil(window.innerWidth / 10) * 10 + 100));
+        dispatch(setBirdY(Math.ceil(window.innerHeight * 0.8 / 3)));
 
         setTimeout(() => {
             props.restart(dispatch);

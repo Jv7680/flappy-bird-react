@@ -1,9 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { Formik } from "formik";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-import { useAppDispatch } from "../../redux/hooks";
 import APIService, { ResponseData } from "../../services/ApiService";
 import TextInputComponent from "../../utils/components/TextInputComponent";
 import { REGEX_GMAIL } from "../../utils/constants/constants";
@@ -20,8 +18,6 @@ interface ForgotPasswordData {
 export default function ForgotPassword(props: ForgotPasswordProps) {
     const classes = useStyles();
     const { t } = useTranslation(["home", "validate"]);
-    // eslint-disable-next-line
-    const dispatch = useAppDispatch();
 
     const initialForgotPassword: ForgotPasswordData = {
         gmail: "",
@@ -35,11 +31,6 @@ export default function ForgotPassword(props: ForgotPasswordProps) {
             .max(30, t("validate:gmail.max"))
             .trim(),
     });
-
-    useEffect(() => {
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const handleSubmit = async (ForgotPasswordData: ForgotPasswordData) => {
         let body = {

@@ -1,19 +1,18 @@
-import { makeStyles } from "@mui/styles";
-import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import * as Yup from "yup";
-import TextInputComponent from "../../utils/components/TextInputComponent";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { makeStyles } from "@mui/styles";
+import { Formik } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { REGEX_USER_NAME, REGEX_PASSWORD, REGEX_FULL_NAME, REGEX_GMAIL } from "../../utils/constants/constants";
-import APIService from "../../services/ApiService";
-import { ResponseData } from "../../services/ApiService";
-import { getUserDetail } from "../../redux/slices/userSlice";
-import { useAppDispatch } from "../../redux/hooks";
-import { FunctionUtils } from "../../utils/functions/functionUtils";
 import Swal from "sweetalert2";
+import * as Yup from "yup";
+import { useAppDispatch } from "../../redux/hooks";
 import { getRankList } from "../../redux/slices/rankListSlice";
+import { getUserDetail } from "../../redux/slices/userSlice";
+import APIService, { ResponseData } from "../../services/ApiService";
+import TextInputComponent from "../../utils/components/TextInputComponent";
+import { REGEX_FULL_NAME, REGEX_GMAIL, REGEX_PASSWORD, REGEX_USER_NAME } from "../../utils/constants/constants";
+import { FunctionUtils } from "../../utils/functions/functionUtils";
 
 interface RegisterProps {
     setTabAccountValue: Function;
@@ -64,11 +63,6 @@ export default function Register(props: RegisterProps) {
             .max(30, t("validate:gmail.max"))
             .trim(),
     });
-
-    useEffect(() => {
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const handleRegister = async (registerData: RegisterData) => {
         let body = {

@@ -9,6 +9,8 @@ import { selectScore } from "../../redux/slices/scoreSlice";
 import { resetState } from "../../redux/utilActions";
 import { useTranslation } from 'react-i18next';
 import { selectUser } from '../../redux/slices/userSlice';
+import { setGenerateFirstPipeAtX } from '../../redux/slices/pipeSlice';
+import { setBirdY } from '../../redux/slices/birdSlice';
 
 interface GamePauseModalProps {
     isOpen: boolean;
@@ -32,6 +34,8 @@ export default function GamePauseModal(props: GamePauseModalProps) {
         translate.style.transform = `translateX(0px)`;
 
         dispatch(resetState());
+        dispatch(setGenerateFirstPipeAtX(Math.ceil(window.innerWidth / 10) * 10 + 100));
+        dispatch(setBirdY(Math.ceil(window.innerHeight * 0.8 / 3)));
 
         setTimeout(() => {
             props.restart(dispatch);

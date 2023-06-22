@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { gameOver } from '../utilActions';
+import { gameStatusTypes } from '../../utils/constants/types';
 
 export interface ScoreState {
     gameStatus: number;
@@ -11,7 +12,7 @@ export interface ScoreState {
 // 2: game over
 // 3: paused
 // 4: equall with 2 but use when don't want the modal game over show
-const initState: number = 0;
+const initState: number = gameStatusTypes.NOTHING;
 
 const gameStatusSlice = createSlice({
     name: 'gameStatus',
@@ -28,10 +29,6 @@ const gameStatusSlice = createSlice({
                 state = initState;
                 return state;
             })
-        // .addCase(resetState, (state) => {
-        //     state = initState;
-        //     return state;
-        // })
     },
 })
 

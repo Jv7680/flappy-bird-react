@@ -1,18 +1,18 @@
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Divider from '@mui/material/Divider';
 import { makeStyles } from "@mui/styles";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import * as Yup from "yup";
+import { useAppDispatch } from '../../redux/hooks';
+import { getRankList } from '../../redux/slices/rankListSlice';
+import { getUserDetail } from '../../redux/slices/userSlice';
 import APIService, { ResponseData } from "../../services/ApiService";
 import TextInputComponent from "../../utils/components/TextInputComponent";
 import { REGEX_PASSWORD, REGEX_USER_NAME } from "../../utils/constants/constants";
-import { useAppDispatch } from '../../redux/hooks';
-import { getUserDetail } from '../../redux/slices/userSlice';
 import { FunctionUtils } from '../../utils/functions/functionUtils';
-import { getRankList } from '../../redux/slices/rankListSlice';
-import Divider from '@mui/material/Divider';
 import GoogleButton from '../buttons/GoogleButton';
 
 interface LoginProps {
@@ -49,11 +49,6 @@ export default function Login(props: LoginProps) {
             .max(10, t("validate:password.max"))
             .trim(),
     });
-
-    useEffect(() => {
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const handleLogin = async (loginData: LoginData) => {
         let body = {

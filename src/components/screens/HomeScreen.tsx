@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { selectSetting } from "../../redux/slices/settingSlice";
 import { SettingUtils } from "../../utils/functions/settingUtils";
@@ -10,13 +10,15 @@ import Swal from "sweetalert2";
 import logoImg from "../../assets/images/logo.png";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { selectUser } from "../../redux/slices/userSlice";
+import * as settingTypes from "../../utils/constants/types";
 import Background from "../Background";
 import Foregound from "../Foreground";
 import SettingButton from "../buttons/SettingButton";
 import GuideModal from "../modals/GuideModal";
 import RankingModal from "../modals/RankingModal";
-import SettingModal from "../modals/SettingModal";
-import { handleSetTabValue } from "../modals/SettingModal";
+import SettingModal, { handleSetTabValue } from "../modals/SettingModal";
+import { setGenerateFirstPipeAtX } from "../../redux/slices/pipeSlice";
+import { setBirdY } from "../../redux/slices/birdSlice";
 
 export default function HomeScreen() {
     const settingState = useAppSelector(selectSetting);
@@ -26,9 +28,16 @@ export default function HomeScreen() {
     const userState = useAppSelector(selectUser);
     const { t } = useTranslation(["home", "alert"]);
     const navigateTo = useNavigate();
-    // eslint-disable-next-line
     const dispatch = useAppDispatch();
     const classes = useStyles();
+
+    useEffect(() => {
+        return () => {
+            dispatch(setGenerateFirstPipeAtX(Math.ceil(window.innerWidth / 10) * 10 + 100));
+            dispatch(setBirdY(Math.ceil(window.innerHeight * 0.8 / 3)));
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleCloseRankingModal = () => {
         setOpenRanking(false);
@@ -64,7 +73,7 @@ export default function HomeScreen() {
                 }
                 else if (result.isDenied) {
                     setOpenSetting(true);
-                    handleSetTabValue(1);
+                    handleSetTabValue(settingTypes.setting.ACCOUNT);
                 }
             });
         }
