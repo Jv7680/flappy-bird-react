@@ -70,6 +70,12 @@ body {
     min-width: 80vw;
 }
 
+@media screen and (max-height: 350px) {
+    .swal2-popup {
+        height: 94vh;
+    }
+}
+
 .swal2-title {
     font-size: 26px;
     padding: 8px 1em 0 !important;
